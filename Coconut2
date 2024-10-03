@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coconut 🥥 Collaborative Screenplay Writing</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            background-color: #0277bd;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        textarea {
+            width: 100%;
+            height: 300px;
+            margin-top: 20px;
+            border: 1px solid #0277bd;
+            padding: 10px;
+            font-family: Courier, monospace;
+            font-size: 14px;
+        }
+
+        button {
+            margin-top: 20px;
+            display: block;
+        }
+
+        .quick-keys {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .quick-key-btn {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+
+        .quick-key-btn:last-child {
+            margin-right: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Coconut 🥥 Collaborative Screenplay Writing</h1>
+        </div>
+
+        <!-- Quick Keys Section -->
+        <div class="quick-keys">
+            <button class="btn btn-info quick-key-btn" onclick="insertSceneHeading()">INT/EXT</button>
+            <button class="btn btn-info quick-key-btn" onclick="insertCharacter()">CHARACTER</button>
+            <button class="btn btn-info quick-key-btn" onclick="insertAction()">ACTION</button>
+            <button class="btn btn-info quick-key-btn" onclick="insertDialog()">DIALOG</button>
+        </div>
+
+        <textarea id="screenplayEditor" spellcheck="true" placeholder="Start typing your screenplay..."></textarea>
+
+        <button class="btn btn-primary" onclick="exportScreenplay()">Export as Text File</button>
+        <button class="btn btn-primary" onclick="loadScreenplay()">Load a Screenplay File</button>
+        <input type="file" id="fileInput" style="display:none" accept=".txt">
+        <button class="btn btn-success" onclick="connectToPeer()">Connect to Peer</button>
+    </div>
+
+    <script>
+        const editor = document.getElementById('screenplayEditor');
+
+        // Quick Key Functions
+        function insertSceneHeading() {
+            const sceneHeading = "EXT. / INT. [LOCATION] - DAY/NIGHT\n";
+            insertAtCursor(sceneHeading);
+        }
+
+        function insertCharacter() {
+            const character = "\nCHARACTER NAME\n";
+            insertAtCursor(character);
+        }
+
+        function insertAction() {
+            const action = "\nAction description...\n";
+            insertAtCursor(action);
+        }
+
+        function insertDialog() {
+            const dialog = "CHARACTER\nDialogue...\n";
+            insertAtCursor(dialog);
+        }
+
+        function insertAtCursor(text) {
+            const start = editor.selectionStart;
+            const end = editor.selectionEnd;
+            editor.value = editor.value.substring(0, start) + text + editor.value.substring(end);
+            editor.selectionStart = editor.selectionEnd = start + text.length; // Move cursor
+            editor.focus();
+        }
+
+        document.getElementById('fileInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                editor.value = e.target.result;
+            };
+            reader.readAsText(file);
+        });
+
+        function exportScreenplay() {
+            const content = editor.value;
+            const blob = new Blob([content], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'screenplay.txt';
+            link.click();
+        }
+
+        function loadScreenplay() {
+            document.getElementById('fileInput').click();
+        }
+
+        // WebRTC and Peer Connection Setup
+        let peerConnection;
+        let dataChannel;
+
+        function connectToPeer() {
+            // Create the WebRTC connection
+            peerConnection = new RTCPeerConnection();
+
+            // Create a data channel for communication
+            dataChannel = peerConnection.createDataChannel("screenplayChannel");
+
+            // Handle incoming data
+            dataChannel.onmessage = (event) => {
+                editor.value = event.data;
+            };
+
+            // Offer creation and connection setup
+            peerConnection.createOffer().then((offer) => {
+                peerConnection.setLocalDescription(offer);
+                sendSignal(offer); // Send offer via WebSocket signaling server
+            });
+
+            // Listening for changes in the text editor and syncing
+            editor.addEventListener('input', () => {
+                if (dataChannel && dataChannel.readyState === "open") {
+                    dataChannel.send(editor.value);
+                }
+            });
+        }
+
+        function sendSignal(data) {
+            // Here you would send the signaling data via a WebSocket server
+            console.log("Send signaling data:", data);
+        }
+
+        // Respond to incoming WebRTC offers and connect
+        function handleIncomingOffer(offer) {
+            peerConnection.setRemoteDescription(offer).then(() => {
+                peerConnection.createAnswer().then((answer) => {
+                    peerConnection.setLocalDescription(answer);
+                    sendSignal(answer); // Send answer back via WebSocket
+                });
+            });
+        }
+
+    </script>
+</body>
+</html>
