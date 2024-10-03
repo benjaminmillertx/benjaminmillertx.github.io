@@ -15,7 +15,7 @@
       align-items: center;
       font-family: Arial, sans-serif;
       background-color: #1d1d1d;
-      color: white;
+      color: #00bfff;
       overflow: hidden;
     }
 
@@ -33,6 +33,7 @@
       z-index: 1;
       font-size: 4rem;
       text-align: center;
+      color: #00bfff;
     }
 
     .fox-image {
@@ -51,20 +52,55 @@
       position: relative;
       z-index: 1;
       max-width: 600px;
+      height: 300px;
       text-align: center;
       padding: 20px;
       background-color: rgba(0, 0, 0, 0.7);
       border-radius: 10px;
+      overflow-y: auto;
+      border: 2px solid #00bfff;
     }
 
     .description h2 {
       margin: 20px 0 10px;
       font-size: 1.5rem;
+      color: #00bfff;
     }
 
     .description p {
       font-size: 1rem;
       line-height: 1.5;
+      color: #00bfff;
+    }
+
+    .license {
+      position: relative;
+      z-index: 1;
+      max-width: 600px;
+      margin-top: 20px;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.7);
+      border-radius: 10px;
+      color: #00bfff;
+      border: 2px solid #00bfff;
+    }
+
+    a {
+      color: #00bfff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      margin-top: 20px;
+      color: #00bfff;
+      font-size: 0.8rem;
+      text-align: center;
+      position: relative;
+      z-index: 1;
     }
   </style>
 </head>
@@ -88,8 +124,23 @@
 
       <h2>Improved Security and Privacy</h2>
       <p>Script-Free Browsing: By design, Iris Fox doesn't render JavaScript, images, or dynamic content, making it safer.</p>
+
+      <h2>Get the Code</h2>
+      <p>You can download the Iris Fox command-line web browser code from the following GitHub repository: <a href="https://github.com/benjaminmillertx/Python/blob/main/iris_fox.py" target="_blank">Iris Fox Source Code</a>.</p>
+
+      <h2>GNU General Public License</h2>
+      <p>Iris Fox is released under the GNU General Public License v3.0, which allows for the free use, modification, and distribution of the software. For more details, see the full <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank">GNU License</a>.</p>
+    </div>
+
+    <div class="license">
+      <h2>License Quote</h2>
+      <p>"This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version."</p>
     </div>
   </div>
+
+  <footer>
+    Made by Software Engineer Benjamin Hunter Miller
+  </footer>
 
   <!-- Particles.js CDN -->
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
@@ -201,5 +252,3 @@
 
 </body>
 </html>
-
-Key Features:
