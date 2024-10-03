@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coconut 🥥 Collaborative Screenplay Writing</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Play&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Play', sans-serif;
+            background-color: white;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            background-color: #0277bd;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        textarea {
+            width: 100%;
+            height: 300px;
+            margin-top: 20px;
+            border: 1px solid #0277bd;
+        }
+
+        button {
+            margin-top: 20px;
+            display: block;
+        }
+
+        #passwordInput {
+            margin-bottom: 20px;
+        }
+
+        .card {
+            box-shadow: 0px 4px 10px rgba(0, 0, 255, 0.1);
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Coconut 🥥 Collaborative Screenplay Writing</h1>
+        </div>
+
+        <!-- Instructions Section -->
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">How to Connect and Collaborate</h5>
+                <p class="card-text">
+                    Collaborating on screenplays is simple with Coconut. Follow these steps to connect with others:
+                </p>
+                <ul>
+                    <li><strong>Step 1:</strong> Enter a password of your choice in the "Password" field below. This password will be used to access a specific screenplay.</li>
+                    <li><strong>Step 2:</strong> Click "Connect to Screenplay". If the password already exists, you'll join an existing screenplay. If not, a new one will be created.</li>
+                    <li><strong>Step 3:</strong> Start typing! The screenplay will automatically sync in real-time with others using the same password.</li>
+                    <li><strong>Step 4:</strong> Use the "Export" button to save your screenplay as a text file, or the "Load" button to import a screenplay you have saved.</li>
+                </ul>
+                <p class="card-text">
+                    No account is required for collaboration. Just share the password with your collaborators, and everyone can work together in real-time!
+                </p>
+            </div>
+        </div>
+
+        <input type="text" id="passwordInput" class="form-control" placeholder="Enter a password to access the screenplay" />
+        <button class="btn btn-primary" onclick="connectToScreenplay()">Connect to Screenplay</button>
+
+        <textarea id="screenplayEditor" spellcheck="true" placeholder="Start typing your screenplay..." disabled></textarea>
+
+        <button class="btn btn-primary" onclick="exportScreenplay()" disabled>Export as Text File</button>
+        <button class="btn btn-primary" onclick="loadScreenplay()" disabled>Load a Screenplay File</button>
+        <input type="file" id="fileInput" style="display:none" accept=".txt">
+
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import the Firebase SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-analytics.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
+
+        // Your Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBLpoqoT9747APf1sXHVHmWjFSwFYbtQv0",
+            authDomain: "coconut-5ef76.firebaseapp.com",
+            databaseURL: "https://coconut-5ef76-default-rtdb.firebaseio.com",
+            projectId: "coconut-5ef76",
+            storageBucket: "coconut-5ef76.appspot.com",
+            messagingSenderId: "933087871101",
+            appId: "1:933087871101:web:3026f4839d49e81ae5f114",
+            measurementId: "G-JFJD2QFC51"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const database = getDatabase(app);
+
+        let screenplayRef;
+        let password;
+
+        // Connect to a specific screenplay using a password
+        function connectToScreenplay() {
+            password = document.getElementById('passwordInput').value;
+            if (password) {
+                // Create a reference in Firebase for this specific password
+                screenplayRef = ref(database, 'screenplays/' + password);
+
+                // Enable the editor and buttons once connected
+                document.getElementById('screenplayEditor').disabled = false;
+                document.querySelector('button[onclick="exportScreenplay()"]').disabled = false;
+                document.querySelector('button[onclick="loadScreenplay()"]').disabled = false;
+
+                // Listen for changes to the screenplay in real-time
+                onValue(screenplayRef, (snapshot) => {
+                    const content = snapshot.val();
+                    document.getElementById('screenplayEditor').value = content || '';
+                });
+
+                // Set up editor to save changes in real-time
+                document.getElementById('screenplayEditor').addEventListener('input', function () {
+                    const content = this.value;
+                    set(screenplayRef, content);
+                });
+            } else {
+                alert("Please enter a password to connect.");
+            }
+        }
+
+        document.getElementById('fileInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('screenplayEditor').value = e.target.result;
+                set(screenplayRef, e.target.result); // Sync loaded screenplay with Firebase
+            };
+            reader.readAsText(file);
+        });
+
+        function exportScreenplay() {
+            const content = document.getElementById('screenplayEditor').value;
+            const blob = new Blob([content], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'screenplay.txt';
+            link.click();
+        }
+
+        function loadScreenplay() {
+            document.getElementById('fileInput').click();
+        }
+    </script>
+</body>
+</html>
