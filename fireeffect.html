@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fire Effect</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #1a1a1a;
+      overflow: hidden;
+    }
+
+    .fire-container {
+      position: relative;
+      width: 200px;
+      height: 300px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+    }
+
+    .flame {
+      position: absolute;
+      bottom: 0;
+      width: 20px;
+      height: 60px;
+      background: radial-gradient(closest-side, #ffcc00, #ff6600, transparent);
+      border-radius: 50%;
+      animation: flicker 1s infinite ease-in-out alternate, moveUp 2s infinite ease-in-out;
+    }
+
+    /* Create multiple flames of different sizes */
+    .flame:nth-child(1) {
+      width: 40px;
+      height: 80px;
+      left: 10px;
+      animation-delay: 0s;
+    }
+
+    .flame:nth-child(2) {
+      width: 25px;
+      height: 70px;
+      left: 80px;
+      animation-delay: 0.2s;
+    }
+
+    .flame:nth-child(3) {
+      width: 35px;
+      height: 90px;
+      left: 50px;
+      animation-delay: 0.4s;
+    }
+
+    .flame:nth-child(4) {
+      width: 45px;
+      height: 100px;
+      left: 120px;
+      animation-delay: 0.6s;
+    }
+
+    /* Flicker effect */
+    @keyframes flicker {
+      0% { transform: scale(1) rotate(0deg); opacity: 0.8; }
+      50% { transform: scale(1.2) rotate(5deg); opacity: 1; }
+      100% { transform: scale(1) rotate(-5deg); opacity: 0.8; }
+    }
+
+    /* Moving the flames upwards */
+    @keyframes moveUp {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-50px); }
+    }
+
+    /* Background glow behind the flames */
+    .glow {
+      position: absolute;
+      width: 180px;
+      height: 200px;
+      bottom: 0;
+      background: radial-gradient(closest-side, rgba(255, 102, 0, 0.4), transparent);
+      border-radius: 50%;
+      animation: flickerGlow 1.5s infinite ease-in-out;
+    }
+
+    /* Glow flicker animation */
+    @keyframes flickerGlow {
+      0% { opacity: 0.6; }
+      50% { opacity: 0.8; }
+      100% { opacity: 0.6; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="fire-container">
+    <div class="glow"></div>
+    <div class="flame"></div>
+    <div class="flame"></div>
+    <div class="flame"></div>
+    <div class="flame"></div>
+  </div>
+
+</body>
+</html>
