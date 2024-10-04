@@ -42,7 +42,7 @@
             border-radius: 8px; /* Rounded corners */
         }
 
-        form {
+        form, #login-form {
             display: flex;
             flex-direction: column;
             margin-bottom: 20px;
@@ -96,6 +96,24 @@
             font-size: 14px;
             margin: 10px 0;
         }
+
+        #login-form, #chirp-form {
+            display: none; /* Hide by default */
+        }
+        
+        #auth-buttons {
+            margin-top: 10px;
+        }
+
+        .auth-error {
+            color: red;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .signin {
+            margin-bottom: 20px;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.js"></script>
 </head>
@@ -104,11 +122,33 @@
         <h1><i class="fas fa-bird bird-icon"></i> Chirpspace</h1>
     </header>
     <main>
-        <form id="chirp-form">
-            <input type="text" id="username" placeholder="Your Name" required>
+        <div id="auth-buttons">
+            <button id="login-btn">Log In</button>
+            <button id="signup-btn">Sign Up</button>
+        </div>
+        
+        <div id="login-form">
+            <h2>Log In</h2>
+            <input type="email" id="login-email" placeholder="Email" required>
+            <input type="password" id="login-password" placeholder="Password" required>
+            <button id="login-submit">Log In</button>
+            <p class="auth-error" id="login-error"></p>
+        </div>
+
+        <div id="signup-form">
+            <h2>Sign Up</h2>
+            <input type="text" id="signup-username" placeholder="Your Name" required>
+            <input type="email" id="signup-email" placeholder="Email" required>
+            <input type="password" id="signup-password" placeholder="Password" required>
+            <button id="signup-submit">Sign Up</button>
+            <p class="auth-error" id="signup-error"></p>
+        </div>
+
+        <div id="chirp-form">
             <textarea id="content" placeholder="What's happening?" required></textarea>
-            <button type="submit">Chirp</button>
-        </form>
+            <button id="chirp-submit">Chirp</button>
+        </div>
+
         <div id="chirps"></div>
         <div id="loading" class="loading" style="display: none;">Loading more chirps...</div>
     </main>
@@ -118,15 +158,62 @@
     <script>
         // Initialize Supabase client
         const { createClient } = supabase;
-        const supabaseUrl = 'https://hpymoqcjhmtmkvpbdmfu.supabase.co'; // Your Supabase URL
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhweW1vcWNqaG10bWt2cGJkbWZ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjgwMjUzNTgsImV4cCI6MjA0MzYwMTM1OH0.UiGjscfmeTYTni__UotPwfdua_gaxKRnrj2QAi8nGFQ'; // Your Supabase API Key
+        const supabaseUrl = 'https://hpymoqcjhmtmkvpbdmfu.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhweW1vcWNqaG10bWt2cGJkbWZ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjgwMjUzNTgsImV4cCI6MjA0MzYwMTM1OH0.UiGjscfmeTYTni__UotPwfdua_gaxKRnrj2QAi8nGFQ';
         const supabase = createClient(supabaseUrl, supabaseKey);
 
+        let user;
+
+        // Update UI based on authentication status
+        function updateUI() {
+            const chirpForm = document.getElementById('chirp-form');
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            const authButtons = document.getElementById('auth-buttons');
+
+            if (user) {
+                chirpForm.style.display = 'block';
+                authButtons.style.display = 'none';
+                fetchChirps(true); // Load chirps for the logged-in user
+            } else {
+                chirpForm.style.display = 'none';
+                authButtons.style.display = 'block';
+            }
+        }
+
+        // User authentication functions
+        async function loginUser(email, password) {
+            const { user: loggedInUser, error } = await supabase.auth.signIn({
+                email,
+                password
+            });
+            if (error) {
+                document.getElementById('login-error').innerText = error.message;
+            } else {
+                user = loggedInUser;
+                updateUI();
+            }
+        }
+
+        async function signupUser(username, email, password) {
+            const { user: newUser, error } = await supabase.auth.signUp({
+                email,
+                password
+            });
+
+            if (error) {
+                document.getElementById('signup-error').innerText = error.message;
+            } else {
+                // After signing up, you could log the user in immediately.
+                await loginUser(email, password);
+            }
+        }
+
+        // Chirp Operations
         let currentPage = 0;
         const pageSize = 5;
         let fetchingChirps = false;
 
-        // Function to fetch chirps from Supabase
         async function fetchChirps(reset = false) {
             if (fetchingChirps) return; // Prevent multiple fetches
             fetchingChirps = true;
@@ -159,11 +246,10 @@
             }
         }
 
-        // Function to insert a new chirp
-        async function insertChirp(username, content) {
+        async function insertChirp(content) {
             const { data, error } = await supabase
                 .from('chirps')
-                .insert([{ username, content }]);
+                .insert([{ username: user.user_metadata.user_name, content }]);
 
             if (error) {
                 console.error('Error inserting chirp:', error);
@@ -172,12 +258,34 @@
             }
         }
 
-        // Event listener for new chirp submission
-        document.getElementById('chirp-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const username = document.getElementById('username').value;
+        // Event listeners for authentication and submitting chirps
+        document.getElementById('login-btn').addEventListener('click', () => {
+            document.getElementById('login-form').style.display = 'block';
+            document.getElementById('signup-form').style.display = 'none';
+        });
+
+        document.getElementById('signup-btn').addEventListener('click', () => {
+            document.getElementById('signup-form').style.display = 'block';
+            document.getElementById('login-form').style.display = 'none';
+        });
+
+        document.getElementById('login-submit').addEventListener('click', () => {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            loginUser(email, password);
+        });
+
+        document.getElementById('signup-submit').addEventListener('click', () => {
+            const username = document.getElementById('signup-username').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            signupUser(username, email, password);
+        });
+
+        document.getElementById('chirp-submit').addEventListener('click', () => {
             const content = document.getElementById('content').value;
-            insertChirp(username, content);
+            insertChirp(content);
+            document.getElementById('content').value = ''; // Clear the input after submission
         });
 
         // Scroll event for fetching more chirps
@@ -185,6 +293,12 @@
             if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 50) {
                 fetchChirps(); // Fetch more chirps when reaching the bottom
             }
+        });
+
+        // Auth state change listener
+        supabase.auth.onAuthStateChange((event, session) => {
+            user = session?.user || null;
+            updateUI();
         });
 
         // Load initial chirps on page load
