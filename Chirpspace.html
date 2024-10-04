@@ -9,14 +9,23 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #f0f2f5; /* Light gray background */
         }
 
         header {
-            background: #35424a;
+            background: #3b5998; /* Facebook color */
             color: #ffffff;
-            padding: 10px 0;
+            padding: 10px;
             text-align: center;
+        }
+
+        header h1 {
+            display: inline;
+            margin: 0;
+        }
+
+        header .logo {
+            font-size: 30px; /* Adjust size of bird icon */
         }
 
         main {
@@ -24,12 +33,14 @@
             max-width: 600px;
             margin: auto;
             background: #ffffff;
+            border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         form {
             display: flex;
             flex-direction: column;
+            margin-bottom: 20px;
         }
 
         input, textarea {
@@ -37,23 +48,27 @@
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
+            resize: none; /* Prevent resizable text area */
         }
 
         button {
-            background: #35424a;
+            background: #3b5998; /* Facebook button color */
             color: #ffffff;
             border: none;
             padding: 10px;
             cursor: pointer;
             font-size: 16px;
+            border-radius: 4px;
         }
 
         button:hover {
-            background: #2c3e50;
+            background: #2d4373; /* Darker shade for hover */
         }
 
         #chirps {
             margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto; /* Make the chirps area scrollable */
         }
 
         .chirp {
@@ -61,20 +76,23 @@
             border: 1px solid #ddd;
             border-radius: 4px;
             margin-bottom: 10px;
+            background-color: #f1f1f1; /* Slightly different background for chirps */
         }
 
-        .error {
-            color: red;
+        .chirp strong {
+            color: #3b5998;
         }
 
-        .success {
-            color: green;
+        .loading {
+            text-align: center;
+            margin: 20px;
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.js"></script>
 </head>
 <body>
     <header>
+        <span class="logo">🐦</span>
         <h1>Chirpspace</h1>
     </header>
     <main>
@@ -85,6 +103,7 @@
         </form>
         <p id="feedback" class="error"></p>
         <div id="chirps"></div>
+        <div class="loading" id="loading" style="display: none;">Loading...</div>
     </main>
     <footer>
         <p>&copy; 2023 Chirpspace</p>
@@ -95,10 +114,17 @@
         const supabaseKey = 'YOUR_SUPABASE_ANON_KEY'; // Replace with your Supabase API Key
         const supabase = createClient(supabaseUrl, supabaseKey);
 
+        let currentOffset = 0;
+        const limit = 10; // Number of chirps to load at once
+
         async function fetchChirps() {
-            const { data: chirps, error } = await supabase.from('chirps').select('*').order('created_at', { ascending: false });
+            const { data: chirps, error } = await supabase
+                .from('chirps')
+                .select('*')
+                .order('created_at', { ascending: false })
+                .range(currentOffset, currentOffset + limit - 1);
+
             const chirpsDiv = document.getElementById('chirps');
-            chirpsDiv.innerHTML = ''; // Clear previous content
 
             if (error) {
                 console.error('Error fetching chirps:', error);
@@ -111,23 +137,34 @@
                 chirpElement.innerHTML = `<p><strong>${chirp.username}:</strong> ${chirp.content} <small>${new Date(chirp.created_at).toLocaleString()}</small></p>`;
                 chirpsDiv.appendChild(chirpElement);
             });
+
+            // Update offset for next fetch
+            currentOffset += chirps.length;
+            toggleLoading(false);
         }
 
         async function insertChirp(username, content) {
-            const { data, error } = await supabase.from('chirps').insert([{ username, content }]);
+            const { error } = await supabase.from('chirps').insert([{ username, content }]);
+
             const feedback = document.getElementById('feedback');
 
             if (error) {
                 console.error('Error inserting chirp:', error);
                 feedback.textContent = 'Failed to post chirp. Please try again.';
-                feedback.classList.remove('success');
                 feedback.classList.add('error');
             } else {
-                fetchChirps(); // Refresh the chirp list
                 feedback.textContent = 'Chirp posted successfully!';
-                feedback.classList.remove('error');
-                feedback.classList.add('success');
+                fetchChirps(); // Refresh the chirp list
                 document.getElementById('chirp-form').reset(); // Clear the form
+            }
+        }
+
+        function toggleLoading(isLoading) {
+            const loadingDiv = document.getElementById('loading');
+            if (isLoading) {
+                loadingDiv.style.display = 'block';
+            } else {
+                loadingDiv.style.display = 'none';
             }
         }
 
@@ -138,7 +175,15 @@
             insertChirp(username, content);
         });
 
-        window.onload = fetchChirps;
+        window.onload = () => {
+            fetchChirps(); 
+            window.addEventListener('scroll', () => {
+                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                    toggleLoading(true);
+                    fetchChirps();
+                }
+            });
+        };
     </script>
 </body>
 </html>
