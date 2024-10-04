@@ -59,8 +59,13 @@
             margin-bottom: 10px;
             background-color: #f1f1f1;
         }
+        .error {
+            color: red;
+        }
+        .success {
+            color: green;
+        }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.js"></script>
 </head>
 <body>
     <header>
@@ -76,23 +81,10 @@
         <div id="chirps"></div>
     </main>
     <script>
-        const { createClient } = supabase;
-        const supabaseUrl = 'https://hpymoqcjhmtmkvpbdmfu.supabase.co'; // Your Supabase URL
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhweW1vcWNqaG10bWt2cGJkbWZ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjgwMjUzNTgsImV4cCI6MjA0MzYwMTM1OH0.UiGjscfmeTYTni__UotPwfdua_gaxKRnrj2QAi8nGFQ'; // <-- Replace with your Supabase API Key
-
-        const supabase = createClient(supabaseUrl, supabaseKey);
+        // Mock database (array) to store chirps
+        let chirps = [];
 
         async function fetchChirps() {
-            const { data: chirps, error } = await supabase
-                .from('chirps')
-                .select('*')
-                .order('created_at', { ascending: false });
-
-            if (error) {
-                console.error('Error fetching chirps:', error);
-                return;
-            }
-
             const chirpsDiv = document.getElementById('chirps');
             chirpsDiv.innerHTML = ''; // Clear previous chirps
 
@@ -104,20 +96,20 @@
             });
         }
 
-        document.getElementById('chirp-form').addEventListener('submit', async function(e) {
+        document.getElementById('chirp-form').addEventListener('submit', function(e) {
             e.preventDefault();
             const username = document.getElementById('username').value;
             const content = document.getElementById('content').value;
 
-            const { error } = await supabase.from('chirps').insert([{ username, content }]);
-
+            // Simulate saving to a mock database
+            chirps.push({ username, content });
             const feedback = document.getElementById('feedback');
-            if (error) {
-                feedback.textContent = 'Error posting chirp.';
-            } else {
-                feedback.textContent = 'Chirp posted!';
-                fetchChirps(); // Refresh chirps
-            }
+
+            // Display success message
+            feedback.textContent = 'Chirp posted!';
+            feedback.className = 'success'; // Set class for success styling
+
+            fetchChirps(); // Refresh chirps
 
             document.getElementById('chirp-form').reset(); // Clear the form
         });
