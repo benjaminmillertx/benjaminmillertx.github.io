@@ -69,7 +69,7 @@
 </head>
 <body>
     <header>
-        <h1>Chirpspace</h1>
+        <h1>Chirpspace 🦜</h1>
     </header>
     <main>
         <form id="chirp-form">
@@ -91,7 +91,7 @@
             chirps.forEach(chirp => {
                 const chirpElement = document.createElement('div');
                 chirpElement.classList.add('chirp');
-                chirpElement.innerText = `${chirp.username}: ${chirp.content}`;
+                chirpElement.innerText = `🦜 ${chirp.username}: ${chirp.content}`;
                 chirpsDiv.appendChild(chirpElement);
             });
         }
