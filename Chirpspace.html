@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chirpspace</title>
+    <title>Chirpspace 🦜</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -59,6 +59,13 @@
             margin-bottom: 10px;
             background-color: #f1f1f1;
         }
+        .reply-form {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+        }
         .error {
             color: red;
         }
@@ -88,12 +95,58 @@
             const chirpsDiv = document.getElementById('chirps');
             chirpsDiv.innerHTML = ''; // Clear previous chirps
 
-            chirps.forEach(chirp => {
+            chirps.forEach((chirp, index) => {
                 const chirpElement = document.createElement('div');
                 chirpElement.classList.add('chirp');
-                chirpElement.innerText = `🦜 ${chirp.username}: ${chirp.content}`;
+                chirpElement.innerHTML = `
+                    <strong>🦜 ${chirp.username}:</strong> ${chirp.content} <button onclick="likeChirp(${index})">👍 Like (${chirp.likes})</button> <button onclick="toggleReplyForm(${index})">💬 Reply</button>
+                    <div class="reply-form" id="reply-form-${index}">
+                        <input type="text" id="reply-username-${index}" placeholder="Your Name" required>
+                        <textarea id="reply-content-${index}" placeholder="Reply..." required></textarea>
+                        <button onclick="submitReply(${index})">Reply</button>
+                    </div>
+                `;
+                
+                // Add replies if any
+                if (chirp.replies && chirp.replies.length > 0) {
+                    const repliesDiv = document.createElement('div');
+                    chirp.replies.forEach(reply => {
+                        const replyElement = document.createElement('p');
+                        replyElement.innerHTML = `<strong>↳ ${reply.username}:</strong> ${reply.content}`;
+                        repliesDiv.appendChild(replyElement);
+                    });
+                    chirpElement.appendChild(repliesDiv);
+                }
+
                 chirpsDiv.appendChild(chirpElement);
             });
+        }
+
+        function likeChirp(index) {
+            chirps[index].likes++;
+            fetchChirps(); // Refresh chirps
+        }
+
+        function toggleReplyForm(index) {
+            const replyForm = document.getElementById(`reply-form-${index}`);
+            replyForm.style.display = replyForm.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function submitReply(index) {
+            const replyUsername = document.getElementById(`reply-username-${index}`).value;
+            const replyContent = document.getElementById(`reply-content-${index}`).value;
+
+            // Simulate saving the reply
+            if (!chirps[index].replies) {
+                chirps[index].replies = [];
+            }
+            chirps[index].replies.push({ username: replyUsername, content: replyContent });
+
+            // Reset reply form
+            document.getElementById(`reply-username-${index}`).value = '';
+            document.getElementById(`reply-content-${index}`).value = '';
+
+            fetchChirps(); // Refresh chirps
         }
 
         document.getElementById('chirp-form').addEventListener('submit', function(e) {
@@ -102,7 +155,7 @@
             const content = document.getElementById('content').value;
 
             // Simulate saving to a mock database
-            chirps.push({ username, content });
+            chirps.push({ username, content, likes: 0, replies: [] });
             const feedback = document.getElementById('feedback');
 
             // Display success message
