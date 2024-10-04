@@ -4,7 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chirpspace</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background: #35424a;
+            color: #ffffff;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        main {
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+            background: #ffffff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input, textarea {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background: #35424a;
+            color: #ffffff;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #2c3e50;
+        }
+
+        #chirps {
+            margin-top: 20px;
+        }
+
+        .chirp {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.js"></script>
 </head>
 <body>
@@ -22,6 +80,54 @@
     <footer>
         <p>&copy; 2023 Chirpspace</p>
     </footer>
-    <script src="script.js"></script>
+    <script>
+        // Initialize Supabase client
+        const { createClient } = supabase;
+        const supabaseUrl = 'https://YOUR_SUPABASE_URL'; // Replace with your Supabase URL
+        const supabaseKey = 'YOUR_SUPABASE_ANON_KEY'; // Replace with your Supabase API Key
+        const supabase = createClient(supabaseUrl, supabaseKey);
+
+        // Function to fetch chirps from Supabase
+        async function fetchChirps() {
+            const { data: chirps, error } = await supabase.from('chirps').select('*').order('created_at', { ascending: false });
+        
+            if (error) {
+                console.error('Error fetching chirps:', error);
+            } else {
+                const chirpsDiv = document.getElementById('chirps');
+                chirpsDiv.innerHTML = ''; // Clear previous content
+                chirps.forEach(chirp => {
+                    const chirpElement = document.createElement('div');
+                    chirpElement.classList.add('chirp');
+                    chirpElement.innerHTML = `<p><strong>${chirp.username}:</strong> ${chirp.content} <small>${new Date(chirp.created_at).toLocaleString()}</small></p>`;
+                    chirpsDiv.appendChild(chirpElement);
+                });
+            }
+        }
+
+        // Function to insert a new chirp
+        async function insertChirp(username, content) {
+            const { data, error } = await supabase
+                .from('chirps')
+                .insert([{ username, content }]);
+
+            if (error) {
+                console.error('Error inserting chirp:', error);
+            } else {
+                fetchChirps(); // Refresh the chirp list
+            }
+        }
+
+        // Event listener for new chirp submission
+        document.getElementById('chirp-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const content = document.getElementById('content').value;
+            insertChirp(username, content);
+        });
+
+        // Load chirps on initial load
+        window.onload = fetchChirps;
+    </script>
 </body>
 </html>
