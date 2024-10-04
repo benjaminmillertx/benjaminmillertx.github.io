@@ -3,32 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chirpspace - Main Page</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Chirpspace</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background: #35424a;
+            color: #ffffff;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        main {
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+            background: #ffffff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input, textarea {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background: #35424a;
+            color: #ffffff;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #2c3e50;
+        }
+
+        #chirps {
+            margin-top: 20px;
+        }
+
+        .chirp {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .success {
+            color: green;
+        }
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.js"></script>
 </head>
 <body>
     <header>
-        <h1>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="bird-icon" fill="white">
-                <path d="M12 2c1.104 0 2 .896 2 2s-.896 2-2 2-2-.896-2-2 .896-2 2-2zm0 4c1.104 0 2 .896 2 2v1.172l2.293 2.293c1.525-1.525 3.049-3.049 4.475-4.475a6.022 6.022 0 0 1 2 3.495c0 1.298-.962 2.571-2.182 2.971l-1.222.406c-1.094.369-2.313.03-3.29-.878l-2.1 2.1c-.38.38-.897.574-1.426.574-.33 0-.661-.073-.954-.221l-3.946 3.946c.463.292.927.37 1.39.37h1.66l2.666-2.666a3.982 3.982 0 0 0 1.537-.559l1.063.351c2.43.81 5.013.358 6.475-1.104l-4.646-4.646v-1c0-.476.016-.949.046-1.418l-8.565 8.565c-1.181 1.181-3.089 1.181-4.24 0s-1.181-3.089 0-4.24a3.063 3.063 0 0 1 4.243-4.243c.285-.285.594-.505.895-.651l1.131-1.131a4.992 4.992 0 0 1-.97-2.959c.063-.094.131-.182.208-.26l2.013 2.013a6.013 6.013 0 0 1 4.053-1.698z"/>
-            </svg>
-            Chirpspace
-        </h1>
-        <button id="logout-btn">Log Out</button>
+        <h1>Chirpspace</h1>
     </header>
     <main>
-        <div id="chirp-form">
+        <form id="chirp-form">
+            <input type="text" id="username" placeholder="Your Name" required>
             <textarea id="content" placeholder="What's happening?" required></textarea>
-            <button id="chirp-submit">Chirp</button>
-        </div>
-
+            <button type="submit">Chirp</button>
+        </form>
+        <p id="feedback" class="error"></p>
         <div id="chirps"></div>
-        <div id="loading" class="loading" style="display: none;">Loading more chirps...</div>
     </main>
     <footer>
         <p>&copy; 2023 Chirpspace</p>
     </footer>
-    <script src="scripts.js"></script>
+    <script>
+        const { createClient } = supabase;
+        const supabaseUrl = 'https://YOUR_SUPABASE_URL'; // Replace with your Supabase URL
+        const supabaseKey = 'YOUR_SUPABASE_ANON_KEY'; // Replace with your Supabase API Key
+        const supabase = createClient(supabaseUrl, supabaseKey);
+
+        async function fetchChirps() {
+            const { data: chirps, error } = await supabase.from('chirps').select('*').order('created_at', { ascending: false });
+            const chirpsDiv = document.getElementById('chirps');
+            chirpsDiv.innerHTML = ''; // Clear previous content
+
+            if (error) {
+                console.error('Error fetching chirps:', error);
+                return;
+            }
+
+            chirps.forEach(chirp => {
+                const chirpElement = document.createElement('div');
+                chirpElement.classList.add('chirp');
+                chirpElement.innerHTML = `<p><strong>${chirp.username}:</strong> ${chirp.content} <small>${new Date(chirp.created_at).toLocaleString()}</small></p>`;
+                chirpsDiv.appendChild(chirpElement);
+            });
+        }
+
+        async function insertChirp(username, content) {
+            const { data, error } = await supabase.from('chirps').insert([{ username, content }]);
+            const feedback = document.getElementById('feedback');
+
+            if (error) {
+                console.error('Error inserting chirp:', error);
+                feedback.textContent = 'Failed to post chirp. Please try again.';
+                feedback.classList.remove('success');
+                feedback.classList.add('error');
+            } else {
+                fetchChirps(); // Refresh the chirp list
+                feedback.textContent = 'Chirp posted successfully!';
+                feedback.classList.remove('error');
+                feedback.classList.add('success');
+                document.getElementById('chirp-form').reset(); // Clear the form
+            }
+        }
+
+        document.getElementById('chirp-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const content = document.getElementById('content').value;
+            insertChirp(username, content);
+        });
+
+        window.onload = fetchChirps;
+    </script>
 </body>
 </html>
