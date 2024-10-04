@@ -4,19 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chirpspace</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #e9eff1;
         }
 
         header {
-            background: #35424a;
+            background: #4267B2; /* Facebook Blue */
             color: #ffffff;
             padding: 10px 0;
             text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 999; /* Ensure header is above other content */
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .bird-icon {
+            font-size: 1.5rem; /* Size of the icon */
+            margin-right: 8px;
         }
 
         main {
@@ -25,6 +39,7 @@
             margin: auto;
             background: #ffffff;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px; /* Rounded corners */
         }
 
         form {
@@ -38,25 +53,27 @@
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
+            font-size: 16px;
         }
 
         button {
-            background: #35424a;
+            background: #4267B2; /* Facebook Blue */
             color: #ffffff;
             border: none;
             padding: 10px;
             cursor: pointer;
             font-size: 16px;
+            border-radius: 4px;
         }
 
         button:hover {
-            background: #2c3e50;
+            background: #365899; /* Darker blue for hover */
         }
 
         #chirps {
             margin-top: 20px;
-            overflow: auto;
             max-height: 80vh; /* Set a max height for scrollable area */
+            overflow-y: auto; /* Enable vertical scrolling */
             padding-bottom: 20px; /* Padding to prevent cut-off */
         }
 
@@ -66,13 +83,13 @@
             border-radius: 4px;
             margin-bottom: 10px;
             transition: background 0.3s;
+            background-color: #f7f7f7; /* Background color for chirps */
         }
 
         .chirp:hover {
-            background-color: #f9f9f9;
+            background-color: #f1f1f1; /* Lighter on hover */
         }
 
-        /* Loading Indicator */
         .loading {
             text-align: center;
             color: #888;
@@ -84,7 +101,7 @@
 </head>
 <body>
     <header>
-        <h1>Chirpspace</h1>
+        <h1><i class="fas fa-bird bird-icon"></i> Chirpspace</h1>
     </header>
     <main>
         <form id="chirp-form">
@@ -101,8 +118,8 @@
     <script>
         // Initialize Supabase client
         const { createClient } = supabase;
-        const supabaseUrl = 'https://YOUR_SUPABASE_URL'; // Replace with your Supabase URL
-        const supabaseKey = 'YOUR_SUPABASE_ANON_KEY'; // Replace with your Supabase API Key
+        const supabaseUrl = 'https://hpymoqcjhmtmkvpbdmfu.supabase.co'; // Your Supabase URL
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhweW1vcWNqaG10bWt2cGJkbWZ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjgwMjUzNTgsImV4cCI6MjA0MzYwMTM1OH0.UiGjscfmeTYTni__UotPwfdua_gaxKRnrj2QAi8nGFQ'; // Your Supabase API Key
         const supabase = createClient(supabaseUrl, supabaseKey);
 
         let currentPage = 0;
