@@ -60,6 +60,15 @@
             border: 1px solid #0277bd;
             background-color: #f5f5f5;
         }
+
+        .name-list, .place-list, .genre-tips {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            max-height: 200px;
+            overflow-y: auto;
+        }
     </style>
 </head>
 <body>
@@ -104,6 +113,18 @@
             <button class="btn btn-secondary" onclick="generateCharacter()">Generate Character Name</button>
             <button class="btn btn-secondary" onclick="generatePlace()">Generate Place</button>
             <p id="generatedOutput" style="margin-top: 20px; font-weight: bold;"></p>
+
+            <!-- Name List -->
+            <div class="name-list">
+                <h5>Character Names:</h5>
+                <ul id="nameList"></ul>
+            </div>
+
+            <!-- Place List -->
+            <div class="place-list">
+                <h5>Places:</h5>
+                <ul id="placeList"></ul>
+            </div>
         </div>
 
         <!-- Genre Advice Section -->
@@ -142,100 +163,145 @@ of this license document, but changing it is not allowed.
         const editor = document.getElementById('screenplayEditor');
         const formatSelect = document.getElementById('formatSelect');
 
-        // Quick Key Functions
-        function insertSceneHeading() {
-            const format = formatSelect.value;
-            const sceneHeading = (format === "standard" || format === "tv") ? "EXT. / INT. [LOCATION] - DAY/NIGHT\n" :
-                                 (format === "stageplay") ? "[LOCATION] - DAY/NIGHT\n" :
-                                 "[Panel Description]\n";
-            insertAtCursor(sceneHeading);
+        // Character and Place Data
+        const characterNames = [
+            "Liam", "Olivia", "Noah", "Emma", "Oliver", "Ava", "Elijah", "Sophia", "James", "Isabella",
+            "William", "Mia", "Benjamin", "Charlotte", "Lucas", "Amelia", "Henry", "Harper", "Alexander", "Evelyn",
+            "Jacob", "Abigail", "Michael", "Ella", "Daniel", "Scarlett", "Logan", "Grace", "Jackson", "Chloe",
+            "Sebastian", "Aria", "Aiden", "Sofia", "Matthew", "Aubrey", "Isaac", "Addison", "David", "Ellie",
+            "Samuel", "Nora", "Joseph", "Lily", "Carter", "Zoe", "Matthew", "Leah", "Wyatt", "Riley",
+            "Dylan", "Ariana", "Luke", "Mila", "Anthony", "Layla", "Gabriel", "Ella", "Ryan", "Samantha",
+            "Joshua", "Aria", "Jaxon", "Alice", "Christopher", "Lucy", "Isaiah", "Clara", "Andrew", "Sophie",
+            "Mason", "Bella", "Nicholas", "Katherine", "Nathan", "Julia", "Landon", "Vivian", "Eli", "Chloe",
+            "Aaron", "Madison", "Xavier", "Lydia", "Gavin", "Eva", "Jonathan", "Autumn", "Isaiah", "Sadie",
+            "Cole", "Sierra", "Brayden", "Savannah", "Asher", "Gabriella", "Zachary", "Jasmine", "Cameron", "Maria",
+            "Ezekiel", "Willow", "Brody", "Peyton", "Jace", "Harley", "Maddox", "Paige", "Finn", "Sophie"
+        ];
+
+        const places = [
+            "Tokyo, Japan", "Paris, France", "New York, USA", "London, UK", "Rome, Italy", 
+            "Berlin, Germany", "Barcelona, Spain", "Sydney, Australia", "Toronto, Canada", "Moscow, Russia", 
+            "Beijing, China", "Dubai, UAE", "Rio de Janeiro, Brazil", "Mumbai, India", "Cairo, Egypt", 
+            "Bangkok, Thailand", "Singapore", "Los Angeles, USA", "San Francisco, USA", "Amsterdam, Netherlands", 
+            "Lisbon, Portugal", "Istanbul, Turkey", "Hong Kong, China", "Seoul, South Korea", "Buenos Aires, Argentina", 
+            "Stockholm, Sweden", "Zurich, Switzerland", "Dublin, Ireland", "Helsinki, Finland", "Vienna, Austria", 
+            "Athens, Greece", "Budapest, Hungary", "Prague, Czech Republic", "Brussels, Belgium", "Kuala Lumpur, Malaysia",
+
+javascript
+
+        "Santiago, Chile", "Lima, Peru", "Nairobi, Kenya", "Jakarta, Indonesia", "Lagos, Nigeria", 
+        "Accra, Ghana", "Hanoi, Vietnam", "Warsaw, Poland", "Oslo, Norway", "Copenhagen, Denmark", 
+        "Bucharest, Romania", "Sofia, Bulgaria", "Riga, Latvia", "Tallinn, Estonia", "Vilnius, Lithuania", 
+        "Sofia, Bulgaria", "Tunis, Tunisia", "Jerusalem, Israel", "Abu Dhabi, UAE", "Doha, Qatar", 
+        "Manila, Philippines", "Addis Ababa, Ethiopia", "Athens, Greece", "Baku, Azerbaijan", "Yerevan, Armenia", 
+        "Tbilisi, Georgia", "Minsk, Belarus", "Skopje, North Macedonia", "Sarajevo, Bosnia and Herzegovina", 
+        "Pristina, Kosovo", "Podgorica, Montenegro", "Belgrade, Serbia", "Zagreb, Croatia", "Ljubljana, Slovenia", 
+        "Kiev, Ukraine", "Chisinau, Moldova", "Algiers, Algeria", "Casablanca, Morocco", "Banjul, Gambia", 
+        "Lusaka, Zambia", "Harare, Zimbabwe", "Kigali, Rwanda", "Gaborone, Botswana", "Lilongwe, Malawi", 
+        "Bangui, Central African Republic", "N'Djamena, Chad", "Yaoundé, Cameroon", "Libreville, Gabon", "Brazzaville, Congo", 
+        "Kinshasa, Democratic Republic of Congo", "Port Moresby, Papua New Guinea", "Wellington, New Zealand", "Suva, Fiji"
+    ];
+
+    // Generating Character Names
+    function generateCharacter() {
+        const randomIndex = Math.floor(Math.random() * characterNames.length);
+        const name = characterNames[randomIndex];
+        document.getElementById('generatedOutput').innerText = `Character Name: ${name}`;
+        addNameToList(name);
+    }
+
+    // Generating Places
+    function generatePlace() {
+        const randomIndex = Math.floor(Math.random() * places.length);
+        const place = places[randomIndex];
+        document.getElementById('generatedOutput').innerText = `Place: ${place}`;
+        addPlaceToList(place);
+    }
+
+    // Add Name to List
+    function addNameToList(name) {
+        const nameList = document.getElementById('nameList');
+        const listItem = document.createElement('li');
+        listItem.innerText = name;
+        nameList.appendChild(listItem);
+    }
+
+    // Add Place to List
+    function addPlaceToList(place) {
+        const placeList = document.getElementById('placeList');
+        const listItem = document.createElement('li');
+        listItem.innerText = place;
+        placeList.appendChild(listItem);
+    }
+
+    // Show Genre Advice
+    function showGenreAdvice() {
+        const genre = document.getElementById('genreSelect').value;
+        let advice = '';
+        if (genre === 'action') {
+            advice = 'Action Screenplay Tips:\n1. Keep the pace fast.\n2. Use visual storytelling.\n3. Have clear stakes for the protagonist.\n...';
+        } else if (genre === 'comedy') {
+            advice = 'Comedy Screenplay Tips:\n1. Timing is everything.\n2. Create memorable characters.\n3. Use visual gags.\n...';
+        } else if (genre === 'drama') {
+            advice = 'Drama Screenplay Tips:\n1. Develop complex characters.\n2. Focus on emotional arcs.\n3. Show, don’t tell.\n...';
+        } else if (genre === 'horror') {
+            advice = 'Horror Screenplay Tips:\n1. Build suspense gradually.\n2. Use sound and silence effectively.\n3. Create relatable characters.\n...';
+        } else if (genre === 'sci-fi') {
+            advice = 'Science Fiction Screenplay Tips:\n1. Establish rules for your world.\n2. Use technology creatively.\n3. Explore human nature.\n...';
         }
+        document.getElementById('genreAdvice').innerText = advice;
+    }
 
-        function insertCharacter() {
-            const character = "\nCHARACTER NAME\n";
-            insertAtCursor(character);
-        }
+    // Insert screenplay elements
+    function insertSceneHeading() {
+        const text = "INT. SCENE NAME - DAY/NIGHT\n\n";
+        editor.value += text;
+    }
 
-        function insertAction() {
-            const action = "\nAction description...\n";
-            insertAtCursor(action);
-        }
+    function insertCharacter() {
+        const text = "CHARACTER NAME\n";
+        editor.value += text;
+    }
 
-        function insertDialog() {
-            const dialog = "CHARACTER\nDialogue...\n";
-            insertAtCursor(dialog);
-        }
+    function insertAction() {
+        const text = "Action description here...\n";
+        editor.value += text;
+    }
 
-        function insertTransition() {
-            const transition = "\nCUT TO:\n";
-            insertAtCursor(transition);
-        }
+    function insertDialog() {
+        const text = "CHARACTER NAME\n    Dialog goes here...\n";
+        editor.value += text;
+    }
 
-        function insertAtCursor(text) {
-            const start = editor.selectionStart;
-            const end = editor.selectionEnd;
-            editor.value = editor.value.substring(0, start) + text + editor.value.substring(end);
-            editor.selectionStart = editor.selectionEnd = start + text.length;
-            editor.focus();
-        }
+    function insertTransition() {
+        const text = "CUT TO:\n";
+        editor.value += text;
+    }
 
-        function generateCharacter() {
-            const characters = ["Alex", "Jordan", "Casey", "Taylor", "Morgan"];
-            const characterName = characters[Math.floor(Math.random() * characters.length)];
-            document.getElementById('generatedOutput').innerText = "Character: " + characterName;
-        }
+    // Export functionality
+    function exportScreenplay() {
+        const screenplay = editor.value;
+        const blob = new Blob([screenplay], { type: 'text/plain' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'screenplay.txt';
+        link.click();
+    }
 
-        function generatePlace() {
-            const places = ["New York, NY", "Los Angeles, CA", "Chicago, IL", "Houston, TX", "Phoenix, AZ"];
-            const place = places[Math.floor(Math.random() * places.length)];
-            document.getElementById('generatedOutput').innerText = "Place: " + place;
-        }
-
-        function showGenreAdvice() {
-            const genre = document.getElementById('genreSelect').value;
-            let adviceText = "";
-
-            switch (genre) {
-                case "action":
-                    adviceText = "Action screenplays should have high stakes, dynamic sequences, and a strong hero's journey. Make sure to include tension and rising action in each chapter.";
-                    break;
-                case "comedy":
-                    adviceText = "Comedy requires timing and clever dialogue. Work on situational humor, character contrasts, and visual gags to keep the audience entertained.";
-                    break;
-                case "drama":
-                    adviceText = "Dramas revolve around character development. Focus on emotional arcs, conflict, and relationships. Each chapter should reveal more depth.";
-                    break;
-                case "horror":
-                    adviceText = "Horror thrives on suspense and fear. Use setting and atmosphere effectively, and pace the scares throughout the script to keep tension high.";
-                    break;
-                case "sci-fi":
-                    adviceText = "Sci-fi explores futuristic or fantastical themes. World-building is key, and every chapter should add to the story's universe and the protagonist’s journey.";
-                    break;
-            }
-            document.getElementById('genreAdvice').innerText = adviceText;
-        }
-
-        document.getElementById('fileInput').addEventListener('change', function(event) {
+    // Load screenplay from file
+    function loadScreenplay() {
+        document.getElementById('fileInput').click();
+        document.getElementById('fileInput').onchange = function(event) {
             const file = event.target.files[0];
             const reader = new FileReader();
             reader.onload = function(e) {
                 editor.value = e.target.result;
             };
             reader.readAsText(file);
-        });
+        };
+    }
+</script>
 
-        function exportScreenplay() {
-            const content = editor.value;
-            const blob = new Blob([content], { type: 'text/plain' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'screenplay.txt';
-            link.click();
-        }
+</body> </html>
 
-        function loadScreenplay() {
-            document.getElementById('fileInput').click();
-        }
-    </script>
-</body>
-</
+
