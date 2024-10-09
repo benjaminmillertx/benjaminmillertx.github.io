@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coconut 🥥 Screenplay Writing</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            background-color: #0277bd;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        textarea {
+            width: 100%;
+            height: 300px;
+            margin-top: 20px;
+            border: 1px solid #0277bd;
+            padding: 10px;
+            font-family: Courier, monospace;
+            font-size: 14px;
+        }
+
+        button {
+            margin-top: 20px;
+            display: block;
+        }
+
+        .quick-keys {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .quick-key-btn {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+
+        .quick-key-btn:last-child {
+            margin-right: 0;
+        }
+
+        .screenplay-bible, .generator-section, .genre-advice, .license {
+            margin-top: 40px;
+            padding: 20px;
+            border: 1px solid #0277bd;
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Coconut 🥥 Screenplay Writing</h1>
+            <p>Made by Benjamin Hunter Miller</p>
+        </div>
+
+        <!-- Format Selection -->
+        <select class="form-control" id="formatSelect">
+            <option value="standard">Standard Screenplay Format</option>
+            <option value="stageplay">Stage Play Format</option>
+            <option value="tv">TV Script Format</option>
+            <option value="comic">Comic Book Script Format</option>
+        </select>
+
+        <!-- Quick Keys Section -->
+        <div class="quick-keys">
+            <button class="btn btn-info quick-key-btn" onclick="insertSceneHeading()">INT/EXT</button>
+            <button class="btn btn-info quick-key-btn" onclick="insertCharacter()">CHARACTER</button>
+            <button class="btn btn-info quick-key-btn" onclick="insertAction()">ACTION</button>
+            <button class="btn btn-info quick-key-btn" onclick="insertDialog()">DIALOG</button>
+            <button class="btn btn-info quick-key-btn" onclick="insertTransition()">TRANSITION</button>
+        </div>
+
+        <textarea id="screenplayEditor" spellcheck="true" placeholder="Start typing your screenplay..."></textarea>
+
+        <button class="btn btn-primary" onclick="exportScreenplay()">Export as Text File</button>
+        <button class="btn btn-primary" onclick="loadScreenplay()">Load a Screenplay File</button>
+        <input type="file" id="fileInput" style="display:none" accept=".txt">
+
+        <!-- Screenplay Bible Section -->
+        <div class="screenplay-bible">
+            <h4>Screenplay Bible</h4>
+            <textarea id="bibleEditor" spellcheck="true" placeholder="Use this section for characters, places, attributes, backstory, and chapters..."></textarea>
+        </div>
+
+        <!-- Character and Place Generator -->
+        <div class="generator-section">
+            <h4>Character and Place Generator</h4>
+            <button class="btn btn-secondary" onclick="generateCharacter()">Generate Character Name</button>
+            <button class="btn btn-secondary" onclick="generatePlace()">Generate Place</button>
+            <p id="generatedOutput" style="margin-top: 20px; font-weight: bold;"></p>
+        </div>
+
+        <!-- Genre Advice Section -->
+        <div class="genre-advice">
+            <h4>Screenplay Genre Guide</h4>
+            <select class="form-control" id="genreSelect" onchange="showGenreAdvice()">
+                <option value="action">Action</option>
+                <option value="comedy">Comedy</option>
+                <option value="drama">Drama</option>
+                <option value="horror">Horror</option>
+                <option value="sci-fi">Science Fiction</option>
+            </select>
+            <div id="genreAdvice" style="margin-top: 20px;"></div>
+        </div>
+
+        <!-- License Section -->
+        <div class="license">
+            <h4>License</h4>
+            <p>Coconut is licensed under the GNU General Public License (GPL).</p>
+            <p>Made by Benjamin Hunter Miller.</p>
+        </div>
+    </div>
+
+    <script>
+        const editor = document.getElementById('screenplayEditor');
+        const formatSelect = document.getElementById('formatSelect');
+
+        // Quick Key Functions
+        function insertSceneHeading() {
+            const format = formatSelect.value;
+            const sceneHeading = (format === "standard" || format === "tv") ? "EXT. / INT. [LOCATION] - DAY/NIGHT\n" :
+                                 (format === "stageplay") ? "[LOCATION] - DAY/NIGHT\n" :
+                                 "[Panel Description]\n";
+            insertAtCursor(sceneHeading);
+        }
+
+        function insertCharacter() {
+            const character = "\nCHARACTER NAME\n";
+            insertAtCursor(character);
+        }
+
+        function insertAction() {
+            const action = "\nAction description...\n";
+            insertAtCursor(action);
+        }
+
+        function insertDialog() {
+            const dialog = "CHARACTER\nDialogue...\n";
+            insertAtCursor(dialog);
+        }
+
+        function insertTransition() {
+            const transition = "\nCUT TO:\n";
+            insertAtCursor(transition);
+        }
+
+        function insertAtCursor(text) {
+            const start = editor.selectionStart;
+            const end = editor.selectionEnd;
+            editor.value = editor.value.substring(0, start) + text + editor.value.substring(end);
+            editor.selectionStart = editor.selectionEnd = start + text.length;
+            editor.focus();
+        }
+
+        function generateCharacter() {
+            const characters = ["Alex", "Jordan", "Casey", "Taylor", "Morgan"];
+            const characterName = characters[Math.floor(Math.random() * characters.length)];
+            document.getElementById('generatedOutput').innerText = "Character: " + characterName;
+        }
+
+        function generatePlace() {
+            const places = ["New York, NY", "Los Angeles, CA", "Chicago, IL", "Houston, TX", "Phoenix, AZ"];
+            const place = places[Math.floor(Math.random() * places.length)];
+            document.getElementById('generatedOutput').innerText = "Place: " + place;
+        }
+
+        function showGenreAdvice() {
+            const genre = document.getElementById('genreSelect').value;
+            let adviceText = "";
+
+            switch (genre) {
+                case "action":
+                    adviceText = "Action screenplays should have high stakes, dynamic sequences, and a strong hero's journey. Make sure to include tension and rising action in each chapter.";
+                    break;
+                case "comedy":
+                    adviceText = "Comedy requires timing and clever dialogue. Work on situational humor, character contrasts, and visual gags to keep the audience entertained.";
+                    break;
+                case "drama":
+                    adviceText = "Dramas revolve around character development. Focus on emotional arcs, conflict, and relationships. Each chapter should reveal more depth.";
+                    break;
+                case "horror":
+                    adviceText = "Horror thrives on suspense and fear. Use setting and atmosphere effectively, and pace the scares throughout the script to keep tension high.";
+                    break;
+                case "sci-fi":
+                    adviceText = "Sci-fi explores futuristic or fantastical themes. World-building is key, and every chapter should add to the story's universe and the protagonist’s journey.";
+                    break;
+            }
+            document.getElementById('genreAdvice').innerText = adviceText;
+        }
+
+        document.getElementById('fileInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                editor.value = e.target.result;
+            };
+            reader.readAsText(file);
+        });
+
+        function exportScreenplay() {
+            const content = editor.value;
+            const blob = new Blob([content], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'screenplay.txt';
+            link.click();
+        }
+
+        function loadScreenplay() {
+            document.getElementById('fileInput').click();
+        }
+    </script>
+</body>
+</html>
