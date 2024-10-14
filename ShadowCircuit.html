@@ -6,44 +6,34 @@
     <title>Shadow Circuit: Hack the System</title>
     <style>
         body {
-            background-color: #000;
-            color: #0f0;
+            background-color: #121212;
+            color: #00ff00;
             font-family: monospace;
+            padding: 20px;
         }
         #game {
             white-space: pre-wrap;
         }
         input[type="text"] {
-            background-color: #000;
-            color: #0f0;
-            border: none;
+            background-color: #121212;
+            color: #00ff00;
+            border: 1px solid #00ff00;
             width: 100%;
+            padding: 5px;
             font-family: monospace;
             font-size: 1em;
         }
     </style>
 </head>
 <body>
-    <h1>Shadow Circuit: Hack the System</h1>
-    <pre id="game">Initializing...</pre>
+    <h1>Shadow Circuit: Hack the System 🖥️</h1>
+    <pre id="game">Initializing Shadow Circuit...\n\nBackstory: You are Raven "Null" Black, a once-prominent hacker who got caught in the web of corporate espionage. After serving time, you’re back in the game, eager to expose the corrupt corporations manipulating the world from the shadows. Your journey begins now...\n\n</pre>
     <input type="text" id="input" autofocus>
 
     <script>
         const gameText = document.getElementById('game');
         const inputField = document.getElementById('input');
         let level = 1;
-
-        // Backstory
-        const backstory = `
-        Raven "Null" Black was a black hat hacker, caught during a major breach. 
-        Given a choice by authorities, Raven joined HexTech Corp as a cybersecurity expert. 
-        But HexTech's surveillance program, ArgusNet, monitors and manipulates society. 
-        Now, Raven leads the underground hacker collective, Shadow Circuit, to dismantle 
-        HexTech's control and expose the truth.
-
-        Your mission: Infiltrate HexTech, disable ArgusNet, and bring down the corrupt tech giants.
-        Welcome to Shadow Circuit: Hack the System!
-        `;
 
         // Function to display text in the game
         function displayText(text) {
@@ -59,182 +49,185 @@
         function handleCommand(command) {
             switch (level) {
                 case 1:
-                    if (command === 'nmap') {
-                        displayText('[+] Scanning HexTech server ports using nmap...\nProceeding to Level 2...\n');
+                    if (command === 'nmap 192.168.0.0/24') {
+                        displayText('[+] Scanning for devices...\n[+] Found device at 192.168.0.10\nLevel 2: Use "ssh user@192.168.0.10" to access the system.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "nmap" to scan for open ports.');
+                        displayText('Unknown command. Try "nmap 192.168.0.0/24".');
                     }
                     break;
                 case 2:
-                    if (command === 'xsser') {
-                        displayText('[+] XSSer detects vulnerabilities in the web interface.\nProceeding to Level 3...\n');
+                    if (command === 'ssh user@192.168.0.10') {
+                        displayText('[+] Connected to target system.\n[+] Use "ls" to view files.\nLevel 3: Use "cat secrets.txt" to read sensitive files.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "xsser" to exploit XSS vulnerabilities.');
+                        displayText('Unknown command. Try "ssh user@192.168.0.10".');
                     }
                     break;
                 case 3:
-                    if (command === 'sqlmap') {
-                        displayText('[+] SQLMap used to extract user database.\nProceeding to Level 4...\n');
+                    if (command === 'cat secrets.txt') {
+                        displayText('[+] Reading secrets...\n[+] Found evidence of corruption and a cover-up!\nLevel 4: Use "curl http://example.com/data" to download more data.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "sqlmap" to perform an SQL injection.');
+                        displayText('Unknown command. Try "cat secrets.txt".');
                     }
                     break;
                 case 4:
-                    if (command === 'hydra') {
-                        displayText('[+] Hydra successfully brute-forced admin credentials.\nProceeding to Level 5...\n');
+                    if (command === 'curl http://example.com/data') {
+                        displayText('[+] Downloading data...\n[+] Data downloaded successfully!\nLevel 5: Use "tar -xvf data.tar.gz" to extract files.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "hydra" to brute-force login credentials.');
+                        displayText('Unknown command. Try "curl http://example.com/data".');
                     }
                     break;
                 case 5:
-                    if (command === 'netcat') {
-                        displayText('[+] Gained a shell with netcat. Accessing deeper systems...\nProceeding to Level 6...\n');
+                    if (command === 'tar -xvf data.tar.gz') {
+                        displayText('[+] Extracting files...\n[+] Found additional incriminating evidence!\nLevel 6: Use "grep -i corruption *" to search for specific terms.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "netcat" to open a shell.');
+                        displayText('Unknown command. Try "tar -xvf data.tar.gz".');
                     }
                     break;
                 case 6:
-                    if (command === 'dnsenum') {
-                        displayText('[+] DNS enumeration reveals internal network structure.\nProceeding to Level 7...\n');
+                    if (command === 'grep -i corruption *') {
+                        displayText('[+] Searching for corruption references...\n[+] Found multiple documents!\nLevel 7: Use "cat report.txt" to read the main report.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "dnsenum" to enumerate DNS information.');
+                        displayText('Unknown command. Try "grep -i corruption *".');
                     }
                     break;
                 case 7:
-                    if (command === 'gobuster') {
-                        displayText('[+] Gobuster finds hidden directories on the server.\nProceeding to Level 8...\n');
+                    if (command === 'cat report.txt') {
+                        displayText('[+] Reading report...\n[+] Evidence of large-scale fraud discovered!\nLevel 8: Use "scp report.txt user@remote.server:/path/to/directory" to send the report.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "gobuster" to find hidden directories.');
+                        displayText('Unknown command. Try "cat report.txt".');
                     }
                     break;
                 case 8:
-                    if (command === 'aircrack-ng') {
-                        displayText('[+] Cracked Wi-Fi encryption with aircrack-ng. Accessing remote systems...\nProceeding to Level 9...\n');
+                    if (command.startsWith('scp ')) {
+                        displayText('[+] Sending report to remote server...\n[+] Report sent!\nLevel 9: Use "ping 192.168.0.20" to check the response from another server.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "aircrack-ng" to crack Wi-Fi encryption.');
+                        displayText('Unknown command. Try "scp report.txt user@remote.server:/path/to/directory".');
                     }
                     break;
                 case 9:
-                    if (command === 'metasploit') {
-                        displayText('[+] Metasploit framework used to gain root access.\nProceeding to Level 10...\n');
+                    if (command === 'ping 192.168.0.20') {
+                        displayText('[+] Pinging remote server...\n[+] Received response from 192.168.0.20!\nLevel 10: Use "traceroute 192.168.0.20" to trace the path to the server.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "metasploit" for advanced exploitation.');
+                        displayText('Unknown command. Try "ping 192.168.0.20".');
                     }
                     break;
                 case 10:
-                    if (command === 'john') {
-                        displayText('[+] John the Ripper cracks encrypted files.\nProceeding to Level 11...\n');
+                    if (command === 'traceroute 192.168.0.20') {
+                        displayText('[+] Tracing route to remote server...\n[+] Found multiple hops!\nLevel 11: Use "whois 192.168.0.20" to gather information on the server.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "john" to crack encrypted files.');
+                        displayText('Unknown command. Try "traceroute 192.168.0.20".');
                     }
                     break;
                 case 11:
-                    if (command === 'wfuzz') {
-                        displayText('[+] Wfuzz identifies hidden files in HexTech’s web server.\nProceeding to Level 12...\n');
+                    if (command === 'whois 192.168.0.20') {
+                        displayText('[+] Gathering WHOIS data...\n[+] Found owner information and contact details!\nLevel 12: Use "nmap -sS 192.168.0.20" to scan for open ports.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "wfuzz" to discover hidden files.');
+                        displayText('Unknown command. Try "whois 192.168.0.20".');
                     }
                     break;
                 case 12:
-                    if (command === 'nikto') {
-                        displayText('[+] Nikto scans web vulnerabilities.\nProceeding to Level 13...\n');
+                    if (command === 'nmap -sS 192.168.0.20') {
+                        displayText('[+] Performing stealth scan...\n[+] Found open ports!\nLevel 13: Use "nikto -h http://192.168.0.20" to scan for web vulnerabilities.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "nikto" for vulnerability assessment.');
+                        displayText('Unknown command. Try "nmap -sS 192.168.0.20".');
                     }
                     break;
                 case 13:
-                    if (command === 'recon-ng') {
-                        displayText('[+] Recon-ng gathers intel on HexTech employees.\nProceeding to Level 14...\n');
+                    if (command === 'nikto -h http://192.168.0.20') {
+                        displayText('[+] Scanning for vulnerabilities...\n[+] Found vulnerabilities on the web server!\nLevel 14: Use "sqlmap -u http://192.168.0.20/vuln" to find SQL injection vulnerabilities.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "recon-ng" for reconnaissance.');
+                        displayText('Unknown command. Try "nikto -h http://192.168.0.20".');
                     }
                     break;
                 case 14:
-                    if (command === 'msfconsole') {
-                        displayText('[+] MSFConsole used to exploit key systems.\nProceeding to Level 15...\n');
+                    if (command.startsWith('sqlmap ')) {
+                        displayText('[+] Running SQLMap...\n[+] Found SQL injection vulnerability!\nLevel 15: Use "curl -X POST -d "param=value" http://192.168.0.20/vuln" to exploit it.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "msfconsole" for advanced exploitation.');
+                        displayText('Unknown command. Try "sqlmap -u http://192.168.0.20/vuln".');
                     }
                     break;
                 case 15:
-                    if (command === 'armitage') {
-                        displayText('[+] Armitage launches a coordinated attack.\nProceeding to Level 16...\n');
+                    if (command.startsWith('curl -X POST')) {
+                        displayText('[+] Exploiting vulnerability...\n[+] Gained access to sensitive data!\nLevel 16: Use "scp data.txt user@remote.server:/path/to/directory" to send data.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "armitage" to launch attacks.');
+                        displayText('Unknown command. Try "curl -X POST -d "param=value" http://192.168.0.20/vuln".');
                     }
                     break;
                 case 16:
-                    if (command === 'enum4linux') {
-                        displayText('[+] Enum4linux gathers SMB information.\nProceeding to Level 17...\n');
+                    if (command.startsWith('scp ')) {
+                        displayText('[+] Sending sensitive data...\n[+] Data sent successfully!\nLevel 17: Use "echo "Data leaked!" > leak.txt" to create a leak notice.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "enum4linux" for SMB enumeration.');
+                        displayText('Unknown command. Try "scp data.txt user@remote.server:/path/to/directory".');
                     }
                     break;
                 case 17:
-                    if (command === 'theharvester') {
-                        displayText('[+] TheHarvester gathers email addresses from HexTech.\nProceeding to Level 18...\n');
+                    if (command === 'echo "Data leaked!" > leak.txt') {
+                        displayText('[+] Created leak notice!\n[+] Ready to leak information to the public!\nLevel 18: Use "cat leak.txt" to read the notice.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "theharvester" for information gathering.');
+                        displayText('Unknown command. Try "echo "Data leaked!" > leak.txt".');
                     }
                     break;
                 case 18:
-                    if (command === 'burp') {
-                        displayText('[+] Burp Suite identifies security flaws.\nProceeding to Level 19...\n');
+                    if (command === 'cat leak.txt') {
+                        displayText('[+] Reading leak notice...\n[+] The world must know!\nLevel 19: Use "wget http://publicleak.com/leak.txt" to upload the notice online.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "burp" for vulnerability testing.');
+                        displayText('Unknown command. Try "cat leak.txt".');
                     }
                     break;
                 case 19:
-                    if (command === 'upload payload') {
-                        displayText('[+] Payload uploaded. ArgusNet disruption initiated.\nProceeding to Level 20...\n');
+                    if (command === 'wget http://publicleak.com/leak.txt') {
+                        displayText('[+] Uploading leak notice...\n[+] The public is now aware of the corruption!\nLevel 20: Use "exit" to clean up and disconnect.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "upload payload" to disrupt systems.');
+                        displayText('Unknown command. Try "wget http://publicleak.com/leak.txt".');
                     }
                     break;
                 case 20:
-                    if (command === 'leak files') {
-                        displayText('[+] Files leaked! HexTech’s secrets are public!\nCongratulations, you have liberated the world from surveillance tyranny!');
-                        level = 21; // End game
+                    if (command === 'exit') {
+                        displayText('[+] Cleaning up...\n[+] Disconnected from the system.\nCongratulations! You have successfully exposed the corporate corruption and saved the day!');
                     } else {
-                        displayText('Unknown command. Try "leak files" to expose the truth.');
+                        displayText('Unknown command. Try "exit".');
                     }
                     break;
                 default:
-                    displayText('The game has ended. Refresh to play again.');
+                    displayText('You have completed all levels!');
             }
+            clearInput();
         }
 
+        // Level-up function
         function levelUp() {
             level++;
-            displayText(`Proceeding to Level ${level}...\n`);
+            displayText(`Level ${level} unlocked!`);
         }
 
-        displayText(backstory + '\nLevel 1: Use "nmap" to scan HexTech\'s server ports.\n');
-        inputField.addEventListener('keypress', function(e) {
+        // Event listener for input
+        inputField.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
-                handleCommand(inputField.value.trim());
-                clearInput();
+                const command = inputField.value.trim();
+                handleCommand(command);
             }
         });
     </script>
 </body>
 </html>
+
+                 
