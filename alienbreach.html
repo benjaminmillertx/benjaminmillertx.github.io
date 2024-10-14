@@ -47,7 +47,6 @@
         const gameContainer = document.getElementById('game-container');
         const inputField = document.getElementById('input');
         let level = 1;
-        let gameState = {};
 
         // Alien ASCII Art
         const alienArt = `
@@ -56,6 +55,20 @@
      /  o    o    o    o  \\
     | o    o    o    o    o |
      \\_____.-----._____/ 
+`;
+
+        // Game Backstory
+        const backstory = `
+You are Alex "Cipher" Kane, a former black hat hacker. A year ago, you were caught breaking into a 
+corporate database, narrowly escaping serious prison time through a plea deal. You've been lying low 
+ever since, using your skills only for harmless projects. But lately, curiosity got the better of you.
+
+One night, while probing a suspicious government network, you stumbled upon something strange: 
+files that didn't seem to belong. As you dug deeper, it became clear these weren't government 
+documents at all—they were written in a language you didn't recognize. You've hacked the wrong network. 
+Or rather, you've hacked an alien one.
+
+Now, it's up to you to uncover the truth behind these aliens and their plans. But beware: they are watching.
 `;
 
         // Function to display text in the game container
@@ -75,81 +88,93 @@
             switch(level) {
                 case 1:
                     if (command === 'nmap') {
-                        displayText('[+] Scanning network...\n[+] Open port found: 8080\n\n' + alienArt);
-                    } else if (command === 'connect 8080') {
+                        displayText('[+] Scanning network...\n[+] Open port found: 8080\n[+] IP Address found: 192.168.1.10\n\n' + alienArt);
+                        displayText('Hint: Connect to the discovered IP with "connect 192.168.1.10".');
+                    } else if (command === 'connect 192.168.1.10') {
                         displayText('[+] Connection successful! Accessing alien system...\nProceeding to Level 2...\n');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "nmap" or "connect 8080".');
+                        displayText('Unknown command. Try "nmap" or "connect 192.168.1.10".');
                     }
                     break;
                 case 2:
+                    if (command === 'explore filesystem') {
+                        displayText('[+] Exploring the alien filesystem...\n[+] Discovered hidden directory: /alien_plans\nHint: Use "cat /alien_plans/plan.txt" to read the file.');
+                    } else if (command === 'cat /alien_plans/plan.txt') {
+                        displayText('[+] Reading file...\n[+] "Hybridization experiments are proceeding as planned. Earth will soon be controlled by our kind disguised as their leaders."\nProceeding to Level 3...\n');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "explore filesystem" or "cat /alien_plans/plan.txt".');
+                    }
+                    break;
+                case 3:
                     if (command === 'crack password') {
-                        displayText('[+] Password cracked! You’ve accessed secret files.\nProceeding to Level 3...\n');
+                        displayText('[+] Password cracked! You’ve accessed alien logs revealing that they’ve infiltrated global governments.\nProceeding to Level 4...\n');
                         levelUp();
                     } else {
                         displayText('Unknown command. Try "crack password".');
                     }
                     break;
-                case 3:
+                case 4:
                     if (command === 'analyze packets') {
-                        displayText('[+] Analyzing packets...\n[+] Decrypted message found: "Hybrid locations identified."\nProceeding to Level 4...\n');
+                        displayText('[+] Analyzing packets...\n[+] Decrypted message found: "Hybridization labs located in major cities: New York, London, Tokyo."\nProceeding to Level 5...\n');
                         levelUp();
                     } else {
                         displayText('Unknown command. Try "analyze packets".');
                     }
                     break;
-                case 4:
+                case 5:
                     if (command === 'phish email') {
-                        displayText('[+] Phishing email sent successfully. Credentials obtained.\nProceeding to Level 5...\n');
+                        displayText('[+] Phishing email sent successfully. Credentials obtained from a high-ranking hybrid politician.\nProceeding to Level 6...\n');
                         levelUp();
                     } else {
                         displayText('Unknown command. Try "phish email".');
                     }
                     break;
-                case 5:
+                case 6:
                     if (command === 'sql inject') {
-                        displayText('[+] SQL Injection successful. Surveillance cameras disabled.\nProceeding to Level 6...\n');
+                        displayText('[+] SQL Injection successful. Surveillance cameras disabled at their headquarters in D.C.\nProceeding to Level 7...\n');
                         levelUp();
                     } else {
                         displayText('Unknown command. Try "sql inject".');
                     }
                     break;
-                case 6:
+                case 7:
                     if (command === 'metasploit attack') {
-                        displayText('[+] Attack launched! Lab systems sabotaged.\nProceeding to Level 7...\n');
+                        displayText('[+] Attack launched! Hybrid lab systems sabotaged, delaying their plans.\nProceeding to Level 8...\n');
                         levelUp();
                     } else {
                         displayText('Unknown command. Try "metasploit attack".');
                     }
                     break;
-                case 7:
+                case 8:
                     if (command === 'post evidence') {
-                        displayText('[+] Evidence leaked anonymously. Public informed.\nProceeding to Level 8...\n');
+                        displayText('[+] Evidence of alien infiltration posted anonymously. The public is beginning to suspect the truth.\nProceeding to Level 9...\n');
                         levelUp();
                     } else {
                         displayText('Unknown command. Try "post evidence".');
                     }
                     break;
-                case 8:
+                case 9:
                     if (command === 'buffer overflow') {
-                        displayText('[+] Mainframe accessed! Blueprints downloaded.\nProceeding to Level 9...\n');
+                        displayText('[+] Mainframe accessed! Blueprint for a hybrid weapon found. The aliens plan to use it against Earth\'s resistance.\nProceeding to Level 10...\n');
                         levelUp();
                     } else {
                         displayText('Unknown command. Try "buffer overflow".');
                     }
                     break;
-                case 9:
+                case 10:
                     if (command === 'expose politicians') {
-                        displayText('[+] Hybrid politicians exposed. Public outraged.\nProceeding to Final Level...\n');
+                        displayText('[+] Hybrid politicians exposed. Several key leaders were revealed as aliens in disguise. Chaos spreads as the truth is unraveled.\nProceeding to Final Level...\n');
                         levelUp();
                     } else {
                         displayText('Unknown command. Try "expose politicians".');
                     }
                     break;
-                case 10:
+                case 11:
                     if (command === 'upload virus') {
-                        displayText('[+] Virus uploaded to alien weapon system. Weapon disabled.\nYou have saved the world!\nGame Over.\n\n' + alienArt);
+                        displayText('[+] Virus uploaded to the alien weapon system. Weapon disabled just before launch. Earth is safe—for now.\nYou have saved the world!\n\n' + alienArt);
+                        displayText('Game Over: You have successfully thwarted the alien hybrid invasion.');
                     } else {
                         displayText('Unknown command. Try "upload virus".');
                     }
@@ -169,23 +194,26 @@
         // Function to provide descriptions for each level
         function getLevelDescription(level) {
             switch(level) {
-                case 2: return 'Alien files detected. Try to "crack password" to gain access.';
-                case 3: return 'Decrypt network traffic. Use "analyze packets".';
-                case 4: return 'Social engineer a hybrid politician. Use "phish email".';
-                case 5: return 'Access the alien surveillance system. Use "sql inject".';
-                case 6: return 'Sabotage the hybrid lab. Use "metasploit attack".';
-                case 7: return 'Leak the evidence anonymously. Use "post evidence".';
-                case 8: return 'Hack the alien mainframe. Use "buffer overflow".';
-                case 9: return 'Expose hybrid politicians. Use "expose politicians".';
-                case 10: return 'Disable the alien weapon. Use "upload virus".';
+                case 2: return 'Alien files detected. Try to "explore filesystem" to find relevant information.';
+                case 3: return 'Access the alien control system. Use "crack password" to gain access.';
+                case 4: return 'Decrypt network traffic. Use "analyze packets".';
+                case 5: return 'Social engineer a hybrid politician. Use "phish email".';
+                case 6: return 'Access the alien surveillance system. Use "sql inject".';
+                case 7: return 'Sabotage the hybrid lab. Use "metasploit attack".';
+                case 8: return 'Leak the evidence anonymously. Use "post evidence".';
+                case 9: return 'Hack the alien mainframe. Use "buffer overflow".';
+                case 10: return 'Expose hybrid politicians. Use "expose politicians".';
+                case 11: return 'Disable the alien weapon system. Use "upload virus".';
                 default: return 'Unknown level.';
             }
         }
 
-        // Initialize the game
-        displayText('Welcome to Alien Breach: Level 1 - Breach the Perimeter\nHint: Use the command "nmap" to scan the network.\n');
-        inputField.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter') {
+        // Initial game start
+        displayText('Welcome to Alien Breach: Hacker vs. Hybrids!\n' + backstory + '\nLevel 1: Scan for open ports using "nmap".\n');
+
+        // Event listener for input field
+        inputField.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
                 handleCommand(inputField.value);
                 clearInput();
             }
@@ -193,3 +221,5 @@
     </script>
 </body>
 </html>
+       
+                 
