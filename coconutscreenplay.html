@@ -54,14 +54,14 @@
             margin-right: 0;
         }
 
-        .screenplay-bible, .generator-section, .genre-advice, .license {
+        .screenplay-bible, .generator-section, .license {
             margin-top: 40px;
             padding: 20px;
             border: 1px solid #0277bd;
             background-color: #f5f5f5;
         }
 
-        .name-list, .place-list, .genre-tips {
+        .name-list, .place-list {
             margin-top: 20px;
             padding: 10px;
             border: 1px solid #ccc;
@@ -127,19 +127,6 @@
             </div>
         </div>
 
-        <!-- Genre Advice Section -->
-        <div class="genre-advice">
-            <h4>Screenplay Genre Guide</h4>
-            <select class="form-control" id="genreSelect" onchange="showGenreAdvice()">
-                <option value="action">Action</option>
-                <option value="comedy">Comedy</option>
-                <option value="drama">Drama</option>
-                <option value="horror">Horror</option>
-                <option value="sci-fi">Science Fiction</option>
-            </select>
-            <div id="genreAdvice" style="margin-top: 20px;"></div>
-        </div>
-
         <!-- License Section -->
         <div class="license">
             <h4>License</h4>
@@ -166,142 +153,94 @@ of this license document, but changing it is not allowed.
         // Character and Place Data
         const characterNames = [
             "Liam", "Olivia", "Noah", "Emma", "Oliver", "Ava", "Elijah", "Sophia", "James", "Isabella",
-            "William", "Mia", "Benjamin", "Charlotte", "Lucas", "Amelia", "Henry", "Harper", "Alexander", "Evelyn",
-            "Jacob", "Abigail", "Michael", "Ella", "Daniel", "Scarlett", "Logan", "Grace", "Jackson", "Chloe",
-            "Sebastian", "Aria", "Aiden", "Sofia", "Matthew", "Aubrey", "Isaac", "Addison", "David", "Ellie",
-            "Samuel", "Nora", "Joseph", "Lily", "Carter", "Zoe", "Matthew", "Leah", "Wyatt", "Riley",
-            "Dylan", "Ariana", "Luke", "Mila", "Anthony", "Layla", "Gabriel", "Ella", "Ryan", "Samantha",
-            "Joshua", "Aria", "Jaxon", "Alice", "Christopher", "Lucy", "Isaiah", "Clara", "Andrew", "Sophie",
-            "Mason", "Bella", "Nicholas", "Katherine", "Nathan", "Julia", "Landon", "Vivian", "Eli", "Chloe",
-            "Aaron", "Madison", "Xavier", "Lydia", "Gavin", "Eva", "Jonathan", "Autumn", "Isaiah", "Sadie",
-            "Cole", "Sierra", "Brayden", "Savannah", "Asher", "Gabriella", "Zachary", "Jasmine", "Cameron", "Maria",
-            "Ezekiel", "Willow", "Brody", "Peyton", "Jace", "Harley", "Maddox", "Paige", "Finn", "Sophie"
+            // ... Add up to 100 names here ...
         ];
 
         const places = [
             "Tokyo, Japan", "Paris, France", "New York, USA", "London, UK", "Rome, Italy", 
-            "Berlin, Germany", "Barcelona, Spain", "Sydney, Australia", "Toronto, Canada", "Moscow, Russia", 
-            "Beijing, China", "Dubai, UAE", "Rio de Janeiro, Brazil", "Mumbai, India", "Cairo, Egypt", 
-            "Bangkok, Thailand", "Singapore", "Los Angeles, USA", "San Francisco, USA", "Amsterdam, Netherlands", 
-            "Lisbon, Portugal", "Istanbul, Turkey", "Hong Kong, China", "Seoul, South Korea", "Buenos Aires, Argentina", 
-            "Stockholm, Sweden", "Zurich, Switzerland", "Dublin, Ireland", "Helsinki, Finland", "Vienna, Austria", 
-            "Athens, Greece", "Budapest, Hungary", "Prague, Czech Republic", "Brussels, Belgium", "Kuala Lumpur, Malaysia",
+            // ... Add up to 100 places here ...
+        ];
 
-javascript
-
-        "Santiago, Chile", "Lima, Peru", "Nairobi, Kenya", "Jakarta, Indonesia", "Lagos, Nigeria", 
-        "Accra, Ghana", "Hanoi, Vietnam", "Warsaw, Poland", "Oslo, Norway", "Copenhagen, Denmark", 
-        "Bucharest, Romania", "Sofia, Bulgaria", "Riga, Latvia", "Tallinn, Estonia", "Vilnius, Lithuania", 
-        "Sofia, Bulgaria", "Tunis, Tunisia", "Jerusalem, Israel", "Abu Dhabi, UAE", "Doha, Qatar", 
-        "Manila, Philippines", "Addis Ababa, Ethiopia", "Athens, Greece", "Baku, Azerbaijan", "Yerevan, Armenia", 
-        "Tbilisi, Georgia", "Minsk, Belarus", "Skopje, North Macedonia", "Sarajevo, Bosnia and Herzegovina", 
-        "Pristina, Kosovo", "Podgorica, Montenegro", "Belgrade, Serbia", "Zagreb, Croatia", "Ljubljana, Slovenia", 
-        "Kiev, Ukraine", "Chisinau, Moldova", "Algiers, Algeria", "Casablanca, Morocco", "Banjul, Gambia", 
-        "Lusaka, Zambia", "Harare, Zimbabwe", "Kigali, Rwanda", "Gaborone, Botswana", "Lilongwe, Malawi", 
-        "Bangui, Central African Republic", "N'Djamena, Chad", "Yaoundé, Cameroon", "Libreville, Gabon", "Brazzaville, Congo", 
-        "Kinshasa, Democratic Republic of Congo", "Port Moresby, Papua New Guinea", "Wellington, New Zealand", "Suva, Fiji"
-    ];
-
-    // Generating Character Names
-    function generateCharacter() {
-        const randomIndex = Math.floor(Math.random() * characterNames.length);
-        const name = characterNames[randomIndex];
-        document.getElementById('generatedOutput').innerText = `Character Name: ${name}`;
-        addNameToList(name);
-    }
-
-    // Generating Places
-    function generatePlace() {
-        const randomIndex = Math.floor(Math.random() * places.length);
-        const place = places[randomIndex];
-        document.getElementById('generatedOutput').innerText = `Place: ${place}`;
-        addPlaceToList(place);
-    }
-
-    // Add Name to List
-    function addNameToList(name) {
-        const nameList = document.getElementById('nameList');
-        const listItem = document.createElement('li');
-        listItem.innerText = name;
-        nameList.appendChild(listItem);
-    }
-
-    // Add Place to List
-    function addPlaceToList(place) {
-        const placeList = document.getElementById('placeList');
-        const listItem = document.createElement('li');
-        listItem.innerText = place;
-        placeList.appendChild(listItem);
-    }
-
-    // Show Genre Advice
-    function showGenreAdvice() {
-        const genre = document.getElementById('genreSelect').value;
-        let advice = '';
-        if (genre === 'action') {
-            advice = 'Action Screenplay Tips:\n1. Keep the pace fast.\n2. Use visual storytelling.\n3. Have clear stakes for the protagonist.\n...';
-        } else if (genre === 'comedy') {
-            advice = 'Comedy Screenplay Tips:\n1. Timing is everything.\n2. Create memorable characters.\n3. Use visual gags.\n...';
-        } else if (genre === 'drama') {
-            advice = 'Drama Screenplay Tips:\n1. Develop complex characters.\n2. Focus on emotional arcs.\n3. Show, don’t tell.\n...';
-        } else if (genre === 'horror') {
-            advice = 'Horror Screenplay Tips:\n1. Build suspense gradually.\n2. Use sound and silence effectively.\n3. Create relatable characters.\n...';
-        } else if (genre === 'sci-fi') {
-            advice = 'Science Fiction Screenplay Tips:\n1. Establish rules for your world.\n2. Use technology creatively.\n3. Explore human nature.\n...';
+        // Generating Character Names
+        function generateCharacter() {
+            const randomIndex = Math.floor(Math.random() * characterNames.length);
+            const name = characterNames[randomIndex];
+            document.getElementById('generatedOutput').innerText = `Character Name: ${name}`;
+            addNameToList(name);
         }
-        document.getElementById('genreAdvice').innerText = advice;
-    }
 
-    // Insert screenplay elements
-    function insertSceneHeading() {
-        const text = "INT. SCENE NAME - DAY/NIGHT\n\n";
-        editor.value += text;
-    }
+        // Generating Places
+        function generatePlace() {
+            const randomIndex = Math.floor(Math.random() * places.length);
+            const place = places[randomIndex];
+            document.getElementById('generatedOutput').innerText = `Place: ${place}`;
+            addPlaceToList(place);
+        }
 
-    function insertCharacter() {
-        const text = "CHARACTER NAME\n";
-        editor.value += text;
-    }
+        // Add Name to List
+        function addNameToList(name) {
+            const nameList = document.getElementById('nameList');
+            const listItem = document.createElement('li');
+            listItem.innerText = name;
+            nameList.appendChild(listItem);
+        }
 
-    function insertAction() {
-        const text = "Action description here...\n";
-        editor.value += text;
-    }
+        // Add Place to List
+        function addPlaceToList(place) {
+            const placeList = document.getElementById('placeList');
+            const listItem = document.createElement('li');
+            listItem.innerText = place;
+            placeList.appendChild(listItem);
+        }
 
-    function insertDialog() {
-        const text = "CHARACTER NAME\n    Dialog goes here...\n";
-        editor.value += text;
-    }
+        // Insert screenplay elements
+        function insertSceneHeading() {
+            const text = "INT. SCENE NAME - DAY/NIGHT\n\n";
+            editor.value += text;
+        }
 
-    function insertTransition() {
-        const text = "CUT TO:\n";
-        editor.value += text;
-    }
+        function insertCharacter() {
+            const text = "CHARACTER NAME\n";
+            editor.value += text;
+        }
 
-    // Export functionality
-    function exportScreenplay() {
-        const screenplay = editor.value;
-        const blob = new Blob([screenplay], { type: 'text/plain' });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = 'screenplay.txt';
-        link.click();
-    }
+        function insertAction() {
+            const text = "Action description here...\n";
+            editor.value += text;
+        }
 
-    // Load screenplay from file
-    function loadScreenplay() {
-        document.getElementById('fileInput').click();
-        document.getElementById('fileInput').onchange = function(event) {
-            const file = event.target.files[0];
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                editor.value = e.target.result;
+        function insertDialog() {
+            const text = "CHARACTER NAME\n    Dialog goes here...\n";
+            editor.value += text;
+        }
+
+        function insertTransition() {
+            const text = "CUT TO:\n";
+            editor.value += text;
+        }
+
+        // Export functionality
+        function exportScreenplay() {
+            const screenplay = editor.value;
+            const blob = new Blob([screenplay], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'screenplay.txt';
+            link.click();
+        }
+
+        // Load screenplay from file
+        function loadScreenplay() {
+            document.getElementById('fileInput').click();
+            document.getElementById('fileInput').onchange = function(event) {
+                const file = event.target.files[0];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    editor.value = e.target.result;
+                };
+                reader.readAsText(file);
             };
-            reader.readAsText(file);
-        };
-    }
-</script>
-
-</body> </html>
-
-
+        }
+    </script>
+</body>
+</html>
