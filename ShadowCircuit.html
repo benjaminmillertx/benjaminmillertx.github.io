@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shadow Circuit: Hack the System</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: monospace;
+        }
+        #game {
+            white-space: pre-wrap;
+        }
+        input[type="text"] {
+            background-color: #000;
+            color: #0f0;
+            border: none;
+            width: 100%;
+            font-family: monospace;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Shadow Circuit: Hack the System</h1>
+    <pre id="game">Initializing...</pre>
+    <input type="text" id="input" autofocus>
+
+    <script>
+        const gameText = document.getElementById('game');
+        const inputField = document.getElementById('input');
+        let level = 1;
+
+        // Backstory
+        const backstory = `
+        Raven "Null" Black was a black hat hacker, caught during a major breach. 
+        Given a choice by authorities, Raven joined HexTech Corp as a cybersecurity expert. 
+        But HexTech's surveillance program, ArgusNet, monitors and manipulates society. 
+        Now, Raven leads the underground hacker collective, Shadow Circuit, to dismantle 
+        HexTech's control and expose the truth.
+
+        Your mission: Infiltrate HexTech, disable ArgusNet, and bring down the corrupt tech giants.
+        Welcome to Shadow Circuit: Hack the System!
+        `;
+
+        // Function to display text in the game
+        function displayText(text) {
+            gameText.textContent += text + '\n';
+        }
+
+        // Function to clear input
+        function clearInput() {
+            inputField.value = '';
+        }
+
+        // Game logic
+        function handleCommand(command) {
+            switch (level) {
+                case 1:
+                    if (command === 'nmap') {
+                        displayText('[+] Scanning HexTech server ports using nmap...\nProceeding to Level 2...\n');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "nmap" to scan for open ports.');
+                    }
+                    break;
+                case 2:
+                    if (command === 'xsser') {
+                        displayText('[+] XSSer detects vulnerabilities in the web interface.\nProceeding to Level 3...\n');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "xsser" to exploit XSS vulnerabilities.');
+                    }
+                    break;
+                case 3:
+                    if (command === 'sqlmap') {
+                        displayText('[+] SQLMap used to extract user database.\nProceeding to Level 4...\n');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "sqlmap" to perform an SQL injection.');
+                    }
+                    break;
+                case 4:
+                    if (command === 'hydra') {
+                        displayText('[+] Hydra successfully brute-forced admin credentials.\nProceeding to Level 5...\n');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "hydra" to brute-force login credentials.');
+                    }
+                    break;
+                case 5:
+                    if (command === 'netcat') {
+                        displayText('[+] Gained a shell with netcat. Accessing deeper systems...\nProceeding to Level 6...\n');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "netcat" to open a shell.');
+                    }
+                    break;
+                case 6:
+                    if (command === 'dnsenum') {
+                        displayText('[+] DNS enumeration reveals internal network structure.\nProceeding to Level 7...\n');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "dnsenum" to enumerate DNS information.');
+                    }
+                    break;
+                case 7:
+                    if (command === 'gobuster') {
+                        displayText('[+] Gobuster finds hidden directories on the server.\nProceeding to Level 8...\n');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "gobuster" to find hidden directories.');
+                    }
+                    break;
+                case 8:
+                    if (command === 'aircrack-ng') {
+                        displayText('[+] Cracked Wi-Fi encryption with aircrack-ng. Accessing remote systems...\nProceeding to Level 9...\n');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "aircrack-ng" to crack Wi-Fi encryption.');
+                    }
+                    break;
+                case 9:
+                    if (command === 'metasploit') {
+                        displayText('[+] Metasploit framework used to gain root access.\nProceeding to Level 10...\n');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "metasploit" for advanced exploitation.');
+                    }
+                    break;
+                case 10:
+                    if (command === 'john') {
+                        displayText('[+] John the Ripper cracks encrypted files.\nProceeding to Level 11...\n');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "john" to crack encrypted files.');
+                    }
+                    break;
+                case 11:
+                    if (command === 'wfuzz') {
+                        displayText('[+] Wfuzz identifies hidden files in HexTech’s web server.\nProceeding to Level 12...\n');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "wfuzz" to discover hidden files.');
+                    }
+                    break;
+                case 12:
+                    if (command === 'nikto') {
+                        displayText('[+] Nikto scans web vulnerabilities.\nProceeding to Level 13...\n');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "nikto" for vulnerability assessment.');
+                    }
+                    break;
+                case 13:
+                    if (command === 'recon-ng') {
+                        displayText('[+] Recon-ng gathers intel on HexTech employees.\nProceeding to Level 14...\n');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "recon-ng" for reconnaissance.');
+                    }
+                    break;
+                case 14:
+                    if (command === 'msfconsole') {
+                        displayText('[+] MSFConsole used to exploit key systems.\nProceeding to Level 15...\n');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "msfconsole" for advanced exploitation.');
+                    }
+                    break;
+                case 15:
+                    if (command === 'armitage') {
+                        displayText('[+] Armitage launches a coordinated attack.\nProceeding to Level 16...\n');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "armitage" to launch attacks.');
+                    }
+                    break;
+                case 16:
+                    if (command === 'enum4linux') {
+                        displayText('[+] Enum4linux gathers SMB information.\nProceeding to Level 17...\n');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "enum4linux" for SMB enumeration.');
+                    }
+                    break;
+                case 17:
+                    if (command === 'theharvester') {
+                        displayText('[+] TheHarvester gathers email addresses from HexTech.\nProceeding to Level 18...\n');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "theharvester" for information gathering.');
+                    }
+                    break;
+                case 18:
+                    if (command === 'burp') {
+                        displayText('[+] Burp Suite identifies security flaws.\nProceeding to Level 19...\n');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "burp" for vulnerability testing.');
+                    }
+                    break;
+                case 19:
+                    if (command === 'upload payload') {
+                        displayText('[+] Payload uploaded. ArgusNet disruption initiated.\nProceeding to Level 20...\n');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "upload payload" to disrupt systems.');
+                    }
+                    break;
+                case 20:
+                    if (command === 'leak files') {
+                        displayText('[+] Files leaked! HexTech’s secrets are public!\nCongratulations, you have liberated the world from surveillance tyranny!');
+                        level = 21; // End game
+                    } else {
+                        displayText('Unknown command. Try "leak files" to expose the truth.');
+                    }
+                    break;
+                default:
+                    displayText('The game has ended. Refresh to play again.');
+            }
+        }
+
+        function levelUp() {
+            level++;
+            displayText(`Proceeding to Level ${level}...\n`);
+        }
+
+        displayText(backstory + '\nLevel 1: Use "nmap" to scan HexTech\'s server ports.\n');
+        inputField.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                handleCommand(inputField.value.trim());
+                clearInput();
+            }
+        });
+    </script>
+</body>
+</html>
