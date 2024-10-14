@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alien Breach: Hacker vs. Hybrids</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Courier, monospace;
+            background-color: #111;
+            color: #0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        #game-container {
+            width: 800px;
+            height: 600px;
+            border: 2px solid #0f0;
+            padding: 20px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            font-size: 16px;
+        }
+        #input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #000;
+            color: #0f0;
+            border: 2px solid #0f0;
+            box-sizing: border-box;
+        }
+        pre {
+            line-height: 1.2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Alien Breach: Hacker vs. Hybrids</h1>
+    <div id="game-container"></div>
+    <input type="text" id="input" placeholder="Type command here..." autofocus>
+    <script>
+        const gameContainer = document.getElementById('game-container');
+        const inputField = document.getElementById('input');
+        let level = 1;
+        let gameState = {};
+
+        // Alien ASCII Art
+        const alienArt = `
+     👽👽👽👽👽👽👽👽👽
+       _____.-----._____
+     /  o    o    o    o  \\
+    | o    o    o    o    o |
+     \\_____.-----._____/ 
+`;
+
+        // Function to display text in the game container
+        function displayText(text) {
+            gameContainer.innerHTML += text + '\n';
+            gameContainer.scrollTop = gameContainer.scrollHeight; // Auto scroll to bottom
+        }
+
+        // Function to clear input field
+        function clearInput() {
+            inputField.value = '';
+        }
+
+        // Function to handle each command input
+        function handleCommand(command) {
+            command = command.toLowerCase().trim();
+            switch(level) {
+                case 1:
+                    if (command === 'nmap') {
+                        displayText('[+] Scanning network...\n[+] Open port found: 8080\n\n' + alienArt);
+                    } else if (command === 'connect 8080') {
+                        displayText('[+] Connection successful! Accessing alien system...\nProceeding to Level 2...\n');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "nmap" or "connect 8080".');
+                    }
+                    break;
+                case 2:
+                    if (command === 'crack password') {
+                        displayText('[+] Password cracked! You’ve accessed secret files.\nProceeding to Level 3...\n');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "crack password".');
+                    }
+                    break;
+                case 3:
+                    if (command === 'analyze packets') {
+                        displayText('[+] Analyzing packets...\n[+] Decrypted message found: "Hybrid locations identified."\nProceeding to Level 4...\n');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "analyze packets".');
+                    }
+                    break;
+                case 4:
+                    if (command === 'phish email') {
+                        displayText('[+] Phishing email sent successfully. Credentials obtained.\nProceeding to Level 5...\n');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "phish email".');
+                    }
+                    break;
+                case 5:
+                    if (command === 'sql inject') {
+                        displayText('[+] SQL Injection successful. Surveillance cameras disabled.\nProceeding to Level 6...\n');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "sql inject".');
+                    }
+                    break;
+                case 6:
+                    if (command === 'metasploit attack') {
+                        displayText('[+] Attack launched! Lab systems sabotaged.\nProceeding to Level 7...\n');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "metasploit attack".');
+                    }
+                    break;
+                case 7:
+                    if (command === 'post evidence') {
+                        displayText('[+] Evidence leaked anonymously. Public informed.\nProceeding to Level 8...\n');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "post evidence".');
+                    }
+                    break;
+                case 8:
+                    if (command === 'buffer overflow') {
+                        displayText('[+] Mainframe accessed! Blueprints downloaded.\nProceeding to Level 9...\n');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "buffer overflow".');
+                    }
+                    break;
+                case 9:
+                    if (command === 'expose politicians') {
+                        displayText('[+] Hybrid politicians exposed. Public outraged.\nProceeding to Final Level...\n');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "expose politicians".');
+                    }
+                    break;
+                case 10:
+                    if (command === 'upload virus') {
+                        displayText('[+] Virus uploaded to alien weapon system. Weapon disabled.\nYou have saved the world!\nGame Over.\n\n' + alienArt);
+                    } else {
+                        displayText('Unknown command. Try "upload virus".');
+                    }
+                    break;
+                default:
+                    displayText('Unknown command or level.');
+            }
+        }
+
+        // Function to advance to the next level
+        function levelUp() {
+            level++;
+            clearInput();
+            displayText(`Level ${level}: ${getLevelDescription(level)}\n`);
+        }
+
+        // Function to provide descriptions for each level
+        function getLevelDescription(level) {
+            switch(level) {
+                case 2: return 'Alien files detected. Try to "crack password" to gain access.';
+                case 3: return 'Decrypt network traffic. Use "analyze packets".';
+                case 4: return 'Social engineer a hybrid politician. Use "phish email".';
+                case 5: return 'Access the alien surveillance system. Use "sql inject".';
+                case 6: return 'Sabotage the hybrid lab. Use "metasploit attack".';
+                case 7: return 'Leak the evidence anonymously. Use "post evidence".';
+                case 8: return 'Hack the alien mainframe. Use "buffer overflow".';
+                case 9: return 'Expose hybrid politicians. Use "expose politicians".';
+                case 10: return 'Disable the alien weapon. Use "upload virus".';
+                default: return 'Unknown level.';
+            }
+        }
+
+        // Initialize the game
+        displayText('Welcome to Alien Breach: Level 1 - Breach the Perimeter\nHint: Use the command "nmap" to scan the network.\n');
+        inputField.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                handleCommand(inputField.value);
+                clearInput();
+            }
+        });
+    </script>
+</body>
+</html>
