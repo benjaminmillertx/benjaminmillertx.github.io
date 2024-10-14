@@ -6,266 +6,224 @@
     <title>Alien Breach: Hacker vs. Hybrids</title>
     <style>
         body {
-            margin: 0;
-            font-family: Courier, monospace;
-            background-color: #111;
-            color: #0f0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
-        }
-        #game-container {
-            width: 800px;
-            height: 600px;
-            border: 2px solid #0f0;
+            background-color: #121212;
+            color: #00ff00;
+            font-family: monospace;
             padding: 20px;
-            overflow-y: auto;
+        }
+        #game {
             white-space: pre-wrap;
-            font-size: 16px;
         }
-        #input {
+        input[type="text"] {
+            background-color: #121212;
+            color: #00ff00;
+            border: 1px solid #00ff00;
             width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            background-color: #000;
-            color: #0f0;
-            border: 2px solid #0f0;
-            box-sizing: border-box;
-        }
-        pre {
-            line-height: 1.2;
+            padding: 5px;
+            font-family: monospace;
+            font-size: 1em;
         }
     </style>
 </head>
 <body>
-    <h1>Alien Breach: Hacker vs. Hybrids</h1>
-    <div id="game-container"></div>
-    <input type="text" id="input" placeholder="Type command here..." autofocus>
+    <h1>Alien Breach: Hacker vs. Hybrids 👽</h1>
+    <pre id="game">Initializing Alien Breach...</pre>
+    <input type="text" id="input" autofocus>
+
     <script>
-        const gameContainer = document.getElementById('game-container');
+        const gameText = document.getElementById('game');
         const inputField = document.getElementById('input');
         let level = 1;
 
-        // Alien ASCII Art
-        const alienArt = `
-     👽👽👽👽👽👽👽👽👽
-       _____.-----._____
-     /  o    o    o    o  \\
-    | o    o    o    o    o |
-     \\_____.-----._____/ 
-`;
-
-        // Game Backstory
-        const backstory = `
-You are Alex "Cipher" Kane, a former black hat hacker. After serving time for illegal hacking, you were given a chance at redemption. 
-A year has passed, and you've kept your promise to stay out of trouble—until now. One night, while scanning a government 
-network, you stumble upon an unlisted system that reveals disturbing information: files written in a strange language. 
-
-You've accidentally hacked into an alien network. The files hint at a plan for alien-human hybrids and world domination. 
-Now, you must use every hacking skill you possess to expose the truth and save humanity. But be careful—they are watching.
-`;
-
-        // Function to display text in the game container
+        // Function to display text in the game
         function displayText(text) {
-            gameContainer.innerHTML += text + '\n';
-            gameContainer.scrollTop = gameContainer.scrollHeight; // Auto scroll to bottom
+            gameText.textContent += text + '\n';
         }
 
-        // Function to clear input field
+        // Function to clear input
         function clearInput() {
             inputField.value = '';
         }
 
-        // Function to handle each command input
+        // Game logic
         function handleCommand(command) {
-            command = command.toLowerCase().trim();
-            switch(level) {
+            switch (level) {
                 case 1:
-                    if (command === 'nmap') {
-                        displayText('[+] Scanning network...\n[+] Open port found: 8080\n[+] IP Address found: 192.168.1.10\n\n' + alienArt);
-                        displayText('Hint: Connect to the discovered IP with "connect 192.168.1.10".');
-                    } else if (command === 'connect 192.168.1.10') {
-                        displayText('[+] Connection successful! Accessing alien system...\nProceeding to Level 2...\n');
+                    if (command === 'nmap 192.168.1.0/24') {
+                        displayText('[+] Running nmap scan...\n[+] Discovered IPs: 192.168.1.5, 192.168.1.10\nLevel 2: Use "hydra 192.168.1.5 -l admin -P /path/to/passwords.txt" to crack admin password.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "nmap" or "connect 192.168.1.10".');
+                        displayText('Unknown command. Try "nmap 192.168.1.0/24".');
                     }
                     break;
                 case 2:
-                    if (command === 'explore filesystem') {
-                        displayText('[+] Exploring the alien filesystem...\n[+] Discovered hidden directory: /alien_plans\nHint: Use "cat /alien_plans/plan.txt" to read the file.');
-                    } else if (command === 'cat /alien_plans/plan.txt') {
-                        displayText('[+] Reading file...\n[+] "Hybridization experiments are proceeding as planned. Earth will soon be controlled by our kind disguised as their leaders."\nProceeding to Level 3...\n');
+                    if (command.startsWith('hydra ')) {
+                        displayText('[+] Cracking admin password...\n[+] Password cracked: secretpass\nLevel 3: Use "ssh admin@192.168.1.5" to connect.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "explore filesystem" or "cat /alien_plans/plan.txt".');
+                        displayText('Unknown command. Try "hydra 192.168.1.5 -l admin -P /path/to/passwords.txt".');
                     }
                     break;
                 case 3:
-                    if (command === 'hydra') {
-                        displayText('[+] Using Hydra to brute-force login credentials...\n[+] Credentials cracked: alien_admin\nProceeding to Level 4...\n');
+                    if (command === 'ssh admin@192.168.1.5') {
+                        displayText('[+] Connected to alien server!\n[+] Use "ls" to view files.\nLevel 4: Use "cat alien_plans.txt" to check alien plans.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "hydra" to brute-force login credentials.');
+                        displayText('Unknown command. Try "ssh admin@192.168.1.5".');
                     }
                     break;
                 case 4:
-                    if (command === 'burpsuite') {
-                        displayText('[+] Using Burp Suite to intercept and manipulate traffic...\n[+] Revealed alien communications: "Deploy hybrid agents globally."\nProceeding to Level 5...\n');
+                    if (command === 'cat alien_plans.txt') {
+                        displayText('[+] Reading alien plans...\n[+] Found plans for hybridization and world domination!\nLevel 5: Use "sqlmap -u http://alien.server/plans" to find vulnerabilities.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "burpsuite" to intercept traffic.');
+                        displayText('Unknown command. Try "cat alien_plans.txt".');
                     }
                     break;
                 case 5:
-                    if (command === 'exploit') {
-                        displayText('[+] Exploit successful! Command and control center accessed. Disabling surveillance systems...\nProceeding to Level 6...\n');
+                    if (command.startsWith('sqlmap ')) {
+                        displayText('[+] Running SQLMap...\n[+] Found SQL injection vulnerability!\nLevel 6: Use "exploit" to gain more access.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "exploit" to proceed.');
+                        displayText('Unknown command. Try "sqlmap -u http://alien.server/plans".');
                     }
                     break;
                 case 6:
-                    if (command === 'netcat') {
-                        displayText('[+] Netcat used to establish backdoor access to the alien network.\nProceeding to Level 7...\n');
+                    if (command === 'exploit') {
+                        displayText('[+] Exploiting vulnerability...\n[+] Gained access to additional data!\nLevel 7: Use "grep hybridization plans" to find specific plans.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "netcat" to create a backdoor.');
+                        displayText('Unknown command. Try "exploit".');
                     }
                     break;
                 case 7:
-                    if (command === 'wireshark') {
-                        displayText('[+] Wireshark analysis reveals hidden signals between alien bases.\nProceeding to Level 8...\n');
+                    if (command === 'grep hybridization plans') {
+                        displayText('[+] Searching for hybridization plans...\n[+] Found detailed plans for a hybrid army!\nLevel 8: Use "put virus on hybridization_system" to disable it.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "wireshark" to analyze network traffic.');
+                        displayText('Unknown command. Try "grep hybridization plans".');
                     }
                     break;
                 case 8:
-                    if (command === 'aircrack-ng') {
-                        displayText('[+] Aircrack-ng used to break into encrypted alien communications.\nProceeding to Level 9...\n');
+                    if (command === 'put virus on hybridization_system') {
+                        displayText('[+] Uploading virus to hybridization system...\n[+] Virus deployed successfully!\nLevel 9: Use "leak plans" to warn the public.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "aircrack-ng" to crack encryption.');
+                        displayText('Unknown command. Try "put virus on hybridization_system".');
                     }
                     break;
                 case 9:
-                    if (command === 'sqlmap') {
-                        displayText('[+] SQL injection performed using sqlmap. Access granted to alien database.\nProceeding to Level 10...\n');
+                    if (command === 'leak plans') {
+                        displayText('[+] Leaking information about the alien plans to the public...\n[+] The world is now aware of the alien threat!\nLevel 10: Use "echo "Aliens are coming!" > alert.txt" to create an alert.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "sqlmap" to access the database.');
+                        displayText('Unknown command. Try "leak plans".');
                     }
                     break;
                 case 10:
-                    if (command === 'john the ripper') {
-                        displayText('[+] John the Ripper cracked encrypted files containing hybridization blueprints.\nProceeding to Level 11...\n');
+                    if (command === 'echo "Aliens are coming!" > alert.txt') {
+                        displayText('[+] Created alert.txt with warning!\n[+] Use "cat alert.txt" to check the alert.\nLevel 11: Use "chmod +x alert.txt" to make it executable.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "john the ripper" to crack files.');
+                        displayText('Unknown command. Try "echo "Aliens are coming!" > alert.txt".');
                     }
                     break;
                 case 11:
-                    if (command === 'snort') {
-                        displayText('[+] Snort used to detect alien surveillance patterns.\nProceeding to Level 12...\n');
+                    if (command === 'chmod +x alert.txt') {
+                        displayText('[+] Made alert.txt executable!\n[+] Use "./alert.txt" to execute it and spread the word.\nLevel 12: Use "scp alert.txt user@remote.server:/path/to/directory" to send to remote server.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "snort" to detect threats.');
+                        displayText('Unknown command. Try "chmod +x alert.txt".');
                     }
                     break;
                 case 12:
-                    if (command === 'msfconsole') {
-                        displayText('[+] Metasploit console deployed, exploiting alien lab vulnerabilities.\nProceeding to Level 13...\n');
+                    if (command.startsWith('scp ')) {
+                        displayText('[+] Sending alert to remote server...\n[+] Alert sent successfully!\nLevel 13: Use "traceroute 192.168.1.10" to trace alien connections.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "msfconsole" to deploy an attack.');
+                        displayText('Unknown command. Try "scp alert.txt user@remote.server:/path/to/directory".');
                     }
                     break;
                 case 13:
-                    if (command === 'crackmapexec') {
-                        displayText('[+] CrackMapExec accessed multiple alien systems simultaneously.\nProceeding to Level 14...\n');
+                    if (command === 'traceroute 192.168.1.10') {
+                        displayText('[+] Tracing route to alien server...\n[+] Found route and additional IPs involved!\nLevel 14: Use "whois 192.168.1.10" to gather more info.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "crackmapexec" to infiltrate alien systems.');
+                        displayText('Unknown command. Try "traceroute 192.168.1.10".');
                     }
                     break;
                 case 14:
-                    if (command === 'dnsenum') {
-                        displayText('[+] DNS enumeration reveals hidden alien domains.\nProceeding to Level 15...\n');
+                    if (command === 'whois 192.168.1.10') {
+                        displayText('[+] Gathering information on alien server...\n[+] Found owner and contact information!\nLevel 15: Use "nmap -sV 192.168.1.10" to probe services.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "dnsenum" to enumerate domains.');
+                        displayText('Unknown command. Try "whois 192.168.1.10".');
                     }
                     break;
                 case 15:
-                    if (command === 'tshark') {
-                        displayText('[+] Using tshark to capture and analyze alien protocols.\nProceeding to Level 16...\n');
+                    if (command === 'nmap -sV 192.168.1.10') {
+                        displayText('[+] Scanning services on alien server...\n[+] Found open ports and services running!\nLevel 16: Use "nikto -h 192.168.1.10" to run a web vulnerability scan.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "tshark" to capture traffic.');
+                        displayText('Unknown command. Try "nmap -sV 192.168.1.10".');
                     }
                     break;
                 case 16:
-                    if (command === 'dirb') {
-                        displayText('[+] Directory brute-forcing with dirb reveals hidden web pages.\nProceeding to Level 17...\n');
+                    if (command === 'nikto -h 192.168.1.10') {
+                        displayText('[+] Running web vulnerability scan...\n[+] Found multiple vulnerabilities!\nLevel 17: Use "burpsuite" to intercept and manipulate traffic.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "dirb" to brute-force directories.');
+                        displayText('Unknown command. Try "nikto -h 192.168.1.10".');
                     }
                     break;
                 case 17:
-                    if (command === 'theharvester') {
-                        displayText('[+] Using theHarvester to gather email addresses from alien networks.\nProceeding to Level 18...\n');
+                    if (command === 'burpsuite') {
+                        displayText('[+] Starting Burp Suite...\n[+] Intercepting alien traffic!\nLevel 18: Use "mitmproxy" for advanced packet analysis.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "theharvester" to gather intelligence.');
+                        displayText('Unknown command. Try "burpsuite".');
                     }
                     break;
                 case 18:
-                    if (command === 'burp') {
-                        displayText('[+] Burp Suite used to reveal weak points in alien defenses.\nProceeding to Level 19...\n');
+                    if (command === 'mitmproxy') {
+                        displayText('[+] Running mitmproxy...\n[+] Analyzing alien communications!\nLevel 19: Use "wireshark" to capture packets for detailed analysis.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "burp" to analyze weaknesses.');
+                        displayText('Unknown command. Try "mitmproxy".');
                     }
                     break;
                 case 19:
-                    if (command === 'upload virus') {
-                        displayText('[+] Virus successfully uploaded to alien nuke system. Disabling...\nProceeding to Level 20...\n');
+                    if (command === 'wireshark') {
+                        displayText('[+] Starting Wireshark...\n[+] Capturing packets from the alien network!\nLevel 20: Use "aircrack-ng" to break into wireless networks.');
                         levelUp();
                     } else {
-                        displayText('Unknown command. Try "upload virus" to disable alien weapons.');
+                        displayText('Unknown command. Try "wireshark".');
                     }
                     break;
                 case 20:
-                    if (command === 'leak information') {
-                        displayText('[+] Information leaked to the public!\n[+] Panic ensues as the truth about hybrid agents is revealed.\n\nCongratulations, you have saved humanity!');
-                        level = 21; // End game
+                    if (command === 'aircrack-ng') {
+                        displayText('[+] Cracking wireless passwords...\n[+] Found the access password to the alien headquarters!\n\nCongratulations! You have successfully thwarted the alien hybridization plan and saved humanity!');
                     } else {
-                        displayText('Unknown command. Try "leak information" to expose the conspiracy.');
+                        displayText('Unknown command. Try "aircrack-ng".');
                     }
                     break;
                 default:
-                    displayText('The game has ended. Refresh to play again.');
+                    displayText('You have completed all levels!');
             }
+            clearInput();
         }
 
-        // Function to level up
+        // Level-up function
         function levelUp() {
             level++;
-            displayText(`Proceeding to Level ${level}...\n`);
+            displayText(`Level ${level} unlocked!`);
         }
 
-        // Initial game start
-        displayText('Welcome to Alien Breach: Hacker vs. Hybrids!\n' + backstory + '\nLevel 1: Scan for open ports using "nmap".\n');
-
-        // Event listener for input field
-        inputField.addEventListener('keypress', function(e) {
+        // Event listener for input
+        inputField.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
-                handleCommand(inputField.value);
-                clearInput();
+                const command = inputField.value.trim();
+                handleCommand(command);
             }
         });
     </script>
