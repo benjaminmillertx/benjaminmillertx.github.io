@@ -14,6 +14,8 @@
         #output {
             white-space: pre-wrap;
             margin-bottom: 20px;
+            max-height: 500px;
+            overflow-y: auto;
         }
         #input {
             width: 100%;
@@ -33,18 +35,15 @@
     <script>
         const output = document.getElementById('output');
         const inputField = document.getElementById('input');
-
         let stage = 0;
 
-        const story = `
-        Welcome to Mind Control: The Path to Survival.
+        const story = `Welcome to Mind Control: The Path to Survival.
         You are Alex, a former black hat hacker who got into trouble but is now out and looking for redemption. 
         Using your knowledge of dark psychology and manipulation, you must navigate a series of life-threatening situations. 
         Choose wisely—each choice could lead to your survival or demise.
-
-        Type "start" to begin your journey.
-        `;
-
+        
+        Type "start" to begin your journey.`;
+        
         displayText(story);
 
         function displayText(text) {
@@ -53,6 +52,8 @@
         }
 
         function handleInput(command) {
+            command = command.toLowerCase(); // Normalize command to lowercase
+            
             switch (stage) {
                 case 0:
                     if (command === 'start') {
@@ -64,10 +65,10 @@
                     break;
                 case 1:
                     if (command === 'bribe') {
-                        displayText('[+] The guard takes the money but is suspicious. You pass but must remain alert.\n[Stage 2] You overhear a plot. Do you "eavesdrop" or "confront" the conspirators?');
+                        displayText('[+] The guard takes your money but watches you suspiciously. You pass. \n[Stage 2] You overhear a plot. Do you "eavesdrop" or "confront" the conspirators?');
                         stage++;
                     } else if (command === 'manipulate') {
-                        displayText('[+] You convince the guard his life is in danger if he doesn\'t cooperate. You gain his trust.\n[Stage 2] You overhear a plot. Do you "eavesdrop" or "confront" the conspirators?');
+                        displayText('[+] You convince the guard that his life is in danger if he doesn\'t cooperate. You gain his trust.\n[Stage 2] You overhear a plot. Do you "eavesdrop" or "confront" the conspirators?');
                         stage++;
                     } else if (command === 'attack') {
                         displayText('[-] The guard fights back and overpowers you. Game Over.');
@@ -89,7 +90,7 @@
                     break;
                 case 3:
                     if (command === 'threaten') {
-                        displayText('[-] The figure summons guards, and you are captured. Game Over.');
+                        displayText('[-] The powerful figure summons guards, and you are captured. Game Over.');
                         resetGame();
                     } else if (command === 'befriend') {
                         displayText('[+] You gain his trust and valuable information.\n[Stage 4] You meet a rival. Do you "blackmail", "expose", or "befriend" him?');
@@ -150,8 +151,20 @@
                     } else if (command === 'use') {
                         displayText('[+] You use the information to control the politician.\n[Stage 8] You face a new threat: a mysterious hacker. Do you "trace" or "ignore" him?');
                         stage++;
+                    } else if (command === 'blackmail') {
+                        displayText('[+] You threaten the businessman with exposure. \n[Stage 8] He is shaken but compliant. Do you "extract" more information or "let him go"?');
+                        stage++;
+                    } else if (command === 'partner') {
+                        displayText('[+] You make a lucrative deal with the businessman. \n[Stage 8] However, he becomes a rival. Do you "monitor" him closely or "cut ties"?');
+                        stage++;
+                    } else if (command === 'betray') {
+                        displayText('[+] You double-cross the underworld boss; the tide turns in your favor.\n[Stage 8] You receive intel about another faction. Do you "investigate" or "ignore" it?');
+                        stage++;
+                    } else if (command === 'ally') {
+                        displayText('[+] You gain the underworld boss as an ally, strengthening your position.\n[Stage 8] You receive intel about another faction. Do you "investigate" or "ignore" it?');
+                        stage++;
                     } else {
-                        displayText('Unknown command. Try "leak" or "use".');
+                        displayText('Unknown command. Try "leak", "use", "blackmail", or "partner".');
                     }
                     break;
                 case 8:
@@ -161,45 +174,397 @@
                     } else if (command === 'ignore') {
                         displayText('[-] The hacker outmaneuvers you, and you lose your advantage. Game Over.');
                         resetGame();
+                    } else if (command === 'extract') {
+                        displayText('[+] The businessman is terrified and gives you critical information.\n[Stage 9] You receive a tip about an assassination attempt. Do you "prepare" or "evacuate"?');
+                        stage++;
+                    } else if (command === 'let him go') {
+                        displayText('[-] He turns against you and becomes an enemy. Game Over.');
+                        resetGame();
+                    } else if (command === 'monitor') {
+                        displayText('[+] You keep tabs on the businessman; he attempts to play both sides.\n[Stage 9] You receive a tip about an assassination attempt. Do you "prepare" or "evacuate"?');
+                        stage++;
+                    } else if (command === 'cut ties') {
+                        displayText('[-] Losing the businessman as an ally makes you vulnerable. Game Over.');
+                        resetGame();
+                    } else if (command === 'investigate') {
+                        displayText('[+] The intel leads to a shocking betrayal from a former ally.\n[Stage 9] What will you do? "Confront" them or "set a trap"?');
+                        stage++;
+                    } else if (command === 'ignore') {
+                        displayText('[-] You miss critical information. Game Over.');
+                        resetGame();
                     } else {
-                        displayText('Unknown command. Try "trace" or "ignore".');
+                        displayText('Unknown command. Try "trace", "extract", or "investigate".');
                     }
                     break;
                 case 9:
                     if (command === 'prepare') {
-                        displayText('[+] You set up a counter-ambush and neutralize the threat.\n[Stage 10] You meet a powerful ally. Do you "trust" him or "test" him?');
+                        displayText('[+] You set up a counter-ambush and neutralize the threat.\n[Stage 10] Your reputation strengthens. Do you "reveal" your power or "remain" in the shadows?');
                         stage++;
                     } else if (command === 'evacuate') {
-                        displayText('[+] You escape in time but lose valuable ground.\n[Stage 10] You meet a powerful ally. Do you "trust" him or "test" him?');
+                        displayText('[-] You flee but leave behind evidence. Game Over.');
+                        resetGame();
+                    } else if (command === 'confront') {
+                        displayText('[+] You call out the betrayer in public and gather support.\n[Stage 10] Your fortune is changing. Do you "expand" your influence or "consolidate" your power?');
+                        stage++;
+                    } else if (command === 'set a trap') {
+                        displayText('[+] You catch the betrayer off-guard and manipulate them.\n[Stage 10] Your fortune is changing. Do you "expand" your influence or "consolidate" your power?');
                         stage++;
                     } else {
                         displayText('Unknown command. Try "prepare" or "evacuate".');
                     }
                     break;
-                // Adding levels 11-20
                 case 10:
+                    if (command === 'reveal') {
+                        displayText('[+] The display of power cements your authority.\n[Stage 11] The public loves you! Do you "celebrate" your success or "strengthen" your defenses?');
+                        stage++;
+                    } else if (command === 'remain') {
+                        displayText('[+] Continuing in the shadows keeps you safe.\n[Stage 11] Behind closed doors, do you "invest" your power or "entrench" your position?');
+                        stage++;
+                    } else if (command === 'expand') {
+                        displayText('[+] You reach into neighboring territories, making strategic alliances.\n[Stage 11] Do you push more or "fortify" what you control?');
+                        stage++;
+                    } else if (command === 'consolidate') {
+                        displayText('[+] You tighten your control over your current territory.\n[Stage 11] Do you "intimidate" potential foes or "unite" factions through diplomacy?');
+                        stage++;
+                    } else {
+                        displayText('Unknown command. Try "reveal", "remain", "expand", or "consolidate".');
+                    }
+                    break;
+                case 11:
+                    if (command === 'celebrate') {
+                        displayText('[+] Your public celebration sparks excitement but draws attention from enemies.\n[Stage 12] A rival approaches. Do you "challenge" him or "ignore" him?');
+                        stage++;
+                    } else if (command === 'strengthen') {
+                        displayText('[+] You fortify your stronghold. \n[Stage 12] A rival approaches. Do you "challenge" him or "ignore" him?');
+                        stage++;
+                    } else if (command === 'invest') {
+                        displayText('[+] You invest in technology and weapons. \n[Stage 12] A rival approaches. Do you "challenge" him or "ignore" him?');
+                        stage++;
+                    } else if (command === 'entrench') {
+                        displayText('[+] Your position becomes stable, but at the cost of missing opportunities. \n[Stage 12] A rival approaches. Do you "challenge" him or "ignore" him?');
+                        stage++;
+                    } else {
+                        displayText('Unknown command. Try "celebrate", "strengthen", "invest", or "entrench".');
+                    }
+                    break;
+                case 12:
+                    if (command === 'challenge') {
+                        displayText('[+] You face the rival in a duel of wits. Winning brings respect.\n[Stage 13] What will you do next? "Recruit" him or "kill" him?');
+                        stage++;
+                    } else if (command === 'ignore') {
+                        displayText('[+] You let him pass, considering it a wise choice.\n[Stage 13] With the public’s support, do you "seek" out new enemies or "bide" your time?');
+                        stage++;
+                    } else {
+                        displayText('Unknown command. Try "challenge" or "ignore".');
+                    }
+                    break;
+                case 13:
+                    if (command === 'recruit') {
+                        displayText('[+] You win him over, strengthening your numbers.\n[Stage 14] More influence means more threats. Do you "target" the underworld or "focus" on enemies?');
+                        stage++;
+                    } else if (command === 'kill') {
+                        displayText('[-] Killing a rival draws unwanted attention. Game Over.');
+                        resetGame();
+                    } else if (command === 'seek') {
+                        displayText('[+] You look for new enemies to confront. Your reputation grows.\n[Stage 14] Do you "target" the underworld or "focus" on previous threats?');
+                        stage++;
+                    } else if (command === 'bide') {
+                        displayText('[+] You decide to wait it out, avoiding unnecessary conflict.\n[Stage 14] Do you "target" the underworld or "focus" on previous threats?');
+                        stage++;
+                    } else {
+                        displayText('Unknown command. Try "recruit", "kill", "seek", or "bide".');
+                    }
+                    break;
+                case 14:
+                    if (command === 'target') {
+                        displayText('[+] You confront the underworld, receiving valuable intel in return.\n[Stage 15] Do you "use" this information or "share" it with allies?');
+                        stage++;
+                    } else if (command === 'focus') {
+                        displayText('[+] You dedicate your resources to taking down previous foes.\n[Stage 15] Do you "send" a message of power or "reduce" your visibility?');
+                        stage++;
+                    } else {
+                        displayText('Unknown command. Try "target" or "focus".');
+                    }
+                    break;
+                case 15:
+                    if (command === 'use') {
+                        displayText('[+] You gain more power, but the underworld retaliates.\n[Stage 16] Do you "prepare" for a counterattack or "negotiate" a truce?');
+                        stage++;
+                    } else if (command === 'share') {
+                        displayText('[+] Allies grow stronger with shared intel.\n[Stage 16] Do you "press" for more information or "fortify" your defenses?');
+                        stage++;
+                    } else if (command === 'send') {
+                        displayText('[+] Your show of strength makes an impact.\n[Stage 16] However, new enemies arise. Do you "focus" or "prepare" for a fight?');
+                        stage++;
+                    } else if (command === 'reduce') {
+                        displayText('[+] You go under the radar, avoiding scrutiny.\n[Stage 16] However, your resources dwindle. Do you "draw" from allies or "find" new opportunities?');
+                        stage++;
+                    } else {
+                        displayText('Unknown command. Try "use", "share", "send", or "reduce".');
+                    }
+                    break;
+                case 16:
+                    if (command === 'prepare') {
+                        displayText('[+] Your defenses hold strong against the counterattack.\n[Stage 17] You gain a reputation as a strong player in the game. Do you "expand" your territory or "entrench" your base?');
+                        stage++;
+                    } else if (command === 'negotiate') {
+                        displayText('[+] You strike a deal to keep the peace.\n[Stage 17] However, this makes you appear weak. Do you "intensify" your control or "reach" out for alliances?');
+                        stage++;
+                    } else if (command === 'focus') {
+                        displayText('[+] Your concentration sharpens, increasing your awareness of surrounding threats.\n[Stage 17] Do you "investigate" these threats or "engage" them head-on?');
+                        stage++;
+                    } else if (command === 'find') {
+                        displayText('[+] Your resourcefulness earns you new allies.\n[Stage 17] Do you "uncover" hidden paths for power or "focus" on strengthening current relations?');
+                        stage++;
+                    } else {
+                        displayText('Unknown command. Try "prepare", "negotiate", "focus", or "find".');
+                    }
+                    break;
+                case 17:
+                    if (command === 'expand') {
+                        displayText('[+] You claim new territories. \n[Stage 18] However, this draws enemies. Do you "defend" your new lands or "negotiate" peace with rivals?');
+                        stage++;
+                    } else if (command === 'entrench') {
+                        displayText('[+] You solidify your power base. \n[Stage 18] This breeding confidence and enemies. Do you "stay strong" or "sow discord" among them?');
+                        stage++;
+                    } else if (command === 'investigate') {
+                        displayText('[+] Knowledge is power; you discover a plot against you.\n[Stage 18] Do you "expose" the plotters or "turn" them to your side?');
+                        stage++;
+                    } else if (command === 'engage') {
+                        displayText('[+] Engaging your enemies leads to several conflicts.\n[Stage 18] Do you "neutralize" threats or "divide" their forces?');
+                        stage++;
+                    } else {
+                        displayText('Unknown command. Try "expand", "entrench", "investigate", or "engage".');
+                    }
+                    break;
+                case 18:
+                    if (command === 'defend') {
+                        displayText('[+] You hold strong against the invading force.\n[Stage 19] Your reputation grows. Do you "leverage" this success or "retreat" for safety?');
+                        stage++;
+                    } else if (command === 'negotiate') {
+                        displayText('[+] You establish a truce that works momentarily.\n[Stage 19] Underlying tension brews. Do you "quell" it with force or "diplomacy"?');
+                        stage++;
+                    } else if (command === 'expose') {
+                        displayText('[+] Plotters are thrown into chaos.\n[Stage 19] Do you seize this moment to "act" against rivals or "solidify" your alliances?');
+                        stage++;
+                    } else if (command === 'turn') {
+                        displayText('[+] New allies strengthen your position.\n[Stage 19] Do you "feast" on your gains or "redirect" your focus?');
+                        stage++;
+                    } else {
+                        displayText('Unknown command. Try "defend", "negotiate", "expose", or "turn".');
+                    }
+                    break;
+                case 19:
+                    if (command === 'leverage') {
+                        displayText('[+] Your power over rivals solidifies.\n[Stage 20] The atmosphere grows oppressive. Do you "consolidate" your forces or "reach" out to expand?');
+                        stage++;
+                    } else if (command === 'retreat') {
+                        displayText('[-] You cower, and your enemies regain power. Game Over.');
+                        resetGame();
+                    } else if (command === 'quell') {
+                        displayText('[+] The tension settles through your strength.\n[Stage 20] Enemies lurk; do you continue to "initiate" or "be secure"?');
+                        stage++;
+                    } else if (command === 'diplomacy') {
+                        displayText('[+] Your diplomatic skills grant safety.\n[Stage 20] However, it leaves you vulnerable. Do you "prepare" for the worst or "tighten" alliances?');
+                        stage++;
+                    } else {
+                        displayText('Unknown command. Try "leverage", "retreat", "quell", or "diplomacy".');
+                    }
+                    break;
+                case 20:
+                    if (command === 'consolidate') {
+                        displayText('[+] Strength in unity prevails.\n[Stage 21] Allies rally under your banner. Do you "field" new operations or "target" your core enemies?');
+                        stage++;
+                    } else if (command === 'reach') {
+                        displayText('[+] Your ambition spreads. Allies grow discontent, however.\n[Stage 21] Do you "smooth" over their grievances or focus rigorously on stability?');
+                        stage++;
+                    } else if (command === 'initiate') {
+                        displayText('[+] An active campaign shows vigor but consumes resources quickly.\n[Stage 21] Do you "sustain" your momentum or "regroup" forces?');
+                        stage++;
+                    } else if (command === 'secure') {
+                        displayText('[-] You lose touch as enemy forces ramp up. Game Over.');
+                        resetGame();
+                    } else {
+                        displayText('Unknown command. Try "consolidate", "reach", "initiate", or "secure".');
+                    }
+                    break;
+                case 21:
+                    if (command === 'field') {
+                        displayText('[+] Operations deploy successfully.\n[Stage 22] Your reputation soars; do you "improve" your standing or "double down" on your campaign?');
+                        stage++;
+                    } else if (command === 'target') {
+                        displayText('[+] Taking down core enemies destabilizes many.\n[Stage 22] Eventually, do you "claim" their territory or "invite" them to discuss?');
+                        stage++;
+                    } else if (command === 'smooth') {
+                        displayText('[+] Allies grow content under your wise rule.\n[Stage 22] Do you "continue" focusing on teamwork or distribute "gains"?');
+                        stage++;
+                    } else if (command === 'sustain') {
+                        displayText('[-] Resources dwindle despite efforts; costs outweigh benefits. Game Over.');
+                        resetGame();
+                    } else {
+                        displayText('Unknown command. Try "field", "target", "smooth", or "sustain".');
+                    }
+                    break;
+                case 22:
+                    if (command === 'improve') {
+                        displayText('[+] Your standing solidifies. Rivals butt heads. Do you "gather" more allies or "concentrate" on existing power?');
+                        stage++;
+                    } else if (command === 'double down') {
+                        displayText('[-] Ambition leads to overextension. Game Over.');
+                        resetGame();
+                    } else if (command === 'claim') {
+                        displayText('[+] As the new ruler, your enemies regroup; confusion reigns. Do you "retain" strict control or "encourage" cooperation?');
+                        stage++;
+                    } else if (command === 'invite') {
+                        displayText('[+] Discussions create opportunities. Do you "lead" or allow them "freedom"?');
+                        stage++;
+                    } else {
+                        displayText('Unknown command. Try "improve", "double down", "claim", or "invite".');
+                    }
+                    break;
+                case 23:
+                    if (command === 'gather') {
+                        displayText('[+] Strength aligns forces, and victory is close!\n[Stage 24] However, tension simmers. Do you "address" it or "let it fester"?');
+                        stage++;
+                    } else if (command === 'concentrate') {
+                        displayText('[-] You isolate allies, leading to dissent. Game Over.');
+                        resetGame();
+                    } else if (command === 'retain') {
+                        displayText('[+] Securing harsh dominance earns respect.\n[Stage 24] Do you "create" a moving alliance or "force" compliance?');
+                        stage++;
+                    } else if (command === 'encourage') {
+                        displayText('[+] Growth ensues as bonds strengthen. \n[Stage 24] Enemies grow wary; will you "confront" or "negotiate"?');
+                        stage++;
+                    } else {
+                        displayText('Unknown command. Try "gather", "concentrate", "retain", or "encourage".');
+                    }
+                    break;
+                case 24:
+                    if (command === 'address') {
+                        displayText('[+] Clearing tension builds trust.\n[Stage 25] With unity there, new threats emerge. Do you "defend" or "strengthen" relationships?');
+                        stage++;
+                    } else if (command === 'let it fester') {
+                        displayText('[-] Underground plots form; betrayal arises. Game Over.');
+                        resetGame();
+                    } else if (command === 'create') {
+                        displayText('[+] Allies gain connections; your approval strengthens.\n[Stage 25] Explore: do you "extend" diplomacy or "concentrate" on defense?');
+                        stage++;
+                    } else if (command === 'force') {
+                        displayText('[-] Harsh rule prompts swift revolt. Game Over.');
+                        resetGame();
+                    } else {
+                        displayText('Unknown command. Try "address", "let it fester", "create", or "force".');
+                    }
+                    break;
+                case 25:
+                    if (command === 'defend') {
+                        displayText('[+] Unprepared rivals falter against your tenacity.\n[Stage 26] A new powerful ally emerges. Do you "trust" him or "test" him?');
+                        stage++;
+                    } else if (command === 'strengthen') {
+                        displayText('[+] Trust builds; unseen threats remain solid.\n[Stage 26] However, rogue factions emerge. Do you "assimilate" them or "obliterate" them?');
+                        stage++;
+                    } else if (command === 'extend') {
+                        displayText('[+] Your diplomacy is received well, but too much seems dangerous.\n[Stage 26] A rival promotes discontent; do you "stand strong" or "bend" to pressure?');
+                        stage++;
+                    } else if (command === 'concentrate') {
+                        displayText('[+] Lifting resources pulls rival pressure down.\n[Stage 26] Soars your influence; do you "challenge" him or "secure" your ground?');
+                        stage++;
+                    } else {
+                        displayText('Unknown command. Try "defend", "strengthen", "extend", or "concentrate".');
+                    }
+                    break;
+                case 26:
                     if (command === 'trust') {
-                        displayText('[+] You gain valuable resources and information.\n[Stage 11] You uncover a mole. Do you "expose" or "frame" someone else?');
+                        displayText('[+] Your new ally provides crucial intel and support.\n[Stage 27] Plans grow; do you "amass" forces or "exploit" vulnerabilities?');
                         stage++;
                     } else if (command === 'test') {
-                        displayText('[+] The test reveals your ally’s true intentions.\n[Stage 11] You uncover a mole. Do you "expose" or "frame" someone else?');
+                        displayText('[-] Your wariness breeds doubt, leading to loss of trust. Game Over.');
+                        resetGame();
+                    } else if (command === 'assimilate') {
+                        displayText('[+] Your control grows; the faction joins your ranks.\n[Stage 27] However, adherence might weaken; do you "conquer" remaining foes or "prepare" for complacency?');
+                        stage++;
+                    } else if (command === 'obliterate') {
+                        displayText('[+] You crush the rogue faction, but at a heavy cost.\n[Stage 27] Do you "mend" broken alliances or "strengthen" your own security?');
+                        stage++;
+                    } else if (command === 'stand strong') {
+                        displayText('[-] Conflicts with enemies arise; battle ensues. Game Over.');
+                        resetGame();
+                    } else if (command === 'bend') {
+                        displayText('[-] Your reputation dwindles; rivals seize the opportunity. Game Over.');
+                        resetGame();
+                    } else {
+                        displayText('Unknown command. Try "trust", "test", "assimilate", "obliterate", "stand strong", or "bend".');
+                    }
+                    break;
+                case 27:
+                    if (command === 'amass') {
+                        displayText('[-] Your expanded force overpowers all rivals. Game Over.');
+                        resetGame();
+                    } else if (command === 'exploit') {
+                        displayText('[+] You undermine their tactics; alliances grow cautious.\n[Stage 28] However, you stand weak; do you "fortify" further or "risk" ambush?');
+                        stage++;
+                    } else if (command === 'conquer') {
+                        displayText('[-] Your brutality sparks rebellion; loyal followers turn. Game Over.');
+                        resetGame();
+                    } else if (command === 'prepare') {
+                        displayText('[-] Your defenses lack refinement leading to collapse. Game Over.');
+                        resetGame();
+                    } else if (command === 'mend') {
+                        displayText('[+] Unity returns through shared interests; stability reinstates.\n[Stage 28] Choose your next step; do you "uphold" or "spread" alliances?');
+                        stage++;
+                    } else if (command === 'strengthen') {
+                        displayText('[+] Security improves; potential risks abound. \n[Stage 28] But enemies gather; do you "confront" or "knowledge" them?');
                         stage++;
                     } else {
-                        displayText('Unknown command. Try "trust" or "test".');
+                        displayText('Unknown command. Try "amass", "exploit", "conquer", "prepare", "mend", or "strengthen".');
                     }
                     break;
-                // Continue for levels 11-20 with detailed scenarios
-
-                case 19:
-                    if (command === 'manipulate') {
-                        displayText('Congratulations! You have successfully navigated all the stages and survived. You have mastered the art of manipulation and dark psychology.');
+                case 28:
+                    if (command === 'fortify') {
+                        displayText('[+] Your defenses world-class yet taxed. Can it hold? \n[Stage 29] New challenges arise; you must "unify" while "protecting" at once.');
+                        stage++;
+                    } else if (command === 'risk') {
+                        displayText('[-] Reckless moves lead to swift consequences. Game Over.');
+                        resetGame();
+                    } else if (command === 'uphold') {
+                        displayText('[+] Trust deepens; allies shift focus from enemies to equity. \n[Stage 29] Do you "prepare" or "expand" your influence?');
+                        stage++;
+                    } else if (command === 'spread') {
+                        displayText('[-] Your complacency leads to breaches within your base. Game Over.');
+                        resetGame();
+                    } else if (command === 'confront') {
+                        displayText('[-] Hostile environments ensue; territories renounce. Game Over.');
+                        resetGame();
+                    } else if (command === 'knowledge') {
+                        displayText('[+] Your active consideration brings knowledge to the table through crisp communication. \n[Stage 29] You gain leverage; choose wisely. Will you "rally" them or extend "mercy"?');
+                        stage++;
+                    } else {
+                        displayText('Unknown command. Try "fortify", "risk", "uphold", "spread", "knowledge", or "confront".');
+                    }
+                    break;
+                case 29:
+                    if (command === 'unify') {
+                        displayText('[+] Strength returning, you overcome threats from within and outside.\n[Stage 30] Peace prevails; do you "celebrate" your victory or "secure" your legacy?');
+                        stage++;
+                    } else if (command === 'protect') {
+                        displayText('[+] Shielding your legacy brings international focus.\n[Stage 30] Cultivate your opportunity; will you "extend" help or find potential "rivals"?');
+                        stage++;
+                    } else if (command === 'prepare') {
+                        displayText('[+] Understood preparations abound but results show off target. \n[Stage 30] Protect your new hold; do you "strengthen" positions or "risk" exploration?');
+                        stage++;
+                    } else if (command === 'expand') {
+                        displayText('[-] Overreaching brings scrutiny; your enemies reclaim ground. Game Over.');
+                        resetGame();
+                    } else if (command === 'rally') {
+                        displayText('[+] Your ensuing creates pathways into new power structures. Success becomes endless! \nCongratulations! You have successfully navigated all the stages and survived, mastering the art of manipulation and dark psychology!');
+                        resetGame();
+                    } else if (command === 'mercy') {
+                        displayText('[-] Opponents outplay you as enemies abound. Game Over.');
                         resetGame();
                     } else {
-                        displayText('Unknown command. Try again.');
-                        resetGame();
+                        displayText('Unknown command. Try "unify", "protect", "prepare", "expand", "rally", or "mercy".');
                     }
                     break;
-
                 default:
                     displayText('Unknown stage. Something went wrong.');
                     resetGame();
@@ -208,16 +573,18 @@
 
         function resetGame() {
             displayText('Type "start" to try again.');
-            stage = 0;
+            stage = 0; // Reset the stage to the beginning
         }
 
         inputField.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
-                const command = inputField.value.trim().toLowerCase();
-                inputField.value = '';
-                handleInput(command);
+                const command = inputField.value.trim();
+                inputField.value = ''; // Clear the input field
+                handleInput(command); // Handle the player's input
             }
         });
     </script>
 </body>
 </html>
+
+    
