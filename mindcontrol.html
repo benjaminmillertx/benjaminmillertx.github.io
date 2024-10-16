@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mind Control: The Path to Survival</title>
+    <style>
+        body {
+            background-color: #111;
+            color: #0f0;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 20px;
+        }
+        #output {
+            white-space: pre-wrap;
+            margin-bottom: 20px;
+        }
+        #input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            color: #0f0;
+            background-color: #222;
+            border: 1px solid #0f0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Mind Control: The Path to Survival</h1>
+    <div id="output"></div>
+    <input id="input" type="text" placeholder="Enter your choice..." autofocus/>
+
+    <script>
+        const output = document.getElementById('output');
+        const inputField = document.getElementById('input');
+
+        let stage = 0;
+
+        const story = `
+        Welcome to Mind Control: The Path to Survival.
+        You are Alex, a former black hat hacker who got into trouble but is now out and looking for redemption. 
+        Using your knowledge of dark psychology and manipulation, you must navigate a series of life-threatening situations. 
+        Choose wisely—each choice could lead to your survival or demise.
+
+        Type "start" to begin your journey.
+        `;
+
+        displayText(story);
+
+        function displayText(text) {
+            output.textContent += text + '\n';
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function handleInput(command) {
+            switch (stage) {
+                case 0:
+                    if (command === 'start') {
+                        displayText('[Stage 1] A guard blocks your path. Do you "bribe" him, "manipulate" him, or "attack" him?');
+                        stage++;
+                    } else {
+                        displayText('Unknown command. Type "start" to begin.');
+                    }
+                    break;
+                case 1:
+                    if (command === 'bribe') {
+                        displayText('[+] The guard takes the money but is suspicious. You pass but must remain alert.\n[Stage 2] You overhear a plot. Do you "eavesdrop" or "confront" the conspirators?');
+                        stage++;
+                    } else if (command === 'manipulate') {
+                        displayText('[+] You convince the guard his life is in danger if he doesn\'t cooperate. You gain his trust.\n[Stage 2] You overhear a plot. Do you "eavesdrop" or "confront" the conspirators?');
+                        stage++;
+                    } else if (command === 'attack') {
+                        displayText('[-] The guard fights back and overpowers you. Game Over.');
+                        resetGame();
+                    } else {
+                        displayText('Unknown command. Try "bribe", "manipulate", or "attack".');
+                    }
+                    break;
+                case 2:
+                    if (command === 'eavesdrop') {
+                        displayText('[+] You gather important intel about an ambush set for you.\n[Stage 3] A powerful figure enters. Do you "threaten", "befriend", or "ignore" him?');
+                        stage++;
+                    } else if (command === 'confront') {
+                        displayText('[-] They sense your intentions and attack. Game Over.');
+                        resetGame();
+                    } else {
+                        displayText('Unknown command. Try "eavesdrop" or "confront".');
+                    }
+                    break;
+                case 3:
+                    if (command === 'threaten') {
+                        displayText('[-] The figure summons guards, and you are captured. Game Over.');
+                        resetGame();
+                    } else if (command === 'befriend') {
+                        displayText('[+] You gain his trust and valuable information.\n[Stage 4] You meet a rival. Do you "blackmail", "expose", or "befriend" him?');
+                        stage++;
+                    } else if (command === 'ignore') {
+                        displayText('[+] You avoid attention but miss important information.\n[Stage 4] You meet a rival. Do you "blackmail", "expose", or "befriend" him?');
+                        stage++;
+                    } else {
+                        displayText('Unknown command. Try "threaten", "befriend", or "ignore".');
+                    }
+                    break;
+                case 4:
+                    if (command === 'blackmail') {
+                        displayText('[+] Your rival fears exposure and agrees to cooperate.\n[Stage 5] You are caught in a trap. Do you "negotiate", "fight", or "escape"?');
+                        stage++;
+                    } else if (command === 'expose') {
+                        displayText('[+] You reveal his secrets first, neutralizing the threat.\n[Stage 5] You are caught in a trap. Do you "negotiate", "fight", or "escape"?');
+                        stage++;
+                    } else if (command === 'befriend') {
+                        displayText('[-] Your rival betrays you. Game Over.');
+                        resetGame();
+                    } else {
+                        displayText('Unknown command. Try "blackmail", "expose", or "befriend".');
+                    }
+                    break;
+                case 5:
+                    if (command === 'negotiate') {
+                        displayText('[+] You persuade them of your value. They agree to a truce.\n[Stage 6] Choose your next target: "politician", "businessman", or "underworld boss".');
+                        stage++;
+                    } else if (command === 'fight') {
+                        displayText('[-] You are outmatched and captured. Game Over.');
+                        resetGame();
+                    } else if (command === 'escape') {
+                        displayText('[+] You manage to escape using a diversion.\n[Stage 6] Choose your next target: "politician", "businessman", or "underworld boss".');
+                        stage++;
+                    } else {
+                        displayText('Unknown command. Try "negotiate", "fight", or "escape".');
+                    }
+                    break;
+                case 6:
+                    if (command === 'politician') {
+                        displayText('[+] The politician is corrupt, and you gather evidence against him.\n[Stage 7] Do you "leak" the information or "use" it to control him?');
+                        stage++;
+                    } else if (command === 'businessman') {
+                        displayText('[+] The businessman has illegal deals. Do you "blackmail" him or "partner" with him for profit?\n[Stage 7]');
+                        stage++;
+                    } else if (command === 'underworld boss') {
+                        displayText('[+] You infiltrate the boss’s circle. Do you "betray" him or "ally" with him?\n[Stage 7]');
+                        stage++;
+                    } else {
+                        displayText('Unknown command. Try "politician", "businessman", or "underworld boss".');
+                    }
+                    break;
+                case 7:
+                    if (command === 'leak') {
+                        displayText('[+] You leak the information, causing a scandal and weakening your enemies.\n[Stage 8] You face a new threat: a mysterious hacker. Do you "trace" or "ignore" him?');
+                        stage++;
+                    } else if (command === 'use') {
+                        displayText('[+] You use the information to control the politician.\n[Stage 8] You face a new threat: a mysterious hacker. Do you "trace" or "ignore" him?');
+                        stage++;
+                    } else {
+                        displayText('Unknown command. Try "leak" or "use".');
+                    }
+                    break;
+                case 8:
+                    if (command === 'trace') {
+                        displayText('[+] You find the hacker’s location and gain control of his operations.\n[Stage 9] You receive a tip about an assassination attempt. Do you "prepare" or "evacuate"?');
+                        stage++;
+                    } else if (command === 'ignore') {
+                        displayText('[-] The hacker outmaneuvers you, and you lose your advantage. Game Over.');
+                        resetGame();
+                    } else {
+                        displayText('Unknown command. Try "trace" or "ignore".');
+                    }
+                    break;
+                case 9:
+                    if (command === 'prepare') {
+                        displayText('[+] You set up a counter-ambush and neutralize the threat.\n[Stage 10] You meet a powerful ally. Do you "trust" him or "test" him?');
+                        stage++;
+                    } else if (command === 'evacuate') {
+                        displayText('[+] You escape in time but lose valuable ground.\n[Stage 10] You meet a powerful ally. Do you "trust" him or "test" him?');
+                        stage++;
+                    } else {
+                        displayText('Unknown command. Try "prepare" or "evacuate".');
+                    }
+                    break;
+                // Adding levels 11-20
+                case 10:
+                    if (command === 'trust') {
+                        displayText('[+] You gain valuable resources and information.\n[Stage 11] You uncover a mole. Do you "expose" or "frame" someone else?');
+                        stage++;
+                    } else if (command === 'test') {
+                        displayText('[+] The test reveals your ally’s true intentions.\n[Stage 11] You uncover a mole. Do you "expose" or "frame" someone else?');
+                        stage++;
+                    } else {
+                        displayText('Unknown command. Try "trust" or "test".');
+                    }
+                    break;
+                // Continue for levels 11-20 with detailed scenarios
+
+                case 19:
+                    if (command === 'manipulate') {
+                        displayText('Congratulations! You have successfully navigated all the stages and survived. You have mastered the art of manipulation and dark psychology.');
+                        resetGame();
+                    } else {
+                        displayText('Unknown command. Try again.');
+                        resetGame();
+                    }
+                    break;
+
+                default:
+                    displayText('Unknown stage. Something went wrong.');
+                    resetGame();
+            }
+        }
+
+        function resetGame() {
+            displayText('Type "start" to try again.');
+            stage = 0;
+        }
+
+        inputField.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                const command = inputField.value.trim().toLowerCase();
+                inputField.value = '';
+                handleInput(command);
+            }
+        });
+    </script>
+</body>
+</html>
