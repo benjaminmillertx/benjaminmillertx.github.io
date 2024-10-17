@@ -10,71 +10,67 @@
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f8f9fa;
+            background-color: #e9ecef;
         }
 
         .container {
             margin-top: 20px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .header {
             text-align: center;
-            background-color: #343a40;
-            color: white;
-            padding: 20px;
-            border-radius: 5px;
+            margin-bottom: 20px;
         }
 
         textarea {
             width: 100%;
-            height: 300px;
+            height: 200px;
             margin-top: 10px;
-            border: 1px solid #343a40;
-            background: #f8f9fa;
             padding: 10px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
             font-family: monospace;
-        }
-
-        button {
-            margin-top: 10px;
         }
 
         .output-area {
             margin-top: 20px;
             padding: 15px;
-            background-color: #ffffff;
-            border: 1px solid #343a40;
+            background-color: #f8f9fa;
+            border: 1px solid #007bff;
             border-radius: 5px;
             height: 200px;
             overflow: auto;
         }
 
-        .color-picker {
-            height: 50px;
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        .style-options {
+        .style-options,
+        .frameworks-section,
+        .javascript-snippets {
             margin-top: 20px;
         }
 
-        .style-preview {
-            border: 1px solid #343a40;
-            margin-top: 10px;
-            padding: 10px;
-            height: 100px;
-            overflow: auto;
-        }
-
-        /* Footer Styles */
         .footer {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 30px;
             padding: 10px;
             background-color: #343a40;
             color: white;
             border-radius: 5px;
+        }
+
+        .text-preview {
+            font-size: 16px;
+            padding: 10px;
+            border: 1px dashed #007bff;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        #classname {
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -94,30 +90,42 @@
 
         <h5>Color Picker</h5>
         <input type="color" id="colorPicker" class="color-picker" onchange="setTextColor(this.value)">
+        
+        <h5>Text Style Options</h5>
+        <select id="textStyle" onchange="changeTextStyle(this.value)">
+            <option value="">Select Style</option>
+            <option value="font-weight: bold;">Bold</option>
+            <option value="font-style: italic;">Italic</option>
+            <option value="text-decoration: underline;">Underline</option>
+        </select>
+        <div class="text-preview" id="textPreview">Preview your text style here.</div>
 
         <h5>HTML, CSS & JavaScript Code:</h5>
         <textarea id="codeInput" placeholder="Write your HTML, CSS and JS code here..."></textarea>
-
-        <div class="style-options">
-            <h5>Text Style Options</h5>
-            <select id="textStyle" onchange="changeTextStyle(this.value)">
-                <option value="">Select Style</option>
-                <option value="font-weight: bold;">Bold</option>
-                <option value="font-style: italic;">Italic</option>
-                <option value="text-decoration: underline;">Underline</option>
-            </select>
-            <div class="style-preview" id="stylePreview">Preview your text style here.</div>
-        </div>
 
         <h5>Add External JavaScript Libraries</h5>
         <input type="text" id="scriptInput" placeholder="Enter Script URL (e.g., https://code.jquery.com/jquery-3.6.0.min.js)">
         <button class="btn btn-info" onclick="addScript()">Add Script</button>
 
+        <div class="javascript-snippets">
+            <h5>JavaScript Snippets</h5>
+            <button class="btn btn-light" onclick="insertJavaScript('consoleLog')">Console Log</button>
+            <button class="btn btn-light" onclick="insertJavaScript('alert')">Alert Box</button>
+            <button class="btn btn-light" onclick="insertJavaScript('fetch')">Fetch API Example</button>
+        </div>
+
+        <div class="frameworks-section">
+            <h5>Popular JavaScript Frameworks</h5>
+            <button class="btn btn-light" onclick="insertFramework('vue')">Add Vue.js</button>
+            <button class="btn btn-light" onclick="insertFramework('react')">Add React.js</button>
+            <button class="btn btn-light" onclick="insertFramework('angular')">Add Angular.js</button>
+        </div>
+
         <h5>Preview:</h5>
         <div class="output-area" id="outputArea"></div>
 
         <button class="btn btn-primary" onclick="exportCode()">Save as HTML</button>
-        <button class="btn btn-secondary" onclick="previewCode()">Preview Output</button>
+        <button class="btn btn-secondary" onclick="previewCode()">Preview Live</button>
 
         <div class="footer">
             <p>GNU General Public License v3.0</p>
@@ -164,10 +172,10 @@
         </ul>
     </div>
 </nav>`;
-                    break;
+                break;
                 case 'image':
                     snippet = `<img src="https://via.placeholder.com/150" alt="Placeholder Image" class="img-fluid">`;
-                    break;
+                break;
                 case 'carousel':
                     snippet = `
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -196,23 +204,25 @@
         <span class="sr-only">Next</span>
     </a>
 </div>`;
-                    break;
+                break;
                 case 'alert':
                     snippet = `
 <div class="alert alert-warning" role="alert">
   This is a warning alert—check it out!
 </div>`;
-                    break;
+                break;
             }
             document.getElementById('codeInput').value += snippet;
+            previewCode(); // Automatically preview after insertion
         }
 
         function setTextColor(color) {
-            document.getElementById('stylePreview').style.color = color;
+            document.getElementById('textPreview').style.color = color;
+            document.getElementById('codeInput').style.color = color;  // Change text color in editor
         }
 
         function changeTextStyle(style) {
-            const preview = document.getElementById('stylePreview');
+            const preview = document.getElementById('textPreview');
             if (style === "") {
                 preview.style = ""; // Resetting the styles
             } else {
@@ -230,6 +240,44 @@
                 alert('Please enter a valid script URL.');
             }
         }
+
+        function insertJavaScript(type) {
+            let jsSnippet = '';
+            switch (type) {
+                case 'consoleLog':
+                    jsSnippet = `console.log("Hello, World!");\n`;
+                    break;
+                case 'alert':
+                    jsSnippet = `alert("This is an alert!");\n`;
+                    break;
+                case 'fetch':
+                    jsSnippet = `
+fetch('https://api.example.com/data')
+    .then(response => response.json())
+    .then(data => console.log(data));\n`;
+                    break;
+            }
+            document.getElementById('codeInput').value += jsSnippet;
+            previewCode(); // Automatically preview after insertion
+        }
+
+        function insertFramework(framework) {
+            let frameworkScript = '';
+            switch (framework) {
+                case 'vue':
+                    frameworkScript = `<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>\n`;
+                    break;
+                case 'react':
+                    frameworkScript = `<script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js"></script>\n`;
+                    frameworkScript += `<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js"></script>\n`;
+                    break;
+                case 'angular':
+                    frameworkScript = `<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>\n`;
+                    break;
+            }
+            document.getElementById('codeInput').value += frameworkScript;
+            previewCode(); // Automatically preview after insertion
+        }
     </script>
 
     <!-- jQuery and Bootstrap JS -->
@@ -237,3 +285,4 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+</html>
