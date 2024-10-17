@@ -66,6 +66,16 @@
             height: 100px;
             overflow: auto;
         }
+
+        /* Footer Styles */
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #343a40;
+            color: white;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
@@ -99,17 +109,26 @@
             <div class="style-preview" id="stylePreview">Preview your text style here.</div>
         </div>
 
-        <button class="btn btn-primary" onclick="exportCode()">Save as HTML</button>
-        <button class="btn btn-secondary" onclick="previewCode()">Preview Output</button>
+        <h5>Add External JavaScript Libraries</h5>
+        <input type="text" id="scriptInput" placeholder="Enter Script URL (e.g., https://code.jquery.com/jquery-3.6.0.min.js)">
+        <button class="btn btn-info" onclick="addScript()">Add Script</button>
 
         <h5>Preview:</h5>
         <div class="output-area" id="outputArea"></div>
+
+        <button class="btn btn-primary" onclick="exportCode()">Save as HTML</button>
+        <button class="btn btn-secondary" onclick="previewCode()">Preview Output</button>
+
+        <div class="footer">
+            <p>GNU General Public License v3.0</p>
+            <p>Made by Benjamin Hunter Miller</p>
+        </div>
     </div>
 
     <script>
         function exportCode() {
             const code = document.getElementById('codeInput').value;
-            const blob = new Blob([code], {type: 'text/html'});
+            const blob = new Blob([code], { type: 'text/html' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
             link.download = 'architect.html';
@@ -200,6 +219,17 @@
                 preview.style = style;
             }
         }
+
+        function addScript() {
+            const scriptURL = document.getElementById('scriptInput').value;
+            if (scriptURL) {
+                const scriptTag = `<script src="${scriptURL}"></script>\n`;
+                document.getElementById('codeInput').value += scriptTag;
+                document.getElementById('scriptInput').value = ''; // clear input
+            } else {
+                alert('Please enter a valid script URL.');
+            }
+        }
     </script>
 
     <!-- jQuery and Bootstrap JS -->
@@ -207,4 +237,3 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
-</html>
