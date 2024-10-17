@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Vault</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        h2 {
+            text-align: center;
+        }
+        .instructions {
+            margin-top: 20px;
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Password Vault by Benjamin Miller</h2>
+    <label for="website">Website:</label>
+    <input type="text" id="website" placeholder="Enter website name">
+
+    <label for="username">Username:</label>
+    <input type="text" id="username" placeholder="Enter username">
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" placeholder="Enter password">
+
+    <button id="save">Save Credentials</button>
+    
+    <h3>Stored Credentials</h3>
+    <div id="storedCredentials"></div>
+
+    <div class="instructions">
+        <h4>How to Use:</h4>
+        <ol>
+            <li>Enter the website name in the f
