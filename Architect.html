@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Architect: Developer Tool</title>
+    <title>🌐 Architect: Developer Tool</title>
     
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -21,6 +21,8 @@
         .CodeMirror {
             height: 400px;
             border: 1px solid #ccc;
+            border-radius: 5px; /* Rounded corners */
+            background-color: #f8f9fa; /* Light background */
         }
         footer {
             margin-top: 20px;
@@ -34,35 +36,31 @@
 <body>
 
 <div class="container">
-    <h1>Architect: Developer Tool</h1>
+    <h1>🌐 Architect: Developer Tool</h1>
     <div class="form-group">
-        <label for="editor">Write your HTML, CSS, and JavaScript:</label>
+        <label for="editor">Write your HTML, CSS, JavaScript here:</label>
         <textarea id="editor"></textarea>
     </div>
-
-    <h2>Predefined Snippets</h2>
-    <button class="btn btn-info" id="insertLoginBtn">Insert Login Form</button>
-    <button class="btn btn-info" id="insertRegisterBtn">Insert Registration Form</button>
-    <button class="btn btn-info" id="insertEmailFormBtn">Insert Email Form</button>
-    <button class="btn btn-info" id="insertCardComponentBtn">Insert Bootstrap Card</button>
-    <button class="btn btn-info" id="insertAlertBtn">Insert Bootstrap Alert</button>
-    <button class="btn btn-info" id="insertModalBtn">Insert Bootstrap Modal</button>
-    <button class="btn btn-info" id="insertFooterBtn">Insert Bootstrap Footer</button);
-    
-    <h2>Bootstrap Utilities</h2>
-    <button class="btn btn-info" id="insertNavbarBtn">Insert Bootstrap Navbar</button>
-    
-    <h2>Import JavaScript Libraries</h2>
-    <button class="btn btn-success" id="importJQuery">Import jQuery</button>
-    <button class="btn btn-success" id="importBootstrapJS">Import Bootstrap JS</button>
-    <button class="btn btn-success" id="importFontAwesome">Import FontAwesome</button>
-
-    <h2>Utilities</h2>
-    <button class="btn btn-secondary" id="saveBtn">Save to Local Storage</button>
-    <button class="btn btn-secondary" id="loadBtn">Load from Local Storage</button>
-
-    <footer>&copy; 2023 Architect - Open Source Project</footer>
+    <button id="importBootstrapJS" class="btn btn-secondary">Import Bootstrap JS</button>
+    <button id="importFontAwesome" class="btn btn-secondary">Import FontAwesome</button>
+    <button id="saveBtn" class="btn btn-primary">Save Code</button>
+    <button id="loadBtn" class="btn btn-primary">Load Code</button>
+    <button id="insertLoginBtn" class="btn btn-secondary">Insert Login Form</button>
+    <button id="insertRegisterBtn" class="btn btn-secondary">Insert Registration Form</button>
+    <button id="insertEmailFormBtn" class="btn btn-secondary">Insert Email Form</button>
+    <button id="insertCardComponentBtn" class="btn btn-secondary">Insert Card Component</button>
+    <button id="insertAlertBtn" class="btn btn-secondary">Insert Alert</button>
 </div>
+
+<footer>
+    <p>&copy; 2023 Your Company. All Rights Reserved.</p>
+    <p>This project is licensed under the <a href="https://www.gnu.org/licenses/gpl-3.0.html" class="text-white">GNU General Public License</a>.</p>
+</footer>
+
+<!-- jQuery and Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <!-- CodeMirror JS for Syntax Highlighting -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/codemirror.min.js"></script>
@@ -74,8 +72,40 @@
     // Initialize CodeMirror for syntax highlighting
     const editor = CodeMirror.fromTextArea(document.getElementById('editor'), {
         lineNumbers: true,
-        mode: 'text/html', // initial mode (can be switched to 'text/javascript' or 'text/css')
+        mode: 'text/html', // initial mode
         theme: 'default'
+    });
+
+    // Import Bootstrap JS
+    document.getElementById('importBootstrapJS').addEventListener('click', function() {
+        const bootstrapJSCode = `<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>`;
+        editor.replaceSelection(bootstrapJSCode + '\n');
+        alert('Bootstrap JS Library Imported.');
+    });
+
+    // Import FontAwesome
+    document.getElementById('importFontAwesome').addEventListener('click', function() {
+        const fontAwesomeCode = `<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">`;
+        editor.replaceSelection(fontAwesomeCode + '\n');
+        alert('FontAwesome Library Imported.');
+    });
+
+    // Save Code to Local Storage
+    document.getElementById('saveBtn').addEventListener('click', function() {
+        const code = editor.getValue();
+        localStorage.setItem('savedCode', code);
+        alert('Code saved to local storage!');
+    });
+
+    // Load Code from Local Storage
+    document.getElementById('loadBtn').addEventListener('click', function() {
+        const savedCode = localStorage.getItem('savedCode');
+        if (savedCode) {
+            editor.setValue(savedCode);
+            alert('Loaded code from local storage.');
+        } else {
+            alert('No code found in local storage.');
+        }
     });
 
     // Insert Login Form
@@ -164,91 +194,6 @@
         alert('Bootstrap Alert Template Added to the Code Editor.');
     });
 
-    // Insert Bootstrap Modal
-    document.getElementById('insertModalBtn').addEventListener('click', function() {
-        const modalCode = `
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-  Launch demo modal
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>`;
-        editor.replaceSelection(modalCode + '\n');
-        alert('Bootstrap Modal Template Added to the Code Editor.');
-    });
-
-     // Insert Bootstrap Footer
-    document.getElementById('insertFooterBtn').addEventListener('click', function() {
-        const footerCode = `
-<footer class="bg-dark text-white text-center p-3">
-    <p>&copy; 2023 Your Company. All Rights Reserved.</p>
-</footer>`;
-        editor.replaceSelection(footerCode + '\n');
-        alert('Bootstrap Footer Template Added to the Code Editor.');
-    });
-    
-    // Import jQuery
-    document.getElementById('importJQuery').addEventListener('click', function() {
-        const jQueryCode = `<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>`;
-        editor.replaceSelection(jQueryCode + '\n');
-        alert('jQuery Library Imported.');
-    });
-
-    // Import Bootstrap JS
-    document.getElementById('importBootstrapJS').addEventListener('click', function() {
-        const bootstrapJSCode = `<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>`;
-        editor.replaceSelection(bootstrapJSCode + '\n');
-        alert('Bootstrap JS Library Imported.');
-    });
-
-    // Import FontAwesome
-    document.getElementById('importFontAwesome').addEventListener('click', function() {
-        const fontAwesomeCode = `<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">`;
-        editor.replaceSelection(fontAwesomeCode + '\n');
-        alert('FontAwesome Library Imported.');
-    });
-
-    // Save Code to Local Storage
-    document.getElementById('saveBtn').addEventListener('click', function() {
-        const code = editor.getValue();
-        localStorage.setItem('savedCode', code);
-        alert('Code saved to local storage!');
-    });
-
-    // Load Code from Local Storage
-    document.getElementById('loadBtn').addEventListener('click', function() {
-        const savedCode = localStorage.getItem('savedCode');
-        if (savedCode) {
-            editor.setValue(savedCode);
-            alert('Loaded code from local storage.');
-        } else {
-            alert('No code found in local storage.');
-        }
-    });
 </script>
-
-<!-- jQuery and Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
