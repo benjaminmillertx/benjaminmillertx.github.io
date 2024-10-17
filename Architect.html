@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Architect: Developer Tool</title>
-
+    
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
+    <!-- CodeMirror CSS for Syntax Highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/codemirror.min.css">
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -17,13 +18,9 @@
         .container {
             margin-top: 20px;
         }
-        #editor {
+        .CodeMirror {
             height: 400px;
-            width: 100%;
             border: 1px solid #ccc;
-            margin-bottom: 20px;
-            padding: 10px;
-            font-family: monospace;
         }
         footer {
             margin-top: 20px;
@@ -31,9 +28,6 @@
             background-color: #343a40;
             color: white;
             text-align: center;
-        }
-        .code-btn {
-            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -43,35 +37,49 @@
     <h1>Architect: Developer Tool</h1>
     <div class="form-group">
         <label for="editor">Write your HTML, CSS, and JavaScript:</label>
-        <textarea id="editor" placeholder="Write your code here..."></textarea>
+        <textarea id="editor"></textarea>
     </div>
 
     <h2>Predefined Snippets</h2>
-    <button class="btn btn-info code-btn" id="insertLoginBtn">Insert Login Form</button>
-    <button class="btn btn-info code-btn" id="insertRegisterBtn">Insert Registration Form</button>
-    <button class="btn btn-info code-btn" id="insertEmailFormBtn">Insert Email Form</button>
-    <button class="btn btn-info code-btn" id="insertEmojiBtn">Insert Emoji</button>
+    <button class="btn btn-info" id="insertLoginBtn">Insert Login Form</button>
+    <button class="btn btn-info" id="insertRegisterBtn">Insert Registration Form</button>
+    <button class="btn btn-info" id="insertEmailFormBtn">Insert Email Form</button>
+    <button class="btn btn-info" id="insertCardComponentBtn">Insert Bootstrap Card</button>
+    <button class="btn btn-info" id="insertAlertBtn">Insert Bootstrap Alert</button>
+    <button class="btn btn-info" id="insertModalBtn">Insert Bootstrap Modal</button>
+    <button class="btn btn-info" id="insertFooterBtn">Insert Bootstrap Footer</button);
+    
+    <h2>Bootstrap Utilities</h2>
+    <button class="btn btn-info" id="insertNavbarBtn">Insert Bootstrap Navbar</button>
+    
+    <h2>Import JavaScript Libraries</h2>
+    <button class="btn btn-success" id="importJQuery">Import jQuery</button>
+    <button class="btn btn-success" id="importBootstrapJS">Import Bootstrap JS</button>
+    <button class="btn btn-success" id="importFontAwesome">Import FontAwesome</button>
 
     <h2>Utilities</h2>
-    <button class="btn btn-secondary code-btn" id="saveBtn">Save to Local Storage</button>
-    <button class="btn btn-secondary code-btn" id="loadBtn">Load from Local Storage</button>
-
-    <h2>Shortcut Keys</h2>
-    <p>Use <strong>Ctrl + S</strong> to save your code and <strong>Ctrl + L</strong> to load saved code.</p>
+    <button class="btn btn-secondary" id="saveBtn">Save to Local Storage</button>
+    <button class="btn btn-secondary" id="loadBtn">Load from Local Storage</button>
 
     <footer>&copy; 2023 Architect - Open Source Project</footer>
 </div>
 
-<script>
-    const editor = document.getElementById('editor');
-    const insertLoginBtn = document.getElementById('insertLoginBtn');
-    const insertRegisterBtn = document.getElementById('insertRegisterBtn');
-    const insertEmailFormBtn = document.getElementById('insertEmailFormBtn');
-    const insertEmojiBtn = document.getElementById('insertEmojiBtn');
-    const saveBtn = document.getElementById('saveBtn');
-    const loadBtn = document.getElementById('loadBtn');
+<!-- CodeMirror JS for Syntax Highlighting -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/mode/xml/xml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/mode/javascript/javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/mode/css/css.min.js"></script>
 
-    insertLoginBtn.addEventListener('click', function() {
+<script>
+    // Initialize CodeMirror for syntax highlighting
+    const editor = CodeMirror.fromTextArea(document.getElementById('editor'), {
+        lineNumbers: true,
+        mode: 'text/html', // initial mode (can be switched to 'text/javascript' or 'text/css')
+        theme: 'default'
+    });
+
+    // Insert Login Form
+    document.getElementById('insertLoginBtn').addEventListener('click', function() {
         const loginFormCode = `
 <form>
     <h2>Login</h2>
@@ -85,11 +93,12 @@
     </div>
     <button type="submit" class="btn btn-primary">Login</button>
 </form>`;
-        editor.value += loginFormCode + '\n';
+        editor.replaceSelection(loginFormCode + '\n');
         alert('Login Form Template Added to the Code Editor.');
     });
 
-    insertRegisterBtn.addEventListener('click', function() {
+    // Insert Registration Form
+    document.getElementById('insertRegisterBtn').addEventListener('click', function() {
         const registerFormCode = `
 <form>
     <h2>Register</h2>
@@ -107,11 +116,12 @@
     </div>
     <button type="submit" class="btn btn-primary">Register</button>
 </form>`;
-        editor.value += registerFormCode + '\n';
+        editor.replaceSelection(registerFormCode + '\n');
         alert('Registration Form Template Added to the Code Editor.');
     });
 
-    insertEmailFormBtn.addEventListener('click', function() {
+    // Insert Email Form
+    document.getElementById('insertEmailFormBtn').addEventListener('click', function() {
         const emailFormCode = `
 <form>
     <h2>Contact Us</h2>
@@ -125,43 +135,118 @@
     </div>
     <button type="submit" class="btn btn-primary">Send</button>
 </form>`;
-        editor.value += emailFormCode + '\n';
+        editor.replaceSelection(emailFormCode + '\n');
         alert('Email Form Template Added to the Code Editor.');
     });
 
-    insertEmojiBtn.addEventListener('click', function() {
-        const emoji = "😊"; // You can expand this with more emojis if needed
-        editor.value += emoji + '\n';
-        alert('Emoji Inserted into the Code Editor.');
+    // Insert Bootstrap Card Component
+    document.getElementById('insertCardComponentBtn').addEventListener('click', function() {
+        const cardCode = `
+<div class="card" style="width: 18rem;">
+    <img src="https://via.placeholder.com/150" class="card-img-top" alt="Image Placeholder">
+    <div class="card-body">
+        <h5 class="card-title">Card Title</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+</div>`;
+        editor.replaceSelection(cardCode + '\n');
+        alert('Bootstrap Card Template Added to the Code Editor.');
     });
 
-    saveBtn.addEventListener('click', function() {
-        const code = editor.value;
+    // Insert Bootstrap Alert
+    document.getElementById('insertAlertBtn').addEventListener('click', function() {
+        const alertCode = `
+<div class="alert alert-warning" role="alert">
+  This is a warning alert—check it out!
+</div>`;
+        editor.replaceSelection(alertCode + '\n');
+        alert('Bootstrap Alert Template Added to the Code Editor.');
+    });
+
+    // Insert Bootstrap Modal
+    document.getElementById('insertModalBtn').addEventListener('click', function() {
+        const modalCode = `
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>`;
+        editor.replaceSelection(modalCode + '\n');
+        alert('Bootstrap Modal Template Added to the Code Editor.');
+    });
+
+     // Insert Bootstrap Footer
+    document.getElementById('insertFooterBtn').addEventListener('click', function() {
+        const footerCode = `
+<footer class="bg-dark text-white text-center p-3">
+    <p>&copy; 2023 Your Company. All Rights Reserved.</p>
+</footer>`;
+        editor.replaceSelection(footerCode + '\n');
+        alert('Bootstrap Footer Template Added to the Code Editor.');
+    });
+    
+    // Import jQuery
+    document.getElementById('importJQuery').addEventListener('click', function() {
+        const jQueryCode = `<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>`;
+        editor.replaceSelection(jQueryCode + '\n');
+        alert('jQuery Library Imported.');
+    });
+
+    // Import Bootstrap JS
+    document.getElementById('importBootstrapJS').addEventListener('click', function() {
+        const bootstrapJSCode = `<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>`;
+        editor.replaceSelection(bootstrapJSCode + '\n');
+        alert('Bootstrap JS Library Imported.');
+    });
+
+    // Import FontAwesome
+    document.getElementById('importFontAwesome').addEventListener('click', function() {
+        const fontAwesomeCode = `<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">`;
+        editor.replaceSelection(fontAwesomeCode + '\n');
+        alert('FontAwesome Library Imported.');
+    });
+
+    // Save Code to Local Storage
+    document.getElementById('saveBtn').addEventListener('click', function() {
+        const code = editor.getValue();
         localStorage.setItem('savedCode', code);
         alert('Code saved to local storage!');
     });
 
-    loadBtn.addEventListener('click', function() {
+    // Load Code from Local Storage
+    document.getElementById('loadBtn').addEventListener('click', function() {
         const savedCode = localStorage.getItem('savedCode');
         if (savedCode) {
-            editor.value = savedCode;
+            editor.setValue(savedCode);
             alert('Loaded code from local storage.');
         } else {
             alert('No code found in local storage.');
         }
     });
-
-    document.addEventListener('keydown', function(event) {
-        if (event.ctrlKey && event.key === 's') {
-            event.preventDefault(); // Prevent the default save action
-            saveBtn.click();
-        } else if (event.ctrlKey && event.key === 'l') {
-            event.preventDefault(); // Prevent the default load action
-            loadBtn.click();
-        }
-    });
 </script>
 
+<!-- jQuery and Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
