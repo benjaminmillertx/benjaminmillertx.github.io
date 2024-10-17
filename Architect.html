@@ -11,72 +11,68 @@
             margin: 0;
             padding: 0;
         }
-
         .container {
-            max-width: 1200px;
+            width: 80%;
             margin: 0 auto;
             padding: 20px;
-            background-color: #fff;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-
-        h1 {
-            text-align: center;
-            color: #333;
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
         }
-
-        #editorContainer {
-            margin: 20px 0;
+        header h1 {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
         }
-
-        textarea#editor {
+        header h1 span {
+            margin-left: 10px;
+        }
+        textarea {
             width: 100%;
             height: 300px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            padding: 10px;
+            margin-bottom: 20px;
             font-family: monospace;
-            resize: vertical;
+            font-size: 14px;
+            padding: 10px;
         }
-
-        .button-container {
+        .button-row {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
             margin-bottom: 20px;
         }
-
         button {
             padding: 10px 15px;
+            font-size: 14px;
+            cursor: pointer;
             border: none;
             background-color: #007bff;
             color: white;
-            cursor: pointer;
             border-radius: 4px;
         }
-
         button:hover {
             background-color: #0056b3;
         }
-
         footer {
             text-align: center;
             margin-top: 20px;
-            color: #888;
-            font-size: 0.9em;
+            color: #777;
         }
     </style>
 </head>
 <body>
-
     <div class="container">
-        <h1>Architect: Developer Tool</h1>
-
-        <div id="editorContainer">
-            <textarea id="editor" placeholder="Write your code here..."></textarea>
-        </div>
-
-        <div class="button-container">
+        <header>
+            <h1>🛠️ Architect: Developer Tool</h1>
+        </header>
+        <textarea id="codeEditor" placeholder="Your code here..."></textarea>
+        <div class="button-row">
             <button id="saveBtn">Save Code</button>
             <button id="loadBtn">Load Code</button>
             <button id="importBootstrapBtn">Import Bootstrap JS</button>
@@ -87,88 +83,75 @@
             <button id="insertCardBtn">Insert Card Component</button>
             <button id="insertAlertBtn">Insert Alert</button>
         </div>
-
         <footer>
-            © 2024 Your Company. All Rights Reserved.<br>
-            This project is licensed under the GNU General Public License.
+            GNU License, made by Benjamin Hunter Miller.
         </footer>
     </div>
-
     <script>
-        const editor = document.getElementById('editor');
-
-        // Save code to local storage
         document.getElementById('saveBtn').addEventListener('click', function() {
-            const code = editor.value;
+            const code = document.getElementById('codeEditor').value;
             localStorage.setItem('savedCode', code);
             alert('Code saved to local storage!');
         });
 
-        // Load code from local storage
         document.getElementById('loadBtn').addEventListener('click', function() {
             const savedCode = localStorage.getItem('savedCode');
             if (savedCode) {
-                editor.value = savedCode;
+                document.getElementById('codeEditor').value = savedCode;
                 alert('Loaded code from local storage.');
             } else {
                 alert('No code found in local storage.');
             }
         });
 
-        // Import Bootstrap JS
         document.getElementById('importBootstrapBtn').addEventListener('click', function() {
-            const bootstrapJSCode = `<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>`;
-            editor.value += bootstrapJSCode + '\n';
+            const bootstrapJSCode = '<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">';
+            document.getElementById('codeEditor').value += bootstrapJSCode + '\n';
         });
 
-        // Import FontAwesome
         document.getElementById('importFontAwesomeBtn').addEventListener('click', function() {
-            const fontAwesomeCode = `<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">`;
-            editor.value += fontAwesomeCode + '\n';
+            const fontAwesomeCode = '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">';
+            document.getElementById('codeEditor').value += fontAwesomeCode + '\n';
         });
 
-        // Insert Login Form
         document.getElementById('insertLoginBtn').addEventListener('click', function() {
             const loginFormCode = `
 <form>
     <label for="email">Email:</label>
-    <input type="email" id="email" name="email"><br>
+    <input type="email" id="email" name="email">
     <label for="password">Password:</label>
-    <input type="password" id="password" name="password"><br>
+    <input type="password" id="password" name="password">
     <button type="submit">Login</button>
 </form>`;
-            editor.value += loginFormCode + '\n';
+            document.getElementById('codeEditor').value += loginFormCode + '\n';
         });
 
-        // Insert Registration Form
         document.getElementById('insertRegisterBtn').addEventListener('click', function() {
             const registerFormCode = `
 <form>
     <label for="username">Username:</label>
-    <input type="text" id="username" name="username"><br>
+    <input type="text" id="username" name="username">
     <label for="email">Email:</label>
-    <input type="email" id="email" name="email"><br>
+    <input type="email" id="email" name="email">
     <label for="password">Password:</label>
-    <input type="password" id="password" name="password"><br>
+    <input type="password" id="password" name="password">
     <button type="submit">Register</button>
 </form>`;
-            editor.value += registerFormCode + '\n';
+            document.getElementById('codeEditor').value += registerFormCode + '\n';
         });
 
-        // Insert Email Form
         document.getElementById('insertEmailBtn').addEventListener('click', function() {
             const emailFormCode = `
 <form>
     <label for="email">Email:</label>
-    <input type="email" id="email" name="email"><br>
+    <input type="email" id="email" name="email">
     <button type="submit">Submit</button>
 </form>`;
-            editor.value += emailFormCode + '\n';
+            document.getElementById('codeEditor').value += emailFormCode + '\n';
         });
 
-        // Insert Card Component
         document.getElementById('insertCardBtn').addEventListener('click', function() {
-            const cardComponentCode = `
+            const cardCode = `
 <div class="card" style="width: 18rem;">
     <img src="..." class="card-img-top" alt="...">
     <div class="card-body">
@@ -177,15 +160,15 @@
         <a href="#" class="btn btn-primary">Go somewhere</a>
     </div>
 </div>`;
-            editor.value += cardComponentCode + '\n';
+            document.getElementById('codeEditor').value += cardCode + '\n';
         });
 
-        // Insert Alert
         document.getElementById('insertAlertBtn').addEventListener('click', function() {
-            const alertCode = `<div class="alert alert-warning" role="alert">This is a warning alert—check it out!</div>`;
-            editor.value += alertCode + '\n';
+            const alertCode = '<div class="alert alert-warning" role="alert">This is a warning alert—check it out!</div>';
+            document.getElementById('codeEditor').value += alertCode + '\n';
         });
     </script>
-
 </body>
 </html>
+
+      
