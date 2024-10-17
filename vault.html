@@ -159,8 +159,11 @@
 
         reader.onload = async function(event) {
             const data = new Uint8Array(event.target.result);
-            const iv = data.slice(data.byteLength - 12); // Extract IV from the end of the file
-            const encryptedData = data.slice(0, data.byteLength - 12); // Extract encrypted data
+            
+            // Extract IV from the end of the file
+            const iv = data.slice(data.byteLength - 12);
+            // Extract encrypted data
+            const encryptedData = data.slice(0, data.byteLength - 12); 
 
             const keyData = JSON.parse(localStorage.getItem('encryptionKey'));
             const key = await crypto.subtle.importKey(
@@ -173,7 +176,15 @@
 
             try {
                 const decryptedData = await decryptData(encryptedData, key, iv);
-                document.getElementById('storedCredentials').innerHTML = `<strong>Decrypted Data:</strong><br/>${decryptedData}`;
+                const credentials = JSON.parse(decryptedData);
+                
+                // Display the loaded credentials in plain text
+                document.getElementById('storedCredentials').innerHTML = `
+                    <strong>Decrypted Data:</strong><br/>
+                    Website: ${credentials.website}<br/>
+                    Username: ${credentials.username}<br/>
+                    Password: ${credentials.password}
+                `;
             } catch (error) {
                 document.getElementById('storedCredentials').innerHTML = 'File decryption failed: ' + error;
             }
