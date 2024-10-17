@@ -59,38 +59,34 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            loadCode(); // Load code if available
+            loadCode(); // Load code if available on initial load
             document.getElementById('editor').addEventListener('input', () => {
-                updateHighlightedCode();
+                updateHighlightedCode(); // Update highlight on text input
             });
         });
 
+        // Function to save the code to localStorage
         function saveCode() {
-            const code = document.getElementById('editor').value;
-            localStorage.setItem('savedCode', code);
-            alert("Code saved successfully!");
+            const code = document.getElementById('editor').value; // Get the code from the textarea
+            localStorage.setItem('savedCode', code); // Save code to localStorage
+            alert("Code saved successfully!"); // Notification on save
         }
 
+        // Function to load the code from localStorage
         function loadCode() {
-            const savedCode = localStorage.getItem('savedCode');
+            const savedCode = localStorage.getItem('savedCode'); // Get the saved code
             if (savedCode) {
-                document.getElementById('editor').value = savedCode;
-                updateHighlightedCode();
+                document.getElementById('editor').value = savedCode; // Set saved code to textarea
+                updateHighlightedCode(); // Update highlighted code
             }
         }
 
+        // Function to update the syntax highlighted code display
         function updateHighlightedCode() {
-            const code = document.getElementById('editor').value;
+            const code = document.getElementById('editor').value; // Get current code
             const highlightedCode = document.getElementById('highlighted-code');
-            highlightedCode.textContent = code;
-            hljs.highlightElement(highlightedCode);
-        }
-
-        // Helper function to add code to the editor and update syntax highlighting
-        function addCodeToEditor(code) {
-            const editor = document.getElementById('editor');
-            editor.value += code + '\n';
-            updateHighlightedCode();
+            highlightedCode.textContent = code; // Set code for highlighting
+            hljs.highlightElement(highlightedCode); // Perform highlighting
         }
     </script>
 </body>
