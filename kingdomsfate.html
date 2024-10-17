@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -36,7 +36,7 @@
                         output.textContent += '\n\nYou prepare for battle. Will you "gather" troops or "fortify" the castle?';
                         stage++;
                     } else if (command === 'diplomacy') {
-                        output.textContent += '\n\nWill you "invite" allies or "threaten" rivals?';
+                        output.textContent += '\n\nYou opt for diplomacy. Will you "invite" allies or "threaten" rivals?';
                         stage++;
                     } else {
                         output.textContent += '\nUnknown command. Choose "arm" or "diplomacy".';
@@ -45,13 +45,13 @@
 
                 case 2:
                     if (command === 'gather') {
-                        output.textContent += '\n\nWill you "train" them or "lead" them into battle?';
+                        output.textContent += '\n\nWill you "train" the troops or "lead" them into battle?';
                         stage++;
                     } else if (command === 'fortify') {
                         output.textContent += '\n\nWill you build "walls" or dig "trenches"?';
                         stage++;
                     } else if (command === 'invite') {
-                        output.textContent += '\n\nWill you "secure" borders or "prepare" for betrayal?';
+                        output.textContent += '\n\nWill you "secure" borders or "prepare" for potential betrayal?';
                         stage++;
                     } else if (command === 'threaten') {
                         output.textContent += '\n\nWill you "prepare" for retaliation or "stand firm"?';
@@ -63,25 +63,25 @@
 
                 case 3:
                     if (command === 'train') {
-                        output.textContent += '\n\nWill you "attack" or "plan" your strategy?';
+                        output.textContent += '\n\nWill you "attack" or "plan" your strategy further?';
                         stage++;
                     } else if (command === 'lead') {
                         output.textContent += '\n\nWill you "fight" aggressively or "outmaneuver" the enemy?';
                         stage++;
                     } else if (command === 'walls') {
-                        output.textContent += '\n\nWill you "patrol" or "wait" for siege?';
+                        output.textContent += '\n\nWill you "patrol" the walls or "wait" for a siege?';
                         stage++;
                     } else if (command === 'trenches') {
-                        output.textContent += '\n\nWill you "hold" the position or "expand" outward?';
+                        output.textContent += '\n\nWill you "hold" the position or "expand" your defenses?';
                         stage++;
                     } else if (command === 'secure') {
-                        output.textContent += '\n\nWill you "monitor" allies or "prepare" for invasion?';
+                        output.textContent += '\n\nWill you "monitor" your allies or "prepare" for invasion?';
                         stage++;
                     } else if (command === 'prepare') {
                         output.textContent += '\n\nWill you "gather" more allies or "invest" in defense?';
                         stage++;
                     } else if (command === 'stand firm') {
-                        output.textContent += '\n\nWill you "attack" or "negotiate"?';
+                        output.textContent += '\n\nWill you "attack" or "negotiate" with your adversaries?';
                         stage++;
                     } else {
                         output.textContent += '\nUnknown command. Choose appropriately.';
@@ -93,25 +93,25 @@
                         output.textContent += '\n\nDo you "pursue" the enemy or "celebrate" your victory?';
                         stage++;
                     } else if (command === 'plan') {
-                        output.textContent += '\n\nWill you "send" spies or "forge" alliances?';
+                        output.textContent += '\n\nWill you "send" spies for intelligence or "forge" alliances?';
                         stage++;
                     } else if (command === 'fight') {
-                        output.textContent += '\n\nWill you "pursue" or "fortify" your gains?';
+                        output.textContent += '\n\nWill you "pursue" or "fortify" your current position?';
                         stage++;
                     } else if (command === 'outmaneuver') {
-                        output.textContent += '\n\nWill you "retreat" or "exploit" the gap?';
+                        output.textContent += '\n\nWill you "retreat" to safety or "exploit" the gap in their defenses?';
                         stage++;
                     } else if (command === 'patrol') {
-                        output.textContent += '\n\nWill you "invest" in defenses or "gather" intel?';
+                        output.textContent += '\n\nWill you "invest" in defenses or "gather" intelligence?';
                         stage++;
                     } else if (command === 'wait') {
-                        output.textContent += '\n\nWill you "prepare" for assault or "retreat"?';
+                        output.textContent += '\n\nWill you "prepare" for an assault or "retreat" to regroup?';
                         stage++;
                     } else if (command === 'hold') {
-                        output.textContent += '\n\nWill you "expand" or "watch" for threats?';
+                        output.textContent += '\n\nWill you "expand" your territory or "watch" for enemy movements?';
                         stage++;
                     } else if (command === 'expand') {
-                        output.textContent += '\n\nWill you "prepare" for conflict or "forge" alliances?';
+                        output.textContent += '\n\nWill you "prepare" for potential conflicts or "forge" new alliances?';
                         stage++;
                     } else {
                         output.textContent += '\nUnknown command. Choose appropriately.';
@@ -120,16 +120,16 @@
 
                 case 5:
                     if (command === 'pursue') {
-                        output.textContent += '\n\nDo you "attack" their camp or "gather" intel?';
+                        output.textContent += '\n\nDo you "attack" their camp or "gather" useful intel?';
                         stage++;
                     } else if (command === 'celebrate') {
-                        output.textContent += '\n\nWill you "secure" the area or "fill" the coffers?';
+                        output.textContent += '\n\nWill you "secure" the area or "fill" your coffers with wealth?';
                         stage++;
                     } else if (command === 'send') {
-                        output.textContent += '\n\nWill you "share" with advisors or "act" directly?';
+                        output.textContent += '\n\nWill you "share" the findings with your advisors or "act" on the information yourself?';
                         stage++;
                     } else if (command === 'forge') {
-                        output.textContent += '\n\nWill you "celebrate" or "focus" on defense?';
+                        output.textContent += '\n\nWill you "celebrate" this success or "focus" on fortifying defenses?';
                         stage++;
                     } else {
                         output.textContent += '\nUnknown command. Choose appropriately.';
@@ -141,13 +141,13 @@
                         output.textContent += '\n\nWill you "interrogate" prisoners or "return" to the castle?';
                         stage++;
                     } else if (command === 'gather') {
-                        output.textContent += '\n\nWill you "share" or "use" info?';
+                        output.textContent += '\n\nWill you "share" the information or "use" it to your advantage?';
                         stage++;
                     } else if (command === 'secure') {
-                        output.textContent += '\n\nWill you "invest" in defenses or "celebrate"?';
+                        output.textContent += '\n\nWill you "invest" in more defenses or "celebrate" your victory?';
                         stage++;
                     } else if (command === 'fill') {
-                        output.textContent += '\n\nWill you "spend" or "save"?';
+                        output.textContent += '\n\nWill you "spend" your riches or "save" them for later?';
                         stage++;
                     } else {
                         output.textContent += '\nUnknown command. Choose appropriately.';
@@ -156,16 +156,16 @@
 
                 case 7:
                     if (command === 'interrogate') {
-                        output.textContent += '\n\nDo you want to "expand" your territory or "consolidate" power?';
+                        output.textContent += '\n\nDo you want to "expand" your territory or "consolidate" your power?';
                         stage++;
                     } else if (command === 'return') {
-                        output.textContent += '\n\nWill you "shore" up defenses or "leverage" victory?';
+                        output.textContent += '\n\nWill you "shore" up defenses or "leverage" your recent victory?';
                         stage++;
                     } else if (command === 'share') {
-                        output.textContent += '\n\nWill you "act" on information or "inform" allies?';
+                        output.textContent += '\n\nWill you "act" on the information or "inform" your allies?';
                         stage++;
                     } else if (command === 'use') {
-                        output.textContent += '\n\nWill you "attack" or "prepare"?';
+                        output.textContent += '\n\nWill you "attack" based on this intel or "prepare" for future encounters?';
                         stage++;
                     } else {
                         output.textContent += '\nUnknown command. Choose appropriately.';
@@ -174,16 +174,16 @@
 
                 case 8:
                     if (command === 'expand') {
-                        output.textContent += '\n\nYour power grows! Will you "invest" in loyalty or "watch" for betrayal?';
+                        output.textContent += '\n\nYour power grows! Will you "invest" in loyalty or "watch" for potential betrayals?';
                         stage++;
                     } else if (command === 'consolidate') {
-                        output.textContent += '\n\nStrengthening your rule. Will you "fortify" or "explore"?';
+                        output.textContent += '\n\nStrengthening your rule. Will you "fortify" your position or "explore" new areas?';
                         stage++;
                     } else if (command === 'invest') {
-                        output.textContent += '\n\nDo you want to "prepare" for war or "organize" festivities?';
+                        output.textContent += '\n\nDo you want to "prepare" for war or "organize" a grand celebration?';
                         stage++;
                     } else if (command === 'watch') {
-                        output.textContent += '\n\nWill you "reassure" followers or "double" intelligence?';
+                        output.textContent += '\n\nWill you "reassure" your followers or "double" your intelligence operations?';
                         stage++;
                     } else {
                         output.textContent += '\nUnknown command. Choose appropriately.';
@@ -192,10 +192,10 @@
 
                 case 9:
                     if (command === 'prepare') {
-                        output.textContent += '\n\nWill you "lead" the charge or "delegate" to a general?';
+                        output.textContent += '\n\nWill you "lead" the charge or "delegate" this role to a trusted general?';
                         stage++;
                     } else if (command === 'organize') {
-                        output.textContent += '\n\nWill you "focus" on indulgence or "curtail" excess?';
+                        output.textContent += '\n\nWill you "focus" on indulgence for your subjects or "curtail" excess?';
                         stage++;
                     } else {
                         output.textContent += '\nUnknown command. Choose appropriately.';
@@ -204,10 +204,10 @@
 
                 case 10:
                     if (command === 'lead') {
-                        output.textContent += '\n\nWill you "charge" the enemy or "defend" your position?';
+                        output.textContent += '\n\nWill you "charge" into battle or "defend" your position?';
                         stage++;
                     } else if (command === 'delegate') {
-                        output.textContent += '\n\nWill you "celebrate" the general\'s success or "learn" from it?';
+                        output.textContent += '\n\nWill you "celebrate" the general\'s success or "learn" valuable tactics from it?';
                         stage++;
                     } else {
                         output.textContent += '\nUnknown command. Choose appropriately.';
@@ -216,10 +216,10 @@
 
                 case 11:
                     if (command === 'charge') {
-                        output.textContent += '\n\nWill you "rally" your troops or "withdraw"?';
+                        output.textContent += '\n\nWill you "rally" your troops or "withdraw" to safety?';
                         stage++;
                     } else if (command === 'defend') {
-                        output.textContent += '\n\nWill you "reinforce" or "wait"?';
+                        output.textContent += '\n\nWill you "reinforce" your troops or "wait" for the enemy to attack?';
                         stage++;
                     } else {
                         output.textContent += '\nUnknown command. Choose appropriately.';
@@ -231,7 +231,7 @@
                         output.textContent += '\n\nWill you "push" forward or "flank" the enemy?';
                         stage++;
                     } else if (command === 'withdraw') {
-                        output.textContent += '\n\nWill you "fortify" or "counterattack"?';
+                        output.textContent += '\n\nWill you "fortify" your position or "counterattack"?';
                         stage++;
                     } else {
                         output.textContent += '\nUnknown command. Choose appropriately.';
@@ -240,10 +240,10 @@
 
                 case 13:
                     if (command === 'push') {
-                        output.textContent += '\n\nWill you "capture" the enemy leader or "secure" the area?';
+                        output.textContent += '\n\nWill you "capture" the enemy leader or "secure" the area first?';
                         stage++;
                     } else if (command === 'flank') {
-                        output.textContent += '\n\nWill you "pursue" them or "secure" territory?';
+                        output.textContent += '\n\nWill you "pursue" them or "secure" your own territory?';
                         stage++;
                     } else {
                         output.textContent += '\nUnknown command. Choose appropriately.';
@@ -252,10 +252,10 @@
 
                 case 14:
                     if (command === 'capture') {
-                        output.textContent += '\n\nWill you "celebrate" the victory or "keep" him imprisoned?';
+                        output.textContent += '\n\nWill you "celebrate" your victory or "keep" him imprisoned for intel?';
                         stage++;
                     } else if (command === 'secure') {
-                        output.textContent += '\n\nWill you "invest" in defenses or prepare for unrest?';
+                        output.textContent += '\n\nWill you "invest" in defenses or prepare for potential unrest?';
                         stage++;
                     } else {
                         output.textContent += '\nUnknown command. Choose appropriately.';
@@ -264,10 +264,10 @@
 
                 case 15:
                     if (command === 'celebrate') {
-                        output.textContent += '\n\nWill you "expand" your kingdom or "consolidate" power?';
+                        output.textContent += '\n\nWill you "expand" your kingdom or "consolidate" your power?';
                         stage++;
                     } else if (command === 'keep') {
-                        output.textContent += '\n\nWill you "interrogate" prisoners or "execute" them?';
+                        output.textContent += '\n\nWill you "interrogate" the prisoners or "execute" them to set an example?';
                         stage++;
                     } else {
                         output.textContent += '\nUnknown command. Choose appropriately.';
@@ -276,10 +276,10 @@
 
                 case 16:
                     if (command === 'expand') {
-                        output.textContent += '\n\nWill you "invest" in trade routes or "fortify" borders?';
+                        output.textContent += '\n\nWill you "invest" in trade routes or "fortify" the borders against invasion?';
                         stage++;
                     } else if (command === 'consolidate') {
-                        output.textContent += '\n\nWill you "convene" advisors or "spread" influence?';
+                        output.textContent += '\n\nWill you "convene" your advisors or "spread" your influence further?';
                         stage++;
                     } else {
                         output.textContent += '\nUnknown command. Choose appropriately.';
@@ -288,10 +288,10 @@
 
                 case 17:
                     if (command === 'invest') {
-                        output.textContent += '\n\nWill you "increase" resources or "strengthen" military?';
+                        output.textContent += '\n\nWill you "increase" your resource production or "strengthen" your military forces?';
                         stage++;
                     } else if (command === 'fortify') {
-                        output.textContent += '\n\nWill you "dig" moats or "build" castles?';
+                        output.textContent += '\n\nWill you "dig" moats or "build" stronger castles?';
                         stage++;
                     } else {
                         output.textContent += '\nUnknown command. Choose appropriately.';
@@ -300,10 +300,10 @@
 
                 case 18:
                     if (command === 'convene') {
-                        output.textContent += '\n\nWill you "warn" factions or "invite" rivalry?';
+                        output.textContent += '\n\nWill you "warn" your factions of the impending threats or "invite" more rivals into your realm?';
                         stage++;
                     } else if (command === 'spread') {
-                        output.textContent += '\n\nWill you "use" propaganda or "invest" in diplomacy?';
+                        output.textContent += '\n\nWill you "use" propaganda to enhance your reputation or "invest" in diplomatic ties?';
                         stage++;
                     } else {
                         output.textContent += '\nUnknown command. Choose appropriately.';
@@ -312,10 +312,10 @@
 
                 case 19:
                     if (command === 'increase') {
-                        output.textContent += '\n\nWill you "prepare" for defense or "celebrate" success?';
+                        output.textContent += '\n\nWill you "prepare" your defenses in light of your expansion or "celebrate" your success with feasts?';
                         stage++;
                     } else if (command === 'strengthen') {
-                        output.textContent += '\n\nWill you "train" soldiers or "equip" them?';
+                        output.textContent += '\n\nWill you "train" your soldiers or "equip" them with the best weapons?';
                         stage++;
                     } else {
                         output.textContent += '\nUnknown command. Choose appropriately.';
@@ -324,10 +324,10 @@
 
                 case 20:
                     if (command === 'prepare') {
-                        output.textContent += '\n\nWill you "fortify" defenses or "engage" in combat?';
+                        output.textContent += '\n\nWill you "fortify" your defenses or "engage" in combat with rivals?';
                         stage++;
                     } else if (command === 'celebrate') {
-                        output.textContent += '\n\nWill you "reassess" strengths or "expand" goals?';
+                        output.textContent += '\n\nWill you "reassess" your kingdom’s strengths or "expand" your ambitious goals?';
                         stage++;
                     } else {
                         output.textContent += '\nUnknown command. Choose appropriately.';
@@ -336,10 +336,10 @@
 
                 case 21:
                     if (command === 'fortify') {
-                        output.textContent += '\n\nWill you "lead" them into battle or "test" their skills?';
+                        output.textContent += '\n\nWill you "lead" your soldiers into battle or "test" their skills in exercises?';
                         stage++;
                     } else if (command === 'engage') {
-                        output.textContent += '\n\nWill you "outmaneuver" or "charge"?';
+                        output.textContent += '\n\nWill you "attack" the enemy or "outflank" their defenses?';
                         stage++;
                     } else {
                         output.textContent += '\nUnknown command. Choose appropriately.';
@@ -348,10 +348,10 @@
 
                 case 22:
                     if (command === 'lead') {
-                        output.textContent += '\n\nWill you "attack" the enemy or "outflank" them?';
+                        output.textContent += '\n\nWill you "charge" the enemy forces or "defend" your territory?';
                         stage++;
                     } else if (command === 'test') {
-                        output.textContent += '\n\nWill you "practice" formations or "simulate" battles?';
+                        output.textContent += '\n\nWill you "practice" different formations or "simulate" realistic battles?';
                         stage++;
                     } else {
                         output.textContent += '\nUnknown command. Choose appropriately.';
@@ -360,10 +360,10 @@
 
                 case 23:
                     if (command === 'attack') {
-                        output.textContent += '\n\nWill you "outmaneuver" or "charge"?';
+                        output.textContent += '\n\nWill you "outmaneuver" or "charge" at the enemy?';
                         stage++;
                     } else if (command === 'outflank') {
-                        output.textContent += '\n\nWill you "cut off" supplies or "gather" intelligence?';
+                        output.textContent += '\n\nWill you "cut off" their supply lines or "gather" further intelligence?';
                         stage++;
                     } else {
                         output.textContent += '\nUnknown command. Choose appropriately.';
@@ -372,10 +372,10 @@
 
                 case 24:
                     if (command === 'outmaneuver') {
-                        output.textContent += '\n\nWill you "engage" the enemy or "retreat"?';
+                        output.textContent += '\n\nWill you "engage" the enemy directly or "retreat" to regroup your forces?';
                         stage++;
                     } else if (command === 'charge') {
-                        output.textContent += '\n\nWill you "press" your advantage or "regroup"?';
+                        output.textContent += '\n\nWill you "press" the advantage or "regroup" to reassess?';
                         stage++;
                     } else {
                         output.textContent += '\nUnknown command. Choose appropriately.';
@@ -384,10 +384,10 @@
 
                 case 25:
                     if (command === 'engage') {
-                        output.textContent += '\n\nWill you "inflict" damage or "sustain" losses?';
+                        output.textContent += '\n\nWill you "inflict" as much damage as possible or "sustain" minimal losses?';
                         stage++;
                     } else if (command === 'retreat') {
-                        output.textContent += '\n\nWill you "prepare" for defense or "regroup" elsewhere?';
+                        output.textContent += '\n\nWill you "prepare" for your next defense or "regroup" your forces at a safer location?';
                         stage++;
                     } else {
                         output.textContent += '\nUnknown command. Choose appropriately.';
@@ -396,10 +396,10 @@
 
                 case 26:
                     if (command === 'press') {
-                        output.textContent += '\n\nWill you "secure" the area or "capture" the enemy\'s stronghold?';
+                        output.textContent += '\n\nWill you "secure" the captured area or "capture" the enemy’s stronghold?';
                         stage++;
                     } else if (command === 'regroup') {
-                        output.textContent += '\n\nWill you "find" allies or "solicit" aid?';
+                        output.textContent += '\n\nWill you "find" new allies to assist you or "solicit" aid from your existing friends?';
                         stage++;
                     } else {
                         output.textContent += '\nUnknown command. Choose appropriately.';
@@ -408,10 +408,10 @@
 
                 case 27:
                     if (command === 'secure') {
-                        output.textContent += '\n\nWill you "celebrate" victory or "fortify" your stronghold?';
+                        output.textContent += '\n\nWill you "celebrate" your victory or "fortify" your stronghold for future defenses?';
                         stage++;
                     } else if (command === 'capture') {
-                        output.textContent += '\n\nWill you "execute" prisoners or "interrogate" them?';
+                        output.textContent += '\n\nWill you "execute" the prisoners or "interrogate" them for more information?';
                         stage++;
                     } else {
                         output.textContent += '\nUnknown command. Choose appropriately.';
@@ -420,10 +420,10 @@
 
                 case 28:
                     if (command === 'celebrate') {
-                        output.textContent += '\n\nWill you "plan" celebrations or "invest" in loyalty?';
+                        output.textContent += '\n\nWill you "plan" festivities or "invest" in building loyalty among your subjects?';
                         stage++;
                     } else if (command === 'fortify') {
-                        output.textContent += '\n\nWill you "prepare" for war or "build" relationships?';
+                        output.textContent += '\n\nWill you "prepare" for upcoming wars or "build" relationships with other kingdoms?';
                         stage++;
                     } else {
                         output.textContent += '\nUnknown command. Choose appropriately.';
@@ -435,7 +435,7 @@
                         output.textContent += '\n\nCongratulations! You have united the factions and secured your reign! The kingdom thrives under your leadership!';
                         stage++;
                     } else if (command === 'invest') {
-                        output.textContent += '\n\nYou are on a path to prosperity! The kingdom flourishes under your wise governance!';
+                        output.textContent += '\n\nYou are leading the kingdom to prosperity! Great alliances are formed under your wise governance!';
                         stage++;
                     } else {
                         output.textContent += '\nUnknown command. Choose appropriately.';
