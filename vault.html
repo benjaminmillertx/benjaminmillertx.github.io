@@ -12,7 +12,7 @@
             padding: 20px;
         }
         .container {
-            max-width: 600px;
+            max-width: 800px; /* Increased max width */
             margin: auto;
             background: white;
             padding: 20px;
@@ -56,8 +56,9 @@
             padding: 15px;
             border-radius: 5px;
             border: 1px solid #ced4da;
-            max-height: 200px; /* Set a max height */
+            max-height: 400px; /* Increased max height */
             overflow-y: auto; /* Enable scrolling */
+            padding: 20px; /* Padding for better content spacing */
         }
     </style>
 </head>
@@ -94,7 +95,6 @@
 </footer>
 
 <script>
-    // Function to generate a new AES key for encryption
     async function generateKey() {
         return await crypto.subtle.generateKey(
             { name: "AES-GCM", length: 256 },
@@ -103,32 +103,26 @@
         );
     }
 
-    // Function to encrypt data using AES-GCM
     async function encryptData(data, key) {
-        const iv = crypto.getRandomValues(new Uint8Array(12)); // Generate a random IV
+        const iv = crypto.getRandomValues(new Uint8Array(12));
         const encodedData = new TextEncoder().encode(data);
-
         const encryptedData = await crypto.subtle.encrypt(
             { name: "AES-GCM", iv },
             key,
             encodedData
         );
-
         return { encryptedData, iv };
     }
 
-    // Function to decrypt data using AES-GCM
     async function decryptData(encryptedData, key, iv) {
         const decryptedData = await crypto.subtle.decrypt(
             { name: "AES-GCM", iv },
             key,
             encryptedData
         );
-
         return new TextDecoder().decode(decryptedData);
     }
 
-    // Function to trigger file download
     function downloadBlob(blob, filename) {
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
@@ -136,7 +130,6 @@
         link.click();
     }
 
-    // Function to save credentials to an encrypted file
     async function saveCredentials() {
         const website = document.getElementById('website').value;
         const username = document.getElementById('username').value;
@@ -146,31 +139,26 @@
             const key = await generateKey();
             const credentials = JSON.stringify({ website, username, password });
             const { encryptedData, iv } = await encryptData(credentials, key);
-
-            // Create a Blob for the encrypted data + IV (for decryption)
             const ivBlob = new Uint8Array(iv);
             const encryptedBlob = new Uint8Array(encryptedData);
             const blob = new Blob([encryptedBlob, ivBlob], { type: 'application/octet-stream' });
-            downloadBlob(blob, `${website}_credentials.enc`); // Save as encrypted file
+            downloadBlob(blob, `${website}_credentials.enc`);
 
             alert('Credentials saved successfully!');
-            localStorage.setItem('encryptionKey', JSON.stringify(await crypto.subtle.exportKey("raw", key))); // Save key
+            localStorage.setItem('encryptionKey', JSON.stringify(await crypto.subtle.exportKey("raw", key)));
         } else {
             alert('All fields are required!');
         }
     }
 
-    // Function to load and decrypt credentials from a file
     async function loadCredentials(event) {
         const file = event.target.files[0];
         const reader = new FileReader();
 
         reader.onload = async function(event) {
             const data = new Uint8Array(event.target.result);
-            
-            // Extract IV (last 12 bytes) and encrypted data
             const iv = data.slice(data.byteLength - 12);
-            const encryptedData = data.slice(0, data.byteLength - 12); 
+            const encryptedData = data.slice(0, data.byteLength - 12);
 
             const keyData = JSON.parse(localStorage.getItem('encryptionKey'));
             if (!keyData) {
@@ -188,8 +176,6 @@
             try {
                 const decryptedData = await decryptData(encryptedData, key, iv);
                 const credentials = JSON.parse(decryptedData);
-                
-                // Display the loaded credentials in plain text
                 document.getElementById('storedCredentials').innerHTML = `
                     <strong>Decrypted Data:</strong><br/>
                     <strong>Website:</strong> ${credentials.website}<br/>
