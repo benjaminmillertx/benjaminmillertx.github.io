@@ -10,19 +10,19 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
         }
-        
+
         .container {
             margin-top: 20px;
         }
-        
+
         textarea {
             width: 100%;
             height: 200px;
             margin-bottom: 10px;
+            font-family: monospace;
         }
-        
+
         button {
             margin: 5px;
             background-color: #007bff;
@@ -31,13 +31,21 @@
             padding: 10px;
             cursor: pointer;
         }
-        
+
         button:hover {
             background-color: #0056b3;
         }
-        
+
+        pre {
+            background: #f8f9fa;
+            padding: 10px;
+            border: 1px solid #ddd;
+            overflow-x: auto;
+        }
+
         footer {
             margin-top: 20px;
+            text-align: center;
         }
     </style>
 </head>
@@ -45,25 +53,15 @@
 <body>
     <div class="container">
         <h1>🛠️ Architect: Developer Tool</h1>
-        <textarea id="editor" placeholder="Your code will appear here..."></textarea>
+        <textarea id="editor" placeholder="Write your code here..."></textarea>
         <div class="button-container">
             <button onclick="saveCode()">Save Code</button>
             <button onclick="loadCode()">Load Code</button>
-            <button onclick="importBootstrap()">Import Bootstrap JS</button>
-            <button onclick="importFontAwesome()">Import FontAwesome</button>
+            <button onclick="insertBootstrap()">Insert Bootstrap JS</button>
             <button onclick="insertLoginForm()">Insert Login Form</button>
             <button onclick="insertRegistrationForm()">Insert Registration Form</button>
-            <button onclick="insertEmailForm()">Insert Email Form</button>
-            <button onclick="insertCard()">Insert Card Component</button>
-            <button onclick="insertAlert()">Insert Alert</button>
-            <button onclick="insertPriceBanner()">Insert Price Banner</button>
-            <button onclick="insertSubscriptionList()">Insert Subscription List</button>
-            <button onclick="insertImageButton()">Insert Image Button</button>
             <button onclick="insertNavbar()">Insert Bootstrap Navbar</button>
-            <button onclick="insertReact()">Insert React</button>
-            <button onclick="insertAxios()">Insert Axios</button>
-            <button onclick="insertJQuery()">Insert jQuery</button>
-            <button onclick="insertLodash()">Insert Lodash</button>
+            <button onclick="insertCarousel()">Insert Bootstrap Carousel</button>
         </div>
         <pre><code id="highlighted-code" class="html"></code></pre>
         <footer>
@@ -73,10 +71,19 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
     <script>
+        // Initialize syntax highlighting on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCode(); // Load code if available
+            document.getElementById('editor').addEventListener('input', () => {
+                updateHighlightedCode();
+            });
+        });
+
         // Function to save the code
         function saveCode() {
             const code = document.getElementById('editor').value;
             localStorage.setItem('savedCode', code);
+            alert("Code saved successfully!");
         }
 
         // Function to load the code
@@ -84,29 +91,24 @@
             const savedCode = localStorage.getItem('savedCode');
             if (savedCode) {
                 document.getElementById('editor').value = savedCode;
-                updateHighlightedCode(savedCode);
+                updateHighlightedCode();
             }
         }
 
         // Function to update the syntax highlighting
-        function updateHighlightedCode(code) {
+        function updateHighlightedCode() {
+            const code = document.getElementById('editor').value;
             const highlightedCode = document.getElementById('highlighted-code');
             highlightedCode.textContent = code;
             hljs.highlightElement(highlightedCode);
         }
 
-        // Import functions
-        function importBootstrap() {
+        // Functions to insert different components
+        function insertBootstrap() {
             const bootstrapJSCode = `<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>`;
             addCodeToEditor(bootstrapJSCode);
         }
 
-        function importFontAwesome() {
-            const fontAwesomeCode = `<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">`;
-            addCodeToEditor(fontAwesomeCode);
-        }
-
-        // Form and component insertion functions
         function insertLoginForm() {
             const loginFormCode = `<form>\n  <input type="email" placeholder="Email">\n  <input type="password" placeholder="Password">\n  <button>Login</button>\n</form>`;
             addCodeToEditor(loginFormCode);
@@ -117,72 +119,70 @@
             addCodeToEditor(registerFormCode);
         }
 
-        function insertEmailForm() {
-            const emailFormCode = `<form>\n  <input type="email" placeholder="Email">\n  <button>Submit</button>\n</form>`;
-            addCodeToEditor(emailFormCode);
-        }
-
-        function insertCard() {
-            const cardCode = `<div class="card">\n  <div class="card-body">\n    <h5 class="card-title">Card title</h5>\n    <p class="card-text">Some quick example text...</p>\n    <a href="#" class="btn btn-primary">Go somewhere</a>\n  </div>\n</div>`;
-            addCodeToEditor(cardCode);
-        }
-
-        function insertAlert() {
-            const alertCode = `<div class="alert alert-warning" role="alert">\n  This is a warning alert—check it out!\n</div>`;
-            addCodeToEditor(alertCode);
-        }
-
-        function insertPriceBanner() {
-            const priceBannerCode = `<div class="price-banner">\n  <h2>Special Offer: $99 only!</h2>\n</div>`;
-            addCodeToEditor(priceBannerCode);
-        }
-
-        function insertSubscriptionList() {
-            const subscriptionCode = `<ul class="subscription-list">\n  <li>Basic Plan</li>\n  <li>Standard Plan</li>\n  <li>Premium Plan</li>\n</ul>`;
-            addCodeToEditor(subscriptionCode);
-        }
-
-        function insertImageButton() {
-            const imageButtonCode = `<button><img src="image.png" alt="button image"> Click Me</button>`;
-            addCodeToEditor(imageButtonCode);
-        }
-
         function insertNavbar() {
-            const navbarCode = `<nav class="navbar navbar-expand-lg navbar-light bg-light">\n  <a class="navbar-brand" href="#">Navbar</a>\n</nav>`;
+            const navbarCode = `
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Features</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Pricing</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            </li>
+        </ul>
+    </div>
+</nav>`;
             addCodeToEditor(navbarCode);
         }
 
-        function insertReact() {
-            const reactCode = `<script src="https://unpkg.com/react/umd/react.production.min.js"></script>`;
-            addCodeToEditor(reactCode);
-        }
-
-        function insertAxios() {
-            const axiosCode = `<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>`;
-            addCodeToEditor(axiosCode);
-        }
-
-        function insertJQuery() {
-            const jqueryCode = `<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>`;
-            addCodeToEditor(jqueryCode);
-        }
-
-        function insertLodash() {
-            const lodashCode = `<script src="https://cdn.jsdelivr.net/npm/lodash/lodash.min.js"></script>`;
-            addCodeToEditor(lodashCode);
+        function insertCarousel() {
+            const carouselCode = `
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img class="d-block w-100" src="..." alt="First slide">
+        </div>
+        <div class="carousel-item">
+            <img class="d-block w-100" src="..." alt="Second slide">
+        </div>
+        <div class="carousel-item">
+            <img class="d-block w-100" src="..." alt="Third slide">
+        </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>`;
+            addCodeToEditor(carouselCode);
         }
 
         // Helper function to add code to the editor and update syntax highlighting
         function addCodeToEditor(code) {
             const editor = document.getElementById('editor');
             editor.value += code + '\n';
-            updateHighlightedCode(editor.value);
+            updateHighlightedCode();
         }
-
-        // Initialize syntax highlighting on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            loadCode();
-        });
     </script>
 </body>
 
