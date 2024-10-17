@@ -48,7 +48,8 @@
 
         .style-options,
         .frameworks-section,
-        .javascript-snippets {
+        .javascript-snippets,
+        .template-selection {
             margin-top: 20px;
         }
 
@@ -101,7 +102,7 @@
         <div class="text-preview" id="textPreview">Preview your text style here.</div>
 
         <h5>HTML, CSS & JavaScript Code:</h5>
-        <textarea id="codeInput" placeholder="Write your HTML, CSS and JS code here..."></textarea>
+        <textarea id="codeInput" placeholder="Write your HTML, CSS, and JS code here..."></textarea>
 
         <h5>Add External JavaScript Libraries</h5>
         <input type="text" id="scriptInput" placeholder="Enter Script URL (e.g., https://code.jquery.com/jquery-3.6.0.min.js)">
@@ -112,6 +113,9 @@
             <button class="btn btn-light" onclick="insertJavaScript('consoleLog')">Console Log</button>
             <button class="btn btn-light" onclick="insertJavaScript('alert')">Alert Box</button>
             <button class="btn btn-light" onclick="insertJavaScript('fetch')">Fetch API Example</button>
+            <button class="btn btn-light" onclick="insertJavaScript('timeout')">Set Timeout</button>
+            <button class="btn btn-light" onclick="insertJavaScript('eventListener')">Event Listener</button>
+            <button class="btn btn-light" onclick="insertJavaScript('arrayMap')">Array Map</button>
         </div>
 
         <div class="frameworks-section">
@@ -121,11 +125,20 @@
             <button class="btn btn-light" onclick="insertFramework('angular')">Add Angular.js</button>
         </div>
 
+        <div class="template-selection">
+            <h5>Free Templates</h5>
+            <button class="btn btn-success" onclick="insertTemplate('basic')">Basic Webpage</button>
+            <button class="btn btn-success" onclick="insertTemplate('portfolio')">Portfolio Page</button>
+            <button class="btn btn-success" onclick="insertTemplate('landing')">Landing Page</button>
+        </div>
+
         <h5>Preview:</h5>
         <div class="output-area" id="outputArea"></div>
 
         <button class="btn btn-primary" onclick="exportCode()">Save as HTML</button>
         <button class="btn btn-secondary" onclick="previewCode()">Preview Live</button>
+        <button class="btn btn-secondary" onclick="saveCode()">Save to Local Storage</button>
+        <button class="btn btn-secondary" onclick="loadCode()">Load from Local Storage</button>
 
         <div class="footer">
             <p>GNU General Public License v3.0</p>
@@ -172,10 +185,10 @@
         </ul>
     </div>
 </nav>`;
-                break;
+                    break;
                 case 'image':
                     snippet = `<img src="https://via.placeholder.com/150" alt="Placeholder Image" class="img-fluid">`;
-                break;
+                    break;
                 case 'carousel':
                     snippet = `
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -204,13 +217,13 @@
         <span class="sr-only">Next</span>
     </a>
 </div>`;
-                break;
+                    break;
                 case 'alert':
                     snippet = `
 <div class="alert alert-warning" role="alert">
   This is a warning alert—check it out!
 </div>`;
-                break;
+                    break;
             }
             document.getElementById('codeInput').value += snippet;
             previewCode(); // Automatically preview after insertion
@@ -256,6 +269,24 @@ fetch('https://api.example.com/data')
     .then(response => response.json())
     .then(data => console.log(data));\n`;
                     break;
+                case 'timeout':
+                    jsSnippet = `
+setTimeout(() => {
+    console.log("Executed after 1 second");
+}, 1000);\n`;
+                    break;
+                case 'eventListener':
+                    jsSnippet = `
+document.getElementById('myElement').addEventListener('click', function() {
+    alert('Element clicked!');
+});\n`;
+                    break;
+                case 'arrayMap':
+                    jsSnippet = `
+const numbers = [1, 2, 3, 4];
+const squares = numbers.map(num => num * num);
+console.log(squares);\n`;
+                    break;
             }
             document.getElementById('codeInput').value += jsSnippet;
             previewCode(); // Automatically preview after insertion
@@ -277,6 +308,101 @@ fetch('https://api.example.com/data')
             }
             document.getElementById('codeInput').value += frameworkScript;
             previewCode(); // Automatically preview after insertion
+        }
+
+        function insertTemplate(template) {
+            let templateCode = '';
+            switch (template) {
+                case 'basic':
+                    templateCode = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Webpage</title>
+</head>
+<body>
+    <header>
+        <h1>Welcome to My Website!</h1>
+    </header>
+    <main>
+        <p>This is a basic webpage template.</p>
+    </main>
+    <footer>
+        <p>© 2023 My Website</p>
+    </footer>
+</body>
+</html>`;
+                    break;
+                case 'portfolio':
+                    templateCode = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+</head>
+<body>
+    <header>
+        <h1>My Portfolio</h1>
+        <nav>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+    <main id="projects">
+        <h2>Projects</h2>
+        <p>List of projects will go here.</p>
+    </main>
+    <footer id="contact">
+        <p>Contact me at myemail@example.com</p>
+    </footer>
+</body>
+</html>`;
+                    break;
+                case 'landing':
+                    templateCode = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Our Service</h1>
+        <p>Your solution for awesome services!</p>
+        <button>Get Started</button>
+    </header>
+    <footer>
+        <p>© 2023 Service Name</p>
+    </footer>
+</body>
+</html>`;
+                    break;
+            }
+            document.getElementById('codeInput').value += templateCode;
+            previewCode(); // Automatically preview after insertion
+        }
+
+        function saveCode() {
+            const code = document.getElementById('codeInput').value;
+            localStorage.setItem('savedCode', code);
+            alert('Code saved to local storage!');
+        }
+
+        function loadCode() {
+            const savedCode = localStorage.getItem('savedCode');
+            if (savedCode) {
+                document.getElementById('codeInput').value = savedCode;
+                previewCode(); // Preview loaded code
+                alert('Loaded code from local storage!');
+            } else {
+                alert('No code found in local storage.');
+            }
         }
     </script>
 
