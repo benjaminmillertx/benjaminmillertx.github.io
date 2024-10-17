@@ -4,117 +4,121 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Architect: Developer Tool</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
             margin: 0;
             padding: 0;
-        }
-        .container {
-            width: 80%;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #f0f0f0;
         }
         header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
+            background-color: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #ccc;
         }
         header h1 {
             display: flex;
             align-items: center;
-            font-size: 24px;
+            justify-content: center;
         }
-        header h1 span {
-            margin-left: 10px;
+        header h1 img {
+            margin-right: 10px;
         }
-        textarea {
-            width: 100%;
-            height: 300px;
-            margin-bottom: 20px;
-            font-family: monospace;
-            font-size: 14px;
+        #editor {
+            width: 90%;
+            height: 200px;
+            margin: 20px auto;
+            display: block;
             padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: monospace;
         }
-        .button-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 20px;
+        .button-container {
+            text-align: center;
+            margin: 20px;
         }
         button {
-            padding: 10px 15px;
+            margin: 5px;
+            padding: 10px 20px;
             font-size: 14px;
             cursor: pointer;
-            border: none;
-            background-color: #007bff;
-            color: white;
-            border-radius: 4px;
-        }
-        button:hover {
-            background-color: #0056b3;
         }
         footer {
+            background-color: #343a40;
+            color: white;
+            padding: 10px;
             text-align: center;
-            margin-top: 20px;
-            color: #777;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🛠️ Architect: Developer Tool</h1>
-        </header>
-        <textarea id="codeEditor" placeholder="Your code here..."></textarea>
-        <div class="button-row">
-            <button id="saveBtn">Save Code</button>
-            <button id="loadBtn">Load Code</button>
-            <button id="importBootstrapBtn">Import Bootstrap JS</button>
-            <button id="importFontAwesomeBtn">Import FontAwesome</button>
-            <button id="insertLoginBtn">Insert Login Form</button>
-            <button id="insertRegisterBtn">Insert Registration Form</button>
-            <button id="insertEmailBtn">Insert Email Form</button>
-            <button id="insertCardBtn">Insert Card Component</button>
-            <button id="insertAlertBtn">Insert Alert</button>
-        </div>
-        <footer>
-            GNU License, made by Benjamin Hunter Miller.
-        </footer>
+    <header>
+        <h1><img src="https://twemoji.maxcdn.com/v/latest/svg/1f4bb.svg" alt="Emoji" width="30"> Architect: Developer Tool</h1>
+    </header>
+
+    <textarea id="editor" placeholder="Write your code here..."></textarea>
+
+    <div class="button-container">
+        <button onclick="insertColorPicker()">Insert Color Picker</button>
+        <button onclick="insertBootstrap()">Import Bootstrap JS</button>
+        <button onclick="insertFontAwesome()">Import FontAwesome</button>
+        <button onclick="saveCode()">Save Code</button>
+        <button onclick="loadCode()">Load Code</button>
+        <button onclick="insertLoginForm()">Insert Login Form</button>
+        <button onclick="insertRegistrationForm()">Insert Registration Form</button>
+        <button onclick="insertEmailForm()">Insert Email Form</button>
+        <button onclick="insertCard()">Insert Card Component</button>
+        <button onclick="insertAlert()">Insert Alert</button>
+        <button onclick="insertPriceBanner()">Insert Price Banner</button>
+        <button onclick="insertSubscriptionList()">Insert Subscription List</button>
+        <button onclick="insertImageButton()">Insert Image</button>
+        <button onclick="insertBootstrapNav()">Insert Bootstrap Navigation</button>
+        <!-- Add more buttons here -->
     </div>
+
+    <footer>
+        © 2024 Benjamin Hunter Miller. All Rights Reserved. <br>
+        This project is licensed under the GNU General Public License.
+    </footer>
+
     <script>
-        document.getElementById('saveBtn').addEventListener('click', function() {
-            const code = document.getElementById('codeEditor').value;
+        const editor = document.getElementById('editor');
+
+        function insertColorPicker() {
+            const colorPickerCode = '<input type="color" name="color">';
+            editor.value += colorPickerCode + '\n';
+        }
+
+        function insertBootstrap() {
+            const bootstrapJSCode = '<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>';
+            editor.value += bootstrapJSCode + '\n';
+        }
+
+        function insertFontAwesome() {
+            const fontAwesomeCode = '<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">';
+            editor.value += fontAwesomeCode + '\n';
+        }
+
+        function saveCode() {
+            const code = editor.value;
             localStorage.setItem('savedCode', code);
             alert('Code saved to local storage!');
-        });
+        }
 
-        document.getElementById('loadBtn').addEventListener('click', function() {
+        function loadCode() {
             const savedCode = localStorage.getItem('savedCode');
             if (savedCode) {
-                document.getElementById('codeEditor').value = savedCode;
-                alert('Loaded code from local storage.');
+                editor.value = savedCode;
+                alert('Loaded code from local storage!');
             } else {
                 alert('No code found in local storage.');
             }
-        });
+        }
 
-        document.getElementById('importBootstrapBtn').addEventListener('click', function() {
-            const bootstrapJSCode = '<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">';
-            document.getElementById('codeEditor').value += bootstrapJSCode + '\n';
-        });
-
-        document.getElementById('importFontAwesomeBtn').addEventListener('click', function() {
-            const fontAwesomeCode = '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">';
-            document.getElementById('codeEditor').value += fontAwesomeCode + '\n';
-        });
-
-        document.getElementById('insertLoginBtn').addEventListener('click', function() {
+        function insertLoginForm() {
             const loginFormCode = `
 <form>
     <label for="email">Email:</label>
@@ -123,10 +127,10 @@
     <input type="password" id="password" name="password">
     <button type="submit">Login</button>
 </form>`;
-            document.getElementById('codeEditor').value += loginFormCode + '\n';
-        });
+            editor.value += loginFormCode + '\n';
+        }
 
-        document.getElementById('insertRegisterBtn').addEventListener('click', function() {
+        function insertRegistrationForm() {
             const registerFormCode = `
 <form>
     <label for="username">Username:</label>
@@ -137,20 +141,20 @@
     <input type="password" id="password" name="password">
     <button type="submit">Register</button>
 </form>`;
-            document.getElementById('codeEditor').value += registerFormCode + '\n';
-        });
+            editor.value += registerFormCode + '\n';
+        }
 
-        document.getElementById('insertEmailBtn').addEventListener('click', function() {
+        function insertEmailForm() {
             const emailFormCode = `
 <form>
     <label for="email">Email:</label>
     <input type="email" id="email" name="email">
     <button type="submit">Submit</button>
 </form>`;
-            document.getElementById('codeEditor').value += emailFormCode + '\n';
-        });
+            editor.value += emailFormCode + '\n';
+        }
 
-        document.getElementById('insertCardBtn').addEventListener('click', function() {
+        function insertCard() {
             const cardCode = `
 <div class="card" style="width: 18rem;">
     <img src="..." class="card-img-top" alt="...">
@@ -160,15 +164,67 @@
         <a href="#" class="btn btn-primary">Go somewhere</a>
     </div>
 </div>`;
-            document.getElementById('codeEditor').value += cardCode + '\n';
-        });
+            editor.value += cardCode + '\n';
+        }
 
-        document.getElementById('insertAlertBtn').addEventListener('click', function() {
-            const alertCode = '<div class="alert alert-warning" role="alert">This is a warning alert—check it out!</div>';
-            document.getElementById('codeEditor').value += alertCode + '\n';
-        });
+        function insertAlert() {
+            const alertCode = `
+<div class="alert alert-warning" role="alert">
+    This is a warning alert—check it out!
+</div>`;
+            editor.value += alertCode + '\n';
+        }
+
+        function insertPriceBanner() {
+            const priceBannerCode = `
+<div class="price-banner">
+    <h2>Starting at $9.99/month</h2>
+    <p>Best price for premium features</p>
+</div>`;
+            editor.value += priceBannerCode + '\n';
+        }
+
+        function insertSubscriptionList() {
+            const subscriptionListCode = `
+<ul class="subscription-list">
+    <li>Basic Plan - $5/month</li>
+    <li>Premium Plan - $15/month</li>
+    <li>Enterprise Plan - $25/month</li>
+</ul>`;
+            editor.value += subscriptionListCode + '\n';
+        }
+
+        function insertImageButton() {
+            const imageCode = '<img src="image_url" alt="Image description">';
+            editor.value += imageCode + '\n';
+        }
+
+        function insertBootstrapNav() {
+            const bootstrapNavCode = `
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Features</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Pricing</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            </li>
+        </ul>
+    </div>
+</nav>`;
+            editor.value += bootstrapNavCode + '\n';
+        }
     </script>
 </body>
 </html>
-
-      
