@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pseudo Identity Maker</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .identity-container {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+
+        img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .btn-generate {
+            margin-bottom: 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .btn-generate:hover {
+            background-color: #0056b3;
+        }
+
+        .identity-details p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Pseudo Identity Maker</h1>
+        <button class="btn btn-generate" onclick="generateIdentity()">Generate Identity</button>
+        <div class="identity-container" id="identityContainer">
+            <img id="personImage" src="" alt="Identity Image">
+            <div class="identity-details">
+                <p><strong>Name:</strong> <span id="personName">---</span></p>
+                <p><strong>Age:</strong> <span id="personAge">---</span></p>
+                <p><strong>Occupation:</strong> <span id="personOccupation">---</span></p>
+                <p><strong>Location:</strong> <span id="personLocation">---</span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Arrays with sample data for pseudo identities
+        const names = ["John Doe", "Jane Smith", "Robert Johnson", "Emily Davis", "Michael Brown", "Jessica Williams", "Daniel Martinez", "Laura Wilson", "Sarah Lee", "David Harris"];
+        const occupations = ["Software Engineer", "Doctor", "Teacher", "Lawyer", "Artist", "Chef", "Writer", "Journalist", "Photographer", "Mechanic"];
+        const locations = ["New York, USA", "London, UK", "Paris, France", "Berlin, Germany", "Tokyo, Japan", "Sydney, Australia", "Toronto, Canada", "San Francisco, USA", "Dubai, UAE", "Mumbai, India"];
+        
+        // Function to generate a random integer between min and max (inclusive)
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        // Function to generate a random identity
+        function generateIdentity() {
+            // Get random data from arrays
+            const name = names[getRandomInt(0, names.length - 1)];
+            const age = getRandomInt(18, 60);
+            const occupation = occupations[getRandomInt(0, occupations.length - 1)];
+            const location = locations[getRandomInt(0, locations.length - 1)];
+            const imageUrl = "https://thispersondoesnotexist.com/image";
+
+            // Set the data in the HTML
+            document.getElementById('personName').textContent = name;
+            document.getElementById('personAge').textContent = age;
+            document.getElementById('personOccupation').textContent = occupation;
+            document.getElementById('personLocation').textContent = location;
+            document.getElementById('personImage').src = imageUrl;
+        }
+
+        // Initial load
+        document.addEventListener('DOMContentLoaded', generateIdentity);
+    </script>
+</body>
+</html>
