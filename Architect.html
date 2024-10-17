@@ -1,109 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Architect: Developer Tool</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f0f0;
         }
-        header {
-            background-color: #f8f9fa;
-            padding: 20px;
-            text-align: center;
-            border-bottom: 1px solid #ccc;
+        .container {
+            margin-top: 30px;
         }
-        header h1 {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .editor-container {
+            margin-bottom: 20px;
         }
-        header h1 img {
-            margin-right: 10px;
-        }
-        #editor {
-            width: 90%;
-            height: 200px;
-            margin: 20px auto;
-            display: block;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-family: monospace;
-        }
-        .button-container {
-            text-align: center;
-            margin: 20px;
-        }
-        button {
+        .buttons-container button {
             margin: 5px;
-            padding: 10px 20px;
-            font-size: 14px;
-            cursor: pointer;
         }
         footer {
-            background-color: #343a40;
-            color: white;
-            padding: 10px;
             text-align: center;
+            margin-top: 20px;
+            font-size: 0.8em;
         }
     </style>
 </head>
+
 <body>
-    <header>
-        <h1><img src="https://twemoji.maxcdn.com/v/latest/svg/1f4bb.svg" alt="Emoji" width="30"> Architect: Developer Tool</h1>
-    </header>
-
-    <textarea id="editor" placeholder="Write your code here..."></textarea>
-
-    <div class="button-container">
-        <button onclick="insertColorPicker()">Insert Color Picker</button>
-        <button onclick="insertBootstrap()">Import Bootstrap JS</button>
-        <button onclick="insertFontAwesome()">Import FontAwesome</button>
-        <button onclick="saveCode()">Save Code</button>
-        <button onclick="loadCode()">Load Code</button>
-        <button onclick="insertLoginForm()">Insert Login Form</button>
-        <button onclick="insertRegistrationForm()">Insert Registration Form</button>
-        <button onclick="insertEmailForm()">Insert Email Form</button>
-        <button onclick="insertCard()">Insert Card Component</button>
-        <button onclick="insertAlert()">Insert Alert</button>
-        <button onclick="insertPriceBanner()">Insert Price Banner</button>
-        <button onclick="insertSubscriptionList()">Insert Subscription List</button>
-        <button onclick="insertImageButton()">Insert Image</button>
-        <button onclick="insertBootstrapNav()">Insert Bootstrap Navigation</button>
-        <!-- Add more buttons here -->
+    <div class="container">
+        <h1>🛠️ Architect: Developer Tool</h1>
+        <div class="editor-container">
+            <textarea id="editor" class="form-control" rows="10" placeholder="Write your code here..."></textarea>
+        </div>
+        <div class="buttons-container">
+            <button class="btn btn-primary" onclick="saveCode()">Save Code</button>
+            <button class="btn btn-primary" onclick="loadCode()">Load Code</button>
+            <button class="btn btn-primary" onclick="insertBootstrapJS()">Import Bootstrap JS</button>
+            <button class="btn btn-primary" onclick="insertFontAwesome()">Import FontAwesome</button>
+            <button class="btn btn-primary" onclick="insertLoginForm()">Insert Login Form</button>
+            <button class="btn btn-primary" onclick="insertRegistrationForm()">Insert Registration Form</button>
+            <button class="btn btn-primary" onclick="insertEmailForm()">Insert Email Form</button>
+            <button class="btn btn-primary" onclick="insertCard()">Insert Card Component</button>
+            <button class="btn btn-primary" onclick="insertAlert()">Insert Alert</button>
+            <button class="btn btn-primary" onclick="insertPriceBanner()">Insert Price Banner</button>
+            <button class="btn btn-primary" onclick="insertSubscriptionList()">Insert Subscription List</button>
+            <button class="btn btn-primary" onclick="insertBootstrapNav()">Insert Navbar</button>
+            <button class="btn btn-primary" onclick="insertImage()">Insert Image</button>
+            <button class="btn btn-primary" onclick="insertReact()">Insert React Code</button>
+            <button class="btn btn-primary" onclick="insertVue()">Insert Vue Code</button>
+            <button class="btn btn-primary" onclick="insertjQuery()">Insert jQuery Code</button>
+        </div>
     </div>
-
     <footer>
-        © 2024 Benjamin Hunter Miller. All Rights Reserved. <br>
-        This project is licensed under the GNU General Public License.
+        © 2024 Benjamin Hunter Miller. This project is licensed under the GNU General Public License.
     </footer>
 
     <script>
-        const editor = document.getElementById('editor');
-
-        function insertColorPicker() {
-            const colorPickerCode = '<input type="color" name="color">';
-            editor.value += colorPickerCode + '\n';
-        }
-
-        function insertBootstrap() {
-            const bootstrapJSCode = '<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>';
-            editor.value += bootstrapJSCode + '\n';
-        }
-
-        function insertFontAwesome() {
-            const fontAwesomeCode = '<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">';
-            editor.value += fontAwesomeCode + '\n';
-        }
-
         function saveCode() {
-            const code = editor.value;
+            const code = document.getElementById('editor').value;
             localStorage.setItem('savedCode', code);
             alert('Code saved to local storage!');
         }
@@ -111,60 +66,63 @@
         function loadCode() {
             const savedCode = localStorage.getItem('savedCode');
             if (savedCode) {
-                editor.value = savedCode;
+                document.getElementById('editor').value = savedCode;
                 alert('Loaded code from local storage!');
             } else {
                 alert('No code found in local storage.');
             }
         }
 
+        function insertBootstrapJS() {
+            const bootstrapJSCode = `<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>`;
+            document.getElementById('editor').value += bootstrapJSCode + '\n';
+        }
+
+        function insertFontAwesome() {
+            const fontAwesomeCode = `<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">`;
+            document.getElementById('editor').value += fontAwesomeCode + '\n';
+        }
+
         function insertLoginForm() {
             const loginFormCode = `
 <form>
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email">
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password">
+    Email: <input type="email" name="email">
+    Password: <input type="password" name="password">
     <button type="submit">Login</button>
 </form>`;
-            editor.value += loginFormCode + '\n';
+            document.getElementById('editor').value += loginFormCode + '\n';
         }
 
         function insertRegistrationForm() {
             const registerFormCode = `
 <form>
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username">
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email">
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password">
+    Username: <input type="text" name="username">
+    Email: <input type="email" name="email">
+    Password: <input type="password" name="password">
     <button type="submit">Register</button>
 </form>`;
-            editor.value += registerFormCode + '\n';
+            document.getElementById('editor').value += registerFormCode + '\n';
         }
 
         function insertEmailForm() {
             const emailFormCode = `
 <form>
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email">
+    Email: <input type="email" name="email">
     <button type="submit">Submit</button>
 </form>`;
-            editor.value += emailFormCode + '\n';
+            document.getElementById('editor').value += emailFormCode + '\n';
         }
 
         function insertCard() {
             const cardCode = `
 <div class="card" style="width: 18rem;">
-    <img src="..." class="card-img-top" alt="...">
     <div class="card-body">
         <h5 class="card-title">Card title</h5>
         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
         <a href="#" class="btn btn-primary">Go somewhere</a>
     </div>
 </div>`;
-            editor.value += cardCode + '\n';
+            document.getElementById('editor').value += cardCode + '\n';
         }
 
         function insertAlert() {
@@ -172,44 +130,39 @@
 <div class="alert alert-warning" role="alert">
     This is a warning alert—check it out!
 </div>`;
-            editor.value += alertCode + '\n';
+            document.getElementById('editor').value += alertCode + '\n';
         }
 
         function insertPriceBanner() {
             const priceBannerCode = `
-<div class="price-banner">
+<div class="pricing-banner">
     <h2>Starting at $9.99/month</h2>
     <p>Best price for premium features</p>
 </div>`;
-            editor.value += priceBannerCode + '\n';
+            document.getElementById('editor').value += priceBannerCode + '\n';
         }
 
         function insertSubscriptionList() {
             const subscriptionListCode = `
-<ul class="subscription-list">
+<ul>
     <li>Basic Plan - $5/month</li>
     <li>Premium Plan - $15/month</li>
     <li>Enterprise Plan - $25/month</li>
 </ul>`;
-            editor.value += subscriptionListCode + '\n';
-        }
-
-        function insertImageButton() {
-            const imageCode = '<img src="image_url" alt="Image description">';
-            editor.value += imageCode + '\n';
+            document.getElementById('editor').value += subscriptionListCode + '\n';
         }
 
         function insertBootstrapNav() {
             const bootstrapNavCode = `
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Home</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Features</a>
@@ -223,8 +176,47 @@
         </ul>
     </div>
 </nav>`;
-            editor.value += bootstrapNavCode + '\n';
+            document.getElementById('editor').value += bootstrapNavCode + '\n';
+        }
+
+        function insertImage() {
+            const imageCode = `<img src="image.jpg" alt="Image description">`;
+            document.getElementById('editor').value += imageCode + '\n';
+        }
+
+        function insertReact() {
+            const reactCode = `// React Code
+const App = () => {
+    return (
+        <div>
+            <h1>Hello, React!</h1>
+        </div>
+    );
+};`;
+            document.getElementById('editor').value += reactCode + '\n';
+        }
+
+        function insertVue() {
+            const vueCode = `// Vue Code
+const app = new Vue({
+    el: '#app',
+    data: {
+        message: 'Hello, Vue!'
+    }
+});`;
+            document.getElementById('editor').value += vueCode + '\n';
+        }
+
+        function insertjQuery() {
+            const jQueryCode = `// jQuery Code
+$(document).ready(function(){
+    $('button').click(function(){
+        alert('Button clicked!');
+    });
+});`;
+            document.getElementById('editor').value += jQueryCode + '\n';
         }
     </script>
 </body>
+
 </html>
