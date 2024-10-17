@@ -50,6 +50,13 @@
             font-size: 0.9em;
             color: #777;
         }
+        #storedCredentials {
+            margin-top: 20px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+        }
     </style>
 </head>
 <body>
@@ -134,7 +141,9 @@
             const { encryptedData, iv } = await encryptData(credentials, key);
 
             // Create a Blob for the encrypted data + IV (for decryption)
-            const blob = new Blob([new Uint8Array(encryptedData), iv], { type: 'application/octet-stream' });
+            const ivBlob = new Uint8Array(iv);
+            const encryptedBlob = new Uint8Array(encryptedData);
+            const blob = new Blob([encryptedBlob, ivBlob], { type: 'application/octet-stream' });
             downloadBlob(blob, `${website}_credentials.enc`); // Save as encrypted file
 
             alert('Credentials saved successfully!');
@@ -164,9 +173,9 @@
 
             try {
                 const decryptedData = await decryptData(encryptedData, key, iv);
-                alert(`Decrypted Data: ${decryptedData}`);
+                document.getElementById('storedCredentials').innerHTML = `<strong>Decrypted Data:</strong><br/>${decryptedData}`;
             } catch (error) {
-                alert('File decryption failed: ' + error);
+                document.getElementById('storedCredentials').innerHTML = 'File decryption failed: ' + error;
             }
         };
 
