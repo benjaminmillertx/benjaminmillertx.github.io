@@ -6,6 +6,7 @@
     <title>Architect 🏗️ - Website Builder</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -47,6 +48,24 @@
             height: 200px;
             overflow: auto;
         }
+
+        .color-picker {
+            height: 50px;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .style-options {
+            margin-top: 20px;
+        }
+
+        .style-preview {
+            border: 1px solid #343a40;
+            margin-top: 10px;
+            padding: 10px;
+            height: 100px;
+            overflow: auto;
+        }
     </style>
 </head>
 <body>
@@ -56,15 +75,29 @@
             <p>A Simple Website Builder</p>
         </div>
 
-        <!-- Code Input -->
-        <h5>Code Snippets</h5>
+        <!-- Code Snippets and Color Picker -->
+        <h5>Insert Components</h5>
         <button class="btn btn-info" onclick="insertSnippet('navbar')">Insert Bootstrap Navbar</button>
         <button class="btn btn-info" onclick="insertSnippet('image')">Insert Image</button>
         <button class="btn btn-info" onclick="insertSnippet('carousel')">Insert Bootstrap Carousel</button>
         <button class="btn btn-info" onclick="insertSnippet('alert')">Insert Bootstrap Alert</button>
 
+        <h5>Color Picker</h5>
+        <input type="color" id="colorPicker" class="color-picker" onchange="setTextColor(this.value)">
+
         <h5>HTML, CSS & JavaScript Code:</h5>
         <textarea id="codeInput" placeholder="Write your HTML, CSS and JS code here..."></textarea>
+
+        <div class="style-options">
+            <h5>Text Style Options</h5>
+            <select id="textStyle" onchange="changeTextStyle(this.value)">
+                <option value="">Select Style</option>
+                <option value="font-weight: bold;">Bold</option>
+                <option value="font-style: italic;">Italic</option>
+                <option value="text-decoration: underline;">Underline</option>
+            </select>
+            <div class="style-preview" id="stylePreview">Preview your text style here.</div>
+        </div>
 
         <button class="btn btn-primary" onclick="exportCode()">Save as HTML</button>
         <button class="btn btn-secondary" onclick="previewCode()">Preview Output</button>
@@ -90,19 +123,18 @@
 
         function insertSnippet(type) {
             let snippet = '';
-
             switch (type) {
                 case 'navbar':
                     snippet = `
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">Brand</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Features</a>
@@ -153,8 +185,20 @@
 </div>`;
                     break;
             }
-        
             document.getElementById('codeInput').value += snippet;
+        }
+
+        function setTextColor(color) {
+            document.getElementById('stylePreview').style.color = color;
+        }
+
+        function changeTextStyle(style) {
+            const preview = document.getElementById('stylePreview');
+            if (style === "") {
+                preview.style = ""; // Resetting the styles
+            } else {
+                preview.style = style;
+            }
         }
     </script>
 
