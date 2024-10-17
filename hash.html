@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔒 Password Hasher & Checker Tool</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 600px;
+            margin-top: 50px;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .hasher-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-custom {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .result {
+            word-break: break-all;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="hasher-header">
+            <h1>🔒 Password Hasher & Checker Tool</h1>
+            <p>Hash your password using various algorithms and verify hashes.</p>
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">Enter Password</label>
+            <input type="text" class="form-control" id="password" placeholder="Enter password">
+        </div>
+        <div class="mb-3">
+            <label for="algorithm" class="form-label">Select Algorithm</label>
+            <select class="form-select" id="algorithm">
+                <option value="SHA-256">SHA-256</option>
+                <option value="SHA-512">SHA-512</option>
+                <option value="SHA-1">SHA-1</option>
+            </select>
+        </div>
+        <button class="btn btn-primary btn-custom" onclick="hashPassword()">Hash Password</button>
+        <div class="mt-3">
+            <h5>Hashed Result:</h5>
+            <pre id="hashedResult" class="result"></pre>
+        </div>
+
+        <hr>
+
+        <div class="hasher-header">
+            <h2>🔓 Hash Checker</h2>
+            <p>Verify if a password matches a given hash.</p>
+        </div>
+        <div class="mb-3">
+            <label for="hashToCheck" class="form-label">Enter Hash</label>
+            <textarea class="form-control" id="hashToCheck" placeholder="Enter hash to check" rows="3"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="checkPassword" class="form-label">Enter Password</label>
+            <input type="text" class="form-control" id="checkPassword" placeholder="Enter password">
+        </div>
+        <div class="mb-3">
+            <label for="algorithmCheck" class="form-label">Select Algorithm</label>
+            <select class="form-select" id="algorithmCheck">
+                <option value="SHA-256">SHA-256</option>
+                <option value="SHA-512">SHA-512</option>
+                <option value="SHA-1">SHA-1</option>
+            </select>
+        </div>
+        <button class="btn btn-secondary btn-custom" onclick="checkHash()">Check Hash</button>
+        <div class="mt-3">
+            <h5>Check Result:</h5>
+            <pre id="checkResult" class="result"></pre>
+        </div>
+
+        <footer class="text-center mt-4">
+            <p>© 2024 Benjamin Hunter Miller. This tool is licensed under the GNU General Public License.</p>
+        </footer>
+    </div>
+
+    <script>
+        async function hashPassword() {
+            const password = document.getElementById('password').value;
+            const algorithm = document.getElementById('algorithm').value;
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hashBuffer = await crypto.subtle.digest(algorithm, data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            document.getElementById('hashedResult').textContent = hashHex;
+        }
+
+        async function checkHash() {
+            const hashToCheck = document.getElementById('hashToCheck').value;
+            const password = document.getElementById('checkPassword').value;
+            const algorithm = document.getElementById('algorithmCheck').value;
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hashBuffer = await crypto.subtle.digest(algorithm, data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+            if (hashHex === hashToCheck) {
+                document.getElementById('checkResult').textContent = '✅ The password matches the hash!';
+            } else {
+                document.getElementById('checkResult').textContent = '❌ The password does not match the hash.';
+            }
+        }
+    </script>
+</body>
+
+</html>
