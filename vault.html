@@ -56,13 +56,15 @@
             padding: 15px;
             border-radius: 5px;
             border: 1px solid #ced4da;
+            max-height: 200px; /* Set a max height */
+            overflow-y: auto; /* Enable scrolling */
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Password Vault by Benjamin Miller</h2>
+    <h2>Password Vault 🗝️ by Benjamin Miller</h2>
     <label for="website">Website:</label>
     <input type="text" id="website" placeholder="Enter website name">
     <label for="username">Username:</label>
@@ -166,38 +168,4 @@
             const encryptedData = data.slice(0, data.byteLength - 12); 
 
             const keyData = JSON.parse(localStorage.getItem('encryptionKey'));
-            const key = await crypto.subtle.importKey(
-                "raw",
-                new Uint8Array(keyData),
-                { name: "AES-GCM" },
-                true,
-                ["decrypt"]
-            );
-
-            try {
-                const decryptedData = await decryptData(encryptedData, key, iv);
-                const credentials = JSON.parse(decryptedData);
-                
-                // Display the loaded credentials in plain text
-                document.getElementById('storedCredentials').innerHTML = `
-                    <strong>Decrypted Data:</strong><br/>
-                    Website: ${credentials.website}<br/>
-                    Username: ${credentials.username}<br/>
-                    Password: ${credentials.password}
-                `;
-            } catch (error) {
-                document.getElementById('storedCredentials').innerHTML = 'File decryption failed: ' + error;
-            }
-        };
-
-        reader.readAsArrayBuffer(file);
-    }
-
-    // Add event listeners
-    document.getElementById('save').addEventListener('click', saveCredentials);
-    document.getElementById('loadFile').addEventListener('click', () => document.getElementById('fileInput').click());
-    document.getElementById('fileInput').addEventListener('change', loadCredentials);
-</script>
-
-</body>
-</html>
+           
