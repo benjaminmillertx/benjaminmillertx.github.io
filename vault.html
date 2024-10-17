@@ -66,6 +66,7 @@
     <input type="password" id="password" placeholder="Enter password">
 
     <button id="save">Save Credentials</button>
+    <button id="load">Load Credentials</button>
     
     <h3>Stored Credentials</h3>
     <div id="storedCredentials"></div>
@@ -73,4 +74,69 @@
     <div class="instructions">
         <h4>How to Use:</h4>
         <ol>
-            <li>Enter the website name in the f
+            <li>Enter the website name in the first input field.</li>
+            <li>Type the username you wish to use.</li>
+            <li>Input the password and hit "Save Credentials".</li>
+            <li>To load and view saved credentials, hit the "Load Credentials" button.</li>
+        </ol>
+    </div>
+</div>
+
+<footer>
+    <p>Licensed under the <strong>GNU General Public License</strong>. "Everyone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed."</p>
+</footer>
+
+<script>
+    // Function to hash password using simple base64 encoding (for demonstration purposes)
+    function hashPassword(password) {
+        return btoa(password);
+    }
+
+    // Function to save credentials to local storage
+    function saveCredentials() {
+        const website = document.getElementById('website').value;
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        if (website && username && password) {
+            const hashedPassword = hashPassword(password);
+            const credentials = { username, password: hashedPassword };
+
+            // Save to local storage
+            localStorage.setItem(website, JSON.stringify(credentials));
+
+            // Clear input fields
+            document.getElementById('website').value = '';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+
+            alert('Credentials saved successfully!');
+        } else {
+            alert('All fields are required!');
+        }
+    }
+
+    // Function to load credentials from local storage
+    function loadCredentials() {
+        const storedCredentialsDiv = document.getElementById('storedCredentials');
+        storedCredentialsDiv.innerHTML = '';
+
+        if (localStorage.length === 0) {
+            storedCredentialsDiv.innerHTML = `<p>No stored credentials found.</p>`;
+            return;
+        }
+
+        for (let i = 0; i < localStorage.length; i++) {
+            const website = localStorage.key(i);
+            const credentials = JSON.parse(localStorage.getItem(website));
+            storedCredentialsDiv.innerHTML += `<p><strong>Website:</strong> ${website}, <strong>Username:</strong> ${credentials.username}, <strong>Password (hashed):</strong> ${credentials.password}</p>`;
+        }
+    }
+
+    // Add event listeners to buttons
+    document.getElementById('save').addEventListener('click', saveCredentials);
+    document.getElementById('load').addEventListener('click', loadCredentials);
+</script>
+
+</body>
+</html>
