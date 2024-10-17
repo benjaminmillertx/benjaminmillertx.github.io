@@ -3,28 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Architect: Online Code Editor</title>
+    <title>Architect: Developer Tool</title>
+
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
         }
         .container {
             margin-top: 20px;
         }
         #editor {
-            height: 300px;
+            height: 400px;
             width: 100%;
             border: 1px solid #ccc;
             margin-bottom: 20px;
             padding: 10px;
             font-family: monospace;
-        }
-        iframe {
-            width: 100%;
-            height: 300px;
-            border: 1px solid #ccc;
-            margin-bottom: 20px;
         }
         footer {
             margin-top: 20px;
@@ -33,63 +32,44 @@
             color: white;
             text-align: center;
         }
+        .code-btn {
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Architect: Online Code Editor</h1>
+    <h1>Architect: Developer Tool</h1>
     <div class="form-group">
         <label for="editor">Write your HTML, CSS, and JavaScript:</label>
         <textarea id="editor" placeholder="Write your code here..."></textarea>
     </div>
 
-    <button class="btn btn-primary" id="runBtn">Run</button>
-    <button class="btn btn-success" id="saveBtn">Save to Local Storage</button>
-    <button class="btn btn-warning" id="loadBtn">Load from Local Storage</button>
-    
-    <!-- Buttons for adding Login and Registration forms -->
-    <button class="btn btn-info" id="insertLoginBtn">Insert Login Form</button>
-    <button class="btn btn-info" id="insertRegisterBtn">Insert Registration Form</button>
+    <h2>Predefined Snippets</h2>
+    <button class="btn btn-info code-btn" id="insertLoginBtn">Insert Login Form</button>
+    <button class="btn btn-info code-btn" id="insertRegisterBtn">Insert Registration Form</button>
+    <button class="btn btn-info code-btn" id="insertEmailFormBtn">Insert Email Form</button>
+    <button class="btn btn-info code-btn" id="insertEmojiBtn">Insert Emoji</button>
 
-    <h2>Live Preview:</h2>
-    <iframe id="preview"></iframe>
+    <h2>Utilities</h2>
+    <button class="btn btn-secondary code-btn" id="saveBtn">Save to Local Storage</button>
+    <button class="btn btn-secondary code-btn" id="loadBtn">Load from Local Storage</button>
+
+    <h2>Shortcut Keys</h2>
+    <p>Use <strong>Ctrl + S</strong> to save your code and <strong>Ctrl + L</strong> to load saved code.</p>
 
     <footer>&copy; 2023 Architect - Open Source Project</footer>
 </div>
 
 <script>
     const editor = document.getElementById('editor');
-    const preview = document.getElementById('preview');
-    const runBtn = document.getElementById('runBtn');
-    const saveBtn = document.getElementById('saveBtn');
-    const loadBtn = document.getElementById('loadBtn');
     const insertLoginBtn = document.getElementById('insertLoginBtn');
     const insertRegisterBtn = document.getElementById('insertRegisterBtn');
-
-    runBtn.addEventListener('click', function() {
-        const code = editor.value;
-        const doc = preview.contentDocument || preview.contentWindow.document;
-        doc.open();
-        doc.write(code);
-        doc.close();
-    });
-
-    saveBtn.addEventListener('click', function() {
-        const code = editor.value;
-        localStorage.setItem('savedCode', code);
-        alert('Code saved to local storage!');
-    });
-
-    loadBtn.addEventListener('click', function() {
-        const savedCode = localStorage.getItem('savedCode');
-        if (savedCode) {
-            editor.value = savedCode;
-            alert('Loaded code from local storage.');
-        } else {
-            alert('No code found in local storage.');
-        }
-    });
+    const insertEmailFormBtn = document.getElementById('insertEmailFormBtn');
+    const insertEmojiBtn = document.getElementById('insertEmojiBtn');
+    const saveBtn = document.getElementById('saveBtn');
+    const loadBtn = document.getElementById('loadBtn');
 
     insertLoginBtn.addEventListener('click', function() {
         const loginFormCode = `
@@ -131,12 +111,55 @@
         alert('Registration Form Template Added to the Code Editor.');
     });
 
-    window.onload = function() {
+    insertEmailFormBtn.addEventListener('click', function() {
+        const emailFormCode = `
+<form>
+    <h2>Contact Us</h2>
+    <div class="form-group">
+        <label for="contactEmail">Email:</label>
+        <input type="email" class="form-control" id="contactEmail" required>
+    </div>
+    <div class="form-group">
+        <label for="message">Message:</label>
+        <textarea class="form-control" id="message" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Send</button>
+</form>`;
+        editor.value += emailFormCode + '\n';
+        alert('Email Form Template Added to the Code Editor.');
+    });
+
+    insertEmojiBtn.addEventListener('click', function() {
+        const emoji = "😊"; // You can expand this with more emojis if needed
+        editor.value += emoji + '\n';
+        alert('Emoji Inserted into the Code Editor.');
+    });
+
+    saveBtn.addEventListener('click', function() {
+        const code = editor.value;
+        localStorage.setItem('savedCode', code);
+        alert('Code saved to local storage!');
+    });
+
+    loadBtn.addEventListener('click', function() {
         const savedCode = localStorage.getItem('savedCode');
         if (savedCode) {
             editor.value = savedCode;
+            alert('Loaded code from local storage.');
+        } else {
+            alert('No code found in local storage.');
         }
-    };
+    });
+
+    document.addEventListener('keydown', function(event) {
+        if (event.ctrlKey && event.key === 's') {
+            event.preventDefault(); // Prevent the default save action
+            saveBtn.click();
+        } else if (event.ctrlKey && event.key === 'l') {
+            event.preventDefault(); // Prevent the default load action
+            loadBtn.click();
+        }
+    });
 </script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
