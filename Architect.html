@@ -3,195 +3,189 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌐 Architect: Developer Tool</title>
-    
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-
-    <!-- CodeMirror CSS for Syntax Highlighting -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/codemirror.min.css">
+    <title>Architect: Developer Tool</title>
     <style>
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f0f2f5;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
         }
+
         .container {
-            margin-top: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
-        .CodeMirror {
-            height: 500px; /* Bigger text area */
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #ffffff;
-        }
-        footer {
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #343a40;
-            color: white;
+
+        h1 {
             text-align: center;
+            color: #333;
         }
-        .btn-group {
+
+        #editorContainer {
+            margin: 20px 0;
+        }
+
+        textarea#editor {
+            width: 100%;
+            height: 300px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: monospace;
+            resize: vertical;
+        }
+
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        footer {
+            text-align: center;
             margin-top: 20px;
+            color: #888;
+            font-size: 0.9em;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1 class="text-center mb-4">🌐 Architect: Developer Tool</h1>
-    <div class="form-group">
-        <textarea id="editor"></textarea>
+    <div class="container">
+        <h1>Architect: Developer Tool</h1>
+
+        <div id="editorContainer">
+            <textarea id="editor" placeholder="Write your code here..."></textarea>
+        </div>
+
+        <div class="button-container">
+            <button id="saveBtn">Save Code</button>
+            <button id="loadBtn">Load Code</button>
+            <button id="importBootstrapBtn">Import Bootstrap JS</button>
+            <button id="importFontAwesomeBtn">Import FontAwesome</button>
+            <button id="insertLoginBtn">Insert Login Form</button>
+            <button id="insertRegisterBtn">Insert Registration Form</button>
+            <button id="insertEmailBtn">Insert Email Form</button>
+            <button id="insertCardBtn">Insert Card Component</button>
+            <button id="insertAlertBtn">Insert Alert</button>
+        </div>
+
+        <footer>
+            © 2024 Your Company. All Rights Reserved.<br>
+            This project is licensed under the GNU General Public License.
+        </footer>
     </div>
-    <div class="btn-group d-flex justify-content-center">
-        <button id="importBootstrapJS" class="btn btn-secondary m-1">Import Bootstrap JS</button>
-        <button id="importFontAwesome" class="btn btn-secondary m-1">Import FontAwesome</button>
-        <button id="saveBtn" class="btn btn-primary m-1">Save Code</button>
-        <button id="loadBtn" class="btn btn-primary m-1">Load Code</button>
-        <button id="insertLoginBtn" class="btn btn-secondary m-1">Insert Login Form</button>
-        <button id="insertRegisterBtn" class="btn btn-secondary m-1">Insert Registration Form</button>
-        <button id="insertEmailFormBtn" class="btn btn-secondary m-1">Insert Email Form</button>
-        <button id="insertCardComponentBtn" class="btn btn-secondary m-1">Insert Card Component</button>
-        <button id="insertAlertBtn" class="btn btn-secondary m-1">Insert Alert</button>
-    </div>
-</div>
 
-<footer>
-    <p>&copy; 2023 Your Company. All Rights Reserved.</p>
-    <p>This project is licensed under the <a href="https://www.gnu.org/licenses/gpl-3.0.html" class="text-white">GNU General Public License</a>.</p>
-</footer>
+    <script>
+        const editor = document.getElementById('editor');
 
-<!-- jQuery and Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        // Save code to local storage
+        document.getElementById('saveBtn').addEventListener('click', function() {
+            const code = editor.value;
+            localStorage.setItem('savedCode', code);
+            alert('Code saved to local storage!');
+        });
 
-<!-- CodeMirror JS for Syntax Highlighting -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/codemirror.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/mode/xml/xml.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/mode/javascript/javascript.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/mode/css/css.min.js"></script>
+        // Load code from local storage
+        document.getElementById('loadBtn').addEventListener('click', function() {
+            const savedCode = localStorage.getItem('savedCode');
+            if (savedCode) {
+                editor.value = savedCode;
+                alert('Loaded code from local storage.');
+            } else {
+                alert('No code found in local storage.');
+            }
+        });
 
-<script>
-    // Initialize CodeMirror for syntax highlighting
-    const editor = CodeMirror.fromTextArea(document.getElementById('editor'), {
-        lineNumbers: true,
-        mode: 'text/html',
-        theme: 'default'
-    });
+        // Import Bootstrap JS
+        document.getElementById('importBootstrapBtn').addEventListener('click', function() {
+            const bootstrapJSCode = `<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>`;
+            editor.value += bootstrapJSCode + '\n';
+        });
 
-    // Import Bootstrap JS
-    document.getElementById('importBootstrapJS').addEventListener('click', function() {
-        const bootstrapJSCode = `<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>`;
-        editor.replaceSelection(bootstrapJSCode + '\n');
-    });
+        // Import FontAwesome
+        document.getElementById('importFontAwesomeBtn').addEventListener('click', function() {
+            const fontAwesomeCode = `<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">`;
+            editor.value += fontAwesomeCode + '\n';
+        });
 
-    // Import FontAwesome
-    document.getElementById('importFontAwesome').addEventListener('click', function() {
-        const fontAwesomeCode = `<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">`;
-        editor.replaceSelection(fontAwesomeCode + '\n');
-    });
-
-    // Save Code to Local Storage
-    document.getElementById('saveBtn').addEventListener('click', function() {
-        const code = editor.getValue();
-        localStorage.setItem('savedCode', code);
-        alert('Code saved to local storage!');
-    });
-
-    // Load Code from Local Storage
-    document.getElementById('loadBtn').addEventListener('click', function() {
-        const savedCode = localStorage.getItem('savedCode');
-        if (savedCode) {
-            editor.setValue(savedCode);
-            alert('Loaded code from local storage.');
-        } else {
-            alert('No code found in local storage.');
-        }
-    });
-
-    // Insert Login Form
-    document.getElementById('insertLoginBtn').addEventListener('click', function() {
-        const loginFormCode = `
+        // Insert Login Form
+        document.getElementById('insertLoginBtn').addEventListener('click', function() {
+            const loginFormCode = `
 <form>
-    <h2>Login</h2>
-    <div class="form-group">
-        <label for="loginEmail">Email:</label>
-        <input type="email" class="form-control" id="loginEmail" required>
-    </div>
-    <div class="form-group">
-        <label for="loginPassword">Password:</label>
-        <input type="password" class="form-control" id="loginPassword" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Login</button>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email"><br>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password"><br>
+    <button type="submit">Login</button>
 </form>`;
-        editor.replaceSelection(loginFormCode + '\n');
-    });
+            editor.value += loginFormCode + '\n';
+        });
 
-    // Insert Registration Form
-    document.getElementById('insertRegisterBtn').addEventListener('click', function() {
-        const registerFormCode = `
+        // Insert Registration Form
+        document.getElementById('insertRegisterBtn').addEventListener('click', function() {
+            const registerFormCode = `
 <form>
-    <h2>Register</h2>
-    <div class="form-group">
-        <label for="username">Username:</label>
-        <input type="text" class="form-control" id="username" required>
-    </div>
-    <div class="form-group">
-        <label for="registerEmail">Email:</label>
-        <input type="email" class="form-control" id="registerEmail" required>
-    </div>
-    <div class="form-group">
-        <label for="registerPassword">Password:</label>
-        <input type="password" class="form-control" id="registerPassword" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Register</button>
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username"><br>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email"><br>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password"><br>
+    <button type="submit">Register</button>
 </form>`;
-        editor.replaceSelection(registerFormCode + '\n');
-    });
+            editor.value += registerFormCode + '\n';
+        });
 
-    // Insert Email Form
-    document.getElementById('insertEmailFormBtn').addEventListener('click', function() {
-        const emailFormCode = `
+        // Insert Email Form
+        document.getElementById('insertEmailBtn').addEventListener('click', function() {
+            const emailFormCode = `
 <form>
-    <h2>Contact Us</h2>
-    <div class="form-group">
-        <label for="contactEmail">Email:</label>
-        <input type="email" class="form-control" id="contactEmail" required>
-    </div>
-    <div class="form-group">
-        <label for="message">Message:</label>
-        <textarea class="form-control" id="message" rows="3"></textarea>
-    </div>
-    <button type="submit" class="btn btn-primary">Send</button>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email"><br>
+    <button type="submit">Submit</button>
 </form>`;
-        editor.replaceSelection(emailFormCode + '\n');
-    });
+            editor.value += emailFormCode + '\n';
+        });
 
-    // Insert Bootstrap Card Component
-    document.getElementById('insertCardComponentBtn').addEventListener('click', function() {
-        const cardCode = `
+        // Insert Card Component
+        document.getElementById('insertCardBtn').addEventListener('click', function() {
+            const cardComponentCode = `
 <div class="card" style="width: 18rem;">
-    <img src="https://via.placeholder.com/150" class="card-img-top" alt="Image Placeholder">
+    <img src="..." class="card-img-top" alt="...">
     <div class="card-body">
-        <h5 class="card-title">Card Title</h5>
+        <h5 class="card-title">Card title</h5>
         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
         <a href="#" class="btn btn-primary">Go somewhere</a>
     </div>
 </div>`;
-        editor.replaceSelection(cardCode + '\n');
-    });
+            editor.value += cardComponentCode + '\n';
+        });
 
-    // Insert Bootstrap Alert
-    document.getElementById('insertAlertBtn').addEventListener('click', function() {
-        const alertCode = `
-<div class="alert alert-warning" role="alert">
-  This is a warning alert—check it out!
-</div>`;
-        editor.replaceSelection(alertCode + '\n');
-    });
+        // Insert Alert
+        document.getElementById('insertAlertBtn').addEventListener('click', function() {
+            const alertCode = `<div class="alert alert-warning" role="alert">This is a warning alert—check it out!</div>`;
+            editor.value += alertCode + '\n';
+        });
+    </script>
 
-</script>
 </body>
 </html>
