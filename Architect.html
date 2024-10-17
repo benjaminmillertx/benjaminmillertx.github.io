@@ -5,185 +5,185 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Architect: Developer Tool</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
     <style>
         body {
-            background-color: #f8f9fa;
             font-family: Arial, sans-serif;
-        }
-
-        .header {
-            padding: 20px;
-            background-color: #007bff;
-            color: white;
             text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
-
-        .header h1 {
-            margin: 0;
-            margin-left: 10px;
-        }
-
+        
         .container {
             margin-top: 20px;
         }
-
-        .footer {
-            text-align: center;
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #f1f1f1;
-        }
-
-        .editor {
+        
+        textarea {
             width: 100%;
             height: 200px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
-
-        .button-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
+        
+        button {
+            margin: 5px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
         }
-
-        .button-group button {
-            flex-grow: 1;
-            min-width: 200px;
+        
+        button:hover {
+            background-color: #0056b3;
+        }
+        
+        footer {
+            margin-top: 20px;
         }
     </style>
 </head>
 
 <body>
-    <div class="header">
-        <span>🔧</span>
-        <h1>Architect: Developer Tool</h1>
-    </div>
-
     <div class="container">
-        <textarea id="editor" class="form-control editor" placeholder="Your code will appear here..."></textarea>
-        <div class="button-group">
-            <button class="btn btn-primary" onclick="saveCode()">Save Code</button>
-            <button class="btn btn-primary" onclick="loadCode()">Load Code</button>
-            <button class="btn btn-primary" onclick="insertBootstrapJS()">Import Bootstrap JS</button>
-            <button class="btn btn-primary" onclick="insertFontAwesome()">Import FontAwesome</button>
-            <button class="btn btn-primary" onclick="insertLoginForm()">Insert Login Form</button>
-            <button class="btn btn-primary" onclick="insertRegistrationForm()">Insert Registration Form</button>
-            <button class="btn btn-primary" onclick="insertEmailForm()">Insert Email Form</button>
-            <button class="btn btn-primary" onclick="insertCard()">Insert Card Component</button>
-            <button class="btn btn-primary" onclick="insertAlert()">Insert Alert</button>
-            <button class="btn btn-primary" onclick="insertPriceBanner()">Insert Price Banner</button>
-            <button class="btn btn-primary" onclick="insertSubscriptionList()">Insert Subscription List</button>
-            <button class="btn btn-primary" onclick="insertImageButton()">Insert Image Button</button>
-            <button class="btn btn-primary" onclick="insertBootstrapNav()">Insert Bootstrap Navbar</button>
-            <button class="btn btn-primary" onclick="insertReact()">Insert React</button>
-            <button class="btn btn-primary" onclick="insertOtherLibrary1()">Insert Axios</button>
-            <button class="btn btn-primary" onclick="insertOtherLibrary2()">Insert jQuery</button>
-            <button class="btn btn-primary" onclick="insertOtherLibrary3()">Insert Lodash</button>
+        <h1>🛠️ Architect: Developer Tool</h1>
+        <textarea id="editor" placeholder="Your code will appear here..."></textarea>
+        <div class="button-container">
+            <button onclick="saveCode()">Save Code</button>
+            <button onclick="loadCode()">Load Code</button>
+            <button onclick="importBootstrap()">Import Bootstrap JS</button>
+            <button onclick="importFontAwesome()">Import FontAwesome</button>
+            <button onclick="insertLoginForm()">Insert Login Form</button>
+            <button onclick="insertRegistrationForm()">Insert Registration Form</button>
+            <button onclick="insertEmailForm()">Insert Email Form</button>
+            <button onclick="insertCard()">Insert Card Component</button>
+            <button onclick="insertAlert()">Insert Alert</button>
+            <button onclick="insertPriceBanner()">Insert Price Banner</button>
+            <button onclick="insertSubscriptionList()">Insert Subscription List</button>
+            <button onclick="insertImageButton()">Insert Image Button</button>
+            <button onclick="insertNavbar()">Insert Bootstrap Navbar</button>
+            <button onclick="insertReact()">Insert React</button>
+            <button onclick="insertAxios()">Insert Axios</button>
+            <button onclick="insertJQuery()">Insert jQuery</button>
+            <button onclick="insertLodash()">Insert Lodash</button>
         </div>
+        <pre><code id="highlighted-code" class="html"></code></pre>
+        <footer>
+            <p>© 2024 Benjamin Hunter Miller. This project is licensed under the GNU General Public License.</p>
+        </footer>
     </div>
 
-    <div class="footer">
-        <p>© 2024 Benjamin Hunter Miller. This project is licensed under the GNU General Public License.</p>
-    </div>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
     <script>
+        // Function to save the code
         function saveCode() {
             const code = document.getElementById('editor').value;
             localStorage.setItem('savedCode', code);
-            alert('Code saved to local storage!');
         }
 
+        // Function to load the code
         function loadCode() {
             const savedCode = localStorage.getItem('savedCode');
             if (savedCode) {
                 document.getElementById('editor').value = savedCode;
-                alert('Loaded code from local storage!');
-            } else {
-                alert('No code found in local storage.');
+                updateHighlightedCode(savedCode);
             }
         }
 
-        function insertBootstrapJS() {
-            const bootstrapJSCode = `<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>`;
-            document.getElementById('editor').value += bootstrapJSCode + '\n';
+        // Function to update the syntax highlighting
+        function updateHighlightedCode(code) {
+            const highlightedCode = document.getElementById('highlighted-code');
+            highlightedCode.textContent = code;
+            hljs.highlightElement(highlightedCode);
         }
 
-        function insertFontAwesome() {
-            const fontAwesomeCode = `<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">`;
-            document.getElementById('editor').value += fontAwesomeCode + '\n';
+        // Import functions
+        function importBootstrap() {
+            const bootstrapJSCode = `<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>`;
+            addCodeToEditor(bootstrapJSCode);
         }
 
+        function importFontAwesome() {
+            const fontAwesomeCode = `<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">`;
+            addCodeToEditor(fontAwesomeCode);
+        }
+
+        // Form and component insertion functions
         function insertLoginForm() {
-            const loginFormCode = `<form><input type="email" placeholder="Email"><input type="password" placeholder="Password"><button>Login</button></form>`;
-            document.getElementById('editor').value += loginFormCode + '\n';
+            const loginFormCode = `<form>\n  <input type="email" placeholder="Email">\n  <input type="password" placeholder="Password">\n  <button>Login</button>\n</form>`;
+            addCodeToEditor(loginFormCode);
         }
 
         function insertRegistrationForm() {
-            const registerFormCode = `<form><input type="text" placeholder="Username"><input type="email" placeholder="Email"><input type="password" placeholder="Password"><button>Register</button></form>`;
-            document.getElementById('editor').value += registerFormCode + '\n';
+            const registerFormCode = `<form>\n  <input type="text" placeholder="Username">\n  <input type="email" placeholder="Email">\n  <input type="password" placeholder="Password">\n  <button>Register</button>\n</form>`;
+            addCodeToEditor(registerFormCode);
         }
 
         function insertEmailForm() {
-            const emailFormCode = `<form><input type="email" placeholder="Email"><button>Submit</button></form>`;
-            document.getElementById('editor').value += emailFormCode + '\n';
+            const emailFormCode = `<form>\n  <input type="email" placeholder="Email">\n  <button>Submit</button>\n</form>`;
+            addCodeToEditor(emailFormCode);
         }
 
         function insertCard() {
-            const cardCode = `<div class="card"><div class="card-body"><h5 class="card-title">Card title</h5><p class="card-text">Some quick example text...</p><a href="#" class="btn btn-primary">Go somewhere</a></div></div>`;
-            document.getElementById('editor').value += cardCode + '\n';
+            const cardCode = `<div class="card">\n  <div class="card-body">\n    <h5 class="card-title">Card title</h5>\n    <p class="card-text">Some quick example text...</p>\n    <a href="#" class="btn btn-primary">Go somewhere</a>\n  </div>\n</div>`;
+            addCodeToEditor(cardCode);
         }
 
         function insertAlert() {
-            const alertCode = `<div class="alert alert-warning" role="alert">This is a warning alert—check it out!</div>`;
-            document.getElementById('editor').value += alertCode + '\n';
+            const alertCode = `<div class="alert alert-warning" role="alert">\n  This is a warning alert—check it out!\n</div>`;
+            addCodeToEditor(alertCode);
         }
 
         function insertPriceBanner() {
-            const priceBannerCode = `<div class="price-banner">Starting at $9.99/month</div>`;
-            document.getElementById('editor').value += priceBannerCode + '\n';
+            const priceBannerCode = `<div class="price-banner">\n  <h2>Special Offer: $99 only!</h2>\n</div>`;
+            addCodeToEditor(priceBannerCode);
         }
 
         function insertSubscriptionList() {
-            const subscriptionListCode = `<ul><li>Basic Plan - $5/month</li><li>Premium Plan - $15/month</li><li>Enterprise Plan - $25/month</li></ul>`;
-            document.getElementById('editor').value += subscriptionListCode + '\n';
+            const subscriptionCode = `<ul class="subscription-list">\n  <li>Basic Plan</li>\n  <li>Standard Plan</li>\n  <li>Premium Plan</li>\n</ul>`;
+            addCodeToEditor(subscriptionCode);
         }
 
         function insertImageButton() {
-            const imageCode = `<img src="path/to/image.jpg" alt="Image description">`;
-            document.getElementById('editor').value += imageCode + '\n';
+            const imageButtonCode = `<button><img src="image.png" alt="button image"> Click Me</button>`;
+            addCodeToEditor(imageButtonCode);
         }
 
-        function insertBootstrapNav() {
-            const bootstrapNavCode = `<nav class="navbar navbar-expand-lg navbar-light bg-light"><a class="navbar-brand" href="#">Navbar</a></nav>`;
-            document.getElementById('editor').value += bootstrapNavCode + '\n';
+        function insertNavbar() {
+            const navbarCode = `<nav class="navbar navbar-expand-lg navbar-light bg-light">\n  <a class="navbar-brand" href="#">Navbar</a>\n</nav>`;
+            addCodeToEditor(navbarCode);
         }
 
         function insertReact() {
-            const reactCode = `<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.0.0/umd/react.production.min.js"></script>`;
-            document.getElementById('editor').value += reactCode + '\n';
+            const reactCode = `<script src="https://unpkg.com/react/umd/react.production.min.js"></script>`;
+            addCodeToEditor(reactCode);
         }
 
-        function insertOtherLibrary1() {
+        function insertAxios() {
             const axiosCode = `<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>`;
-            document.getElementById('editor').value += axiosCode + '\n';
+            addCodeToEditor(axiosCode);
         }
 
-        function insertOtherLibrary2() {
-            const jqueryCode = `<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>`;
-            document.getElementById('editor').value += jqueryCode + '\n';
+        function insertJQuery() {
+            const jqueryCode = `<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>`;
+            addCodeToEditor(jqueryCode);
         }
 
-        function insertOtherLibrary3() {
+        function insertLodash() {
             const lodashCode = `<script src="https://cdn.jsdelivr.net/npm/lodash/lodash.min.js"></script>`;
-            document.getElementById('editor').value += lodashCode + '\n';
+            addCodeToEditor(lodashCode);
         }
+
+        // Helper function to add code to the editor and update syntax highlighting
+        function addCodeToEditor(code) {
+            const editor = document.getElementById('editor');
+            editor.value += code + '\n';
+            updateHighlightedCode(editor.value);
+        }
+
+        // Initialize syntax highlighting on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCode();
+        });
     </script>
 </body>
 
 </html>
-
