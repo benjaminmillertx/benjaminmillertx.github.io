@@ -63,9 +63,8 @@
     <label for="password">Password:</label>
     <input type="password" id="password" placeholder="Enter password">
     <button id="save">Save Credentials</button>
-    <button id="load">Load Credentials</button>
     <input type="file" id="fileInput" style="display:none;"/>
-    <button id="uploadFile">Upload File</button>
+    <button id="loadFile">Load Credentials</button>
 
     <h3>Stored Credentials</h3>
     <div id="storedCredentials"></div>
@@ -76,8 +75,7 @@
             <li>Enter the website name in the first input field.</li>
             <li>Type the username you wish to use.</li>
             <li>Input the password and hit "Save Credentials".</li>
-            <li>To load and view saved credentials, hit the "Load Credentials" button.</li>
-            <li>To upload an encrypted file with credentials, click "Upload File".</li>
+            <li>To load credentials, click "Load Credentials" and choose the file.</li>
         </ol>
     </div>
 </div>
@@ -88,7 +86,7 @@
 
 <script>
     async function generateKey() {
-        return await window.crypto.subtle.generateKey(
+        return await crypto.subtle.generateKey(
             { name: "AES-GCM", length: 256 },
             true,
             ["encrypt", "decrypt"]
@@ -96,7 +94,7 @@
     }
 
     async function encryptData(data, key) {
-        const iv = window.crypto.getRandomValues(new Uint8Array(12)); // Generate a random IV
+        const iv = crypto.getRandomValues(new Uint8Array(12)); // Generate a random IV
         const encodedData = new TextEncoder().encode(data);
 
         const encryptedData = await crypto.subtle.encrypt(
@@ -125,7 +123,6 @@
         link.click();
     }
 
-    // Function to save credentials to a file
     async function saveCredentials() {
         const website = document.getElementById('website').value;
         const username = document.getElementById('username').value;
@@ -136,44 +133,27 @@
             const credentials = JSON.stringify({ website, username, password });
             const { encryptedData, iv } = await encryptData(credentials, key);
 
-            // Create a blob for the encrypted data
-            const blob = new Blob([encryptedData], { type: 'application/octet-stream' });
-            downloadBlob(blob, `${website}_credentials.json`);
-            alert('Credentials saved successfully!');
+            // Create a Blob for the encrypted data + IV (for decryption)
+            const blob = new Blob([new Uint8Array(encryptedData), iv], { type: 'application/octet-stream' });
+            downloadBlob(blob, `${website}_credentials.enc`); // Save as encrypted file
 
-            // Store the key and IV for future decryption if necessary.
-            localStorage.setItem('encryptionKey', JSON.stringify(await crypto.subtle.exportKey("raw", key)));
-            localStorage.setItem('iv', iv.join(','));
+            alert('Credentials saved successfully!');
+            localStorage.setItem('encryptionKey', JSON.stringify(await crypto.subtle.exportKey("raw", key))); // Save key
         } else {
             alert('All fields are required!');
         }
     }
 
-    async function loadCredentials() {
-        const storedCredentialsDiv = document.getElementById('storedCredentials');
-        storedCredentialsDiv.innerHTML = '';
-
-        if (localStorage.length === 0) {
-            storedCredentialsDiv.innerHTML = `<p>No stored credentials found.</p>`;
-            return;
-        }
-
-        for (let i = 0; i < localStorage.length; i++) {
-            const keyName = localStorage.key(i);
-            const credentials = JSON.parse(localStorage.getItem(keyName));
-            storedCredentialsDiv.innerHTML += `<p><strong>Website:</strong> ${keyName}, <strong>Username:</strong> ${credentials.username}, <strong>Password (hashed):</strong> ${credentials.password}</p>`;
-        }
-    }
-
-    async function handleFileUpload(event) {
+    async function loadCredentials(event) {
         const file = event.target.files[0];
         const reader = new FileReader();
 
         reader.onload = async function(event) {
-            const encryptedData = new Uint8Array(event.target.result);
+            const data = new Uint8Array(event.target.result);
+            const iv = data.slice(data.byteLength - 12); // Extract IV from the end of the file
+            const encryptedData = data.slice(0, data.byteLength - 12); // Extract encrypted data
+
             const keyData = JSON.parse(localStorage.getItem('encryptionKey'));
-            const ivData = localStorage.getItem('iv').split(',').map(Number);
-            
             const key = await crypto.subtle.importKey(
                 "raw",
                 new Uint8Array(keyData),
@@ -183,7 +163,7 @@
             );
 
             try {
-                const decryptedData = await decryptData(encryptedData, key, new Uint8Array(ivData));
+                const decryptedData = await decryptData(encryptedData, key, iv);
                 alert(`Decrypted Data: ${decryptedData}`);
             } catch (error) {
                 alert('File decryption failed: ' + error);
@@ -195,9 +175,8 @@
 
     // Add event listeners
     document.getElementById('save').addEventListener('click', saveCredentials);
-    document.getElementById('load').addEventListener('click', loadCredentials);
-    document.getElementById('uploadFile').addEventListener('click', () => document.getElementById('fileInput').click());
-    document.getElementById('fileInput').addEventListener('change', handleFileUpload);
+    document.getElementById('loadFile').addEventListener('click', () => document.getElementById('fileInput').click());
+    document.getElementById('fileInput').addEventListener('change', loadCredentials);
 </script>
 
 </body>
