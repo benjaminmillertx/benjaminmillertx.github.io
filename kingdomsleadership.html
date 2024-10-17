@@ -1,0 +1,492 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🦄 Kingdom Leadership Game 👑</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        #output { white-space: pre-wrap; }
+        input { width: 100%; padding: 8px; }
+        h1 { text-align: center; }
+    </style>
+</head>
+<body>
+    <h1>🦄 Kingdom Leadership Game 👑</h1>
+    <pre>
+                 /\
+                /  \
+               /    \
+              /______\
+             |        |
+             |  👑   |
+             |        |
+              \______/
+    </pre>
+    <div id="output">Type 'begin' to start your journey.</div>
+    <input id="inputField" type="text" placeholder="Enter your command" />
+    
+    <script>
+        let stage = 0;
+        const output = document.getElementById('output');
+        const inputField = document.getElementById('inputField');
+
+        function handleInput(command) {
+            switch (stage) {
+                case 0:
+                    if (command === 'begin') {
+                        output.textContent += '\n\nWill you "arm" for battle or choose "diplomacy" for peace?';
+                        stage++;
+                    } else {
+                        output.textContent += '\nUnknown command. Type "begin" to start your journey.';
+                    }
+                    break;
+
+                case 1:
+                    if (command === 'arm') {
+                        output.textContent += '\n\nYou prepare for battle. Will you "gather" troops or "fortify" the castle?';
+                        stage++;
+                    } else if (command === 'diplomacy') {
+                        output.textContent += '\n\nYou opt for diplomacy. Will you "invite" allies or "threaten" rivals?';
+                        stage++;
+                    } else {
+                        output.textContent += '\nUnknown command. Choose "arm" or "diplomacy".';
+                    }
+                    break;
+
+                case 2:
+                    if (command === 'gather') {
+                        output.textContent += '\n\nWill you "train" the troops or "lead" them into battle?';
+                        stage++;
+                    } else if (command === 'fortify') {
+                        output.textContent += '\n\nWill you build "walls" or dig "trenches"?';
+                        stage++;
+                    } else if (command === 'invite') {
+                        output.textContent += '\n\nWill you "secure" borders or "prepare" for potential betrayal?';
+                        stage++;
+                    } else if (command === 'threaten') {
+                        output.textContent += '\n\nWill you "prepare" for retaliation or "stand firm"?';
+                        stage++;
+                    } else {
+                        output.textContent += '\nUnknown command. Choose appropriately.';
+                    }
+                    break;
+
+                case 3:
+                    if (command === 'train') {
+                        output.textContent += '\n\nYou train the troops well! Will you "attack" or "spy" on the enemy?';
+                        stage++;
+                    } else if (command === 'lead') {
+                        output.textContent += '\n\nYou lead them into battle! Will you "fight" aggressively or "strategize"?';
+                        stage++;
+                    } else if (command === 'walls') {
+                        output.textContent += '\n\nYou build high walls! Will you "patrol" them or "wait" for the enemy?';
+                        stage++;
+                    } else if (command === 'trenches') {
+                        output.textContent += '\n\nYou dig trenches. Will you "expand" or "hold" your position?';
+                        stage++;
+                    } else if (command === 'secure') {
+                        output.textContent += '\n\nYou secure the borders! Will you "reinforce" or "negotiate"?';
+                        stage++;
+                    } else if (command === 'prepare') {
+                        output.textContent += '\n\nPreparation is key! Will you "gather" allies or "invest" in defenses?';
+                        stage++;
+                    } else if (command === 'stand firm') {
+                        output.textContent += '\n\nStanding firm builds confidence! Will you "attack" or "send" a message?';
+                        stage++;
+                    } else {
+                        output.textContent += '\nUnknown command. Choose appropriately.';
+                    }
+                    break;
+
+                case 4:
+                    if (command === 'attack') {
+                        output.textContent += '\n\nYou bravely attack! Will you "pursue" or "celebrate" your victory?';
+                        stage++;
+                    } else if (command === 'spy') {
+                        output.textContent += '\n\nYou gather intel! Will you "report" back or "act" on it?';
+                        stage++;
+                    } else if (command === 'fight') {
+                        output.textContent += '\n\nYou fight aggressively! Will you "overwhelm" the enemy or "spread" out?';
+                        stage++;
+                    } else if (command === 'strategize') {
+                        output.textContent += '\n\nYou make a great plan! Will you "share" it or "rethink" it?';
+                        stage++;
+                    } else if (command === 'patrol') {
+                        output.textContent += '\n\nPatrolling keeps you safe! Will you "wait" or "prepare" for arrival?';
+                        stage++;
+                    } else if (command === 'wait') {
+                        output.textContent += '\n\nWaiting could cost you! Will you "strengthen" defenses or "scatter" troops?';
+                        stage++;
+                    } else if (command === 'expand') {
+                        output.textContent += '\n\nExpanding gives you room to maneuver! Will you "set traps" or "fortify"?';
+                        stage++;
+                    } else if (command === 'hold') {
+                        output.textContent += '\n\nHolding your position is wise! Will you "wait" or "counterattack"?';
+                        stage++;
+                    } else {
+                        output.textContent += '\nUnknown command. Choose appropriately.';
+                    }
+                    break;
+
+                case 5:
+                    if (command === 'pursue') {
+                        output.textContent += '\n\nYou pursued them relentlessly! They scatter and retreat. You WIN! 🎉';
+                        stage++;
+                    } else if (command === 'celebrate') {
+                        output.textContent += '\n\nCelebrating too soon leads to a surprise attack! You LOSE! 💔';
+                        stage++;
+                    } else if (command === 'report') {
+                        output.textContent += '\n\nYou report the enemy’s strength. Will you "attack back" or "wait for reinforcement"?';
+                        stage++;
+                    } else if (command === 'act') {
+                        output.textContent += '\n\nActing on the intel is bold! Will you "launch" a sneak attack or "call for backup"?';
+                        stage++;
+                    } else if (command === 'overwhelm') {
+                        output.textContent += '\n\nYour aggressive tactics push the enemy back! You WIN! 🎉';
+                        stage++;
+                    } else if (command === 'spread') {
+                        output.textContent += '\n\nSpreading your troops thin leaves gaps for the enemy. You LOSE! 💔';
+                        stage++;
+                    } else if (command === 'share') {
+                        output.textContent += '\n\nSharing ideas leads to better strategy! Will you "divert" forces or "attack"?';
+                        stage++;
+                    } else if (command === 'rethink') {
+                        output.textContent += '\n\nRethinking your approach proves useful, but time is limited. Will you "act" quickly or "wait"?';
+                        stage++;
+                    } else {
+                        output.textContent += '\nUnknown command. Choose appropriately.';
+                    }
+                    break;
+
+                case 6:
+                    if (command === 'attack back') {
+                        output.textContent += '\n\nIt’s a tough fight! Will you "retreat" or "push harder"?';
+                        stage++;
+                    } else if (command === 'wait') {
+                        output.textContent += '\n\nWaiting costs you an advantage! Will you "rally allies" or "surrender"?';
+                        stage++;
+                    } else if (command === 'launch') {
+                        output.textContent += '\n\nA sneak attack leads to victory! You WIN! 🎉';
+                        stage++;
+                    } else if (command === 'call for backup') {
+                        output.textContent += '\n\nCalling for backup takes time! Will you "divert funds" for reinforcements or "hold"?';
+                        stage++;
+                    } else if (command === 'divert') {
+                        output.textContent += '\n\nDiverting forces strengthens your position! Will you "counterattack" or "wait"?';
+                        stage++;
+                    } else if (command === 'attack') {
+                        output.textContent += '\n\nBrave! But timing is everything. Will you "shock" the enemy or "organize" first?';
+                        stage++;
+                    } else if (command === 'fortify') {
+                        output.textContent += '\n\nFortifying is wise. Will you "prepare" to attack or "watch" for them in vain?';
+                        stage++;
+                    } else {
+                        output.textContent += '\nUnknown command. Choose appropriately.';
+                    }
+                    break;
+
+                case 7:
+                    if (command === 'retreat') {
+                        output.textContent += '\n\nYou retreat, losing valuable ground. You LOSE! 💔';
+                        stage++;
+                    } else if (command === 'push harder') {
+                        output.textContent += '\n\nYou press on, but the enemy is too strong! You LOSE! 💔';
+                        stage++;
+                    } else if (command === 'rally allies') {
+                        output.textContent += '\n\nRallying allies brings hope! Will you "march" together or "plan" for a stealth attack?';
+                        stage++;
+                    } else if (command === 'surrender') {
+                        output.textContent += '\n\nSurrendering leads to your downfall! You LOSE! 💔';
+                        stage++;
+                    } else if (command === 'march') {
+                        output.textContent += '\n\nMarching in unity gives you strength! Will you "charge" or "hold" the line?';
+                        stage++;
+                    } else if (command === 'plan') {
+                        output.textContent += '\n\nPlanning is strategic! Will you "send scouts" or "prepare defenses"?';
+                        stage++;
+                    } else if (command === 'shock') {
+                        output.textContent += '\n\nShocking the enemy creates chaos! Will you "exploit" it or "reassess"?';
+                        stage++;
+                    } else if (command === 'organize') {
+                        output.textContent += '\n\nOrganizing your forces is crucial! Will you "launch" an attack or "defend"?';
+                        stage++;
+                    } else {
+                        output.textContent += '\nUnknown command. Choose appropriately.';
+                    }
+                    break;
+
+                case 8:
+                    if (command === 'charge') {
+                        output.textContent += '\n\nCharging the enemy blindsides them! You WIN! 🎉';
+                        stage++;
+                    } else if (command === 'hold') {
+                        output.textContent += '\n\nHolding your position proves diligent. Will you "wait" for reinforcements or "attack"?';
+                        stage++;
+                    } else if (command === 'send scouts') {
+                        output.textContent += '\n\nSending scouts reveals enemy plans! Will you "attack" or "prepare"?';
+                        stage++;
+                    } else if (command === 'prepare defenses') {
+                        output.textContent += '\n\nPreparing defenses strengthens your base. Will you "stay" or "leave"?';
+                        stage++;
+                    } else if (command === 'exploit') {
+                        output.textContent += '\n\nExploiting chaos leads to advantages! You WIN! 🎉';
+                        stage++;
+                    } else if (command === 'reassess') {
+                        output.textContent += '\n\nReassessing gives insight! Will you "move troops" or "stay put"?';
+                        stage++;
+                    } else if (command === 'launch') {
+                        output.textContent += '\n\nLaunching an attack overwhelms the enemy! You WIN! 🎉';
+                        stage++;
+                    } else if (command === 'defend') {
+                        output.textContent += '\n\nDefending is tactical. Will you "wait" for the right moment or "retreat"?';
+                        stage++;
+                    } else {
+                        output.textContent += '\nUnknown command. Choose appropriately.';
+                    }
+                    break;
+
+                case 9:
+                    if (command === 'wait') {
+                        output.textContent += '\n\nWaiting too long lets the enemy regain footing. You LOSE! 💔';
+                        stage++;
+                    } else if (command === 'retreat') {
+                        output.textContent += '\n\nRetreating leads to a loss of morale. You LOSE! 💔';
+                        stage++;
+                    } else if (command === 'move troops') {
+                        output.textContent += '\n\nMoving troops confuses the enemy! You WIN! 🎉';
+                        stage++;
+                    } else if (command === 'stay put') {
+                        output.textContent += '\n\nStaying put costs you the advantage! You LOSE! 💔';
+                        stage++;
+                    } else {
+                        output.textContent += '\nUnknown command. Choose appropriately.';
+                    }
+                    break;
+
+                case 10:
+                    output.textContent += '\n\nCongratulations on playing! Thank you for your exceptional leadership!';
+                    stage++;
+                    break;
+
+                // Additional stages added here
+                case 11:
+                    if (command === 'go back') {
+                        output.textContent += '\n\nYou decide to revisit your earlier choices. Will you "revisit" battle or "strengthen" diplomacy?';
+                        stage = 1; // Let players cycle through the beginning stages
+                    }
+                    break;
+
+                case 12:
+                    if (command === 'revisit') {
+                        output.textContent += '\n\nYou revisit the decision. Will you "arm" your forces again or "diplomatically negotiate" this time?';
+                        stage++;
+                    } else {
+                        output.textContent += '\nUnknown command. Choose "go back" or try a new strategy.';
+                    }
+                    break;
+
+                case 13:
+                    if (command === 'arm') {
+                        output.textContent += '\n\nYou have another chance. Prepare for even stronger battles! Will you "gather" or "fortify"?';
+                        stage++;
+                    } else if (command === 'diplomacy') {
+                        output.textContent += '\n\nYour interest in peace is noble! Will you "invite" or "warn"?';
+                        stage++;
+                    } else {
+                        output.textContent += '\nUnknown command. Choose "arm" or "diplomacy".';
+                    }
+                    break;
+
+                case 14:
+                    // Expanding paths based on new stages
+                    if (command === 'gather') {
+                        output.textContent += '\n\nWill you "lead" them again or "train" with more intensity?';
+                        stage++;
+                    } else if (command === 'fortify') {
+                        output.textContent += '\n\nWill you "build stronger walls" or "install traps"?';
+                        stage++;
+                    } else if (command === 'invite') {
+                        output.textContent += '\n\nWill you "trust" your allies or "inspect" their intentions?';
+                        stage++;
+                    } else if (command === 'warn') {
+                        output.textContent += '\n\nWill you "prepare" defenses or "call for help"?';
+                        stage++;
+                    } else {
+                        output.textContent += '\nUnknown command. Choose wisely.';
+                    }
+                    break;
+
+                case 15:
+                    if (command === 'lead') {
+                        output.textContent += '\n\nYour leadership shines. Will you "attack" or "discuss strategies"?';
+                        stage++;
+                    } else if (command === 'train') {
+                        output.textContent += '\n\nTraining enhances skills. Will you push them hard or "rest" a bit?';
+                        stage++;
+                    } else if (command === 'stronger walls') {
+                        output.textContent += '\n\nYour walls are impenetrable. Will you "watch" or "expand"?';
+                        stage++;
+                    } else if (command === 'install traps') {
+                        output.textContent += '\n\nTraps! Will you "wait" for the enemy or "lure them in"?';
+                        stage++;
+                    } else if (command === 'trust') {
+                        output.textContent += '\n\nTrust can be risky. Will you "join forces" or "keep distance"?';
+                        stage++;
+                    } else if (command === 'inspect') {
+                        output.textContent += '\n\nInspection reveals hidden motives. Will you "confront" them or "use the info"?';
+                        stage++;
+                    } else if (command === 'prepare') {
+                        output.textContent += '\n\nPreparing is wise. Will you "station troops" or "hide them"?';
+                        stage++;
+                    } else if (command === 'help') {
+                        output.textContent += '\n\nCalling for help can be a gamble. Will you "trust" them or "rely" on yourself?';
+                        stage++;
+                    } else {
+                        output.textContent += '\nUnknown command. Choose carefully.';
+                    }
+                    break;
+
+                case 16:
+                    if (command === 'attack') {
+                        output.textContent += '\n\nYou lead a valiant charge! Will you "press on" or "fall back"?';
+                        stage++;
+                    } else if (command === 'discuss') {
+                        output.textContent += '\n\nDiscussing strategies pays off. Do you want to "implement" or "revise" them?';
+                        stage++;
+                    } else if (command === 'watch') {
+                        output.textContent += '\n\nWatching can lead to opportunities. Will you "wait" patiently or "move ahead"?';
+                        stage++;
+                    } else if (command === 'expand') {
+                        output.textContent += '\n\nExpansion creates new territories. Will you "claim" them or "explore" first?';
+                        stage++;
+                    } else if (command === 'wait') {
+                        output.textContent += '\n\nWaiting becomes dangerous. Will you "strengthen" now or "risk it"?';
+                        stage++;
+                    } else if (command === 'lure') {
+                        output.textContent += '\n\nLuring in the enemy can be clever. Will you pull it off successfully?';
+                        stage++;
+                    } else {
+                        output.textContent += '\nUnknown command. Choose wisely.';
+                    }
+                    break;
+
+                case 17:
+                    if (command === 'press on') {
+                        output.textContent += '\n\nPressing on leads to victory! You WIN! 🎉';
+                        stage++;
+                    } else if (command === 'fall back') {
+                        output.textContent += '\n\nFalling back leads to a crucial loss. You LOSE! 💔';
+                        stage++;
+                    } else if (command === 'implement') {
+                        output.textContent += '\n\nImplementing strategy leads to cohesion. Will you "attack" or "defend"?';
+                        stage++;
+                    } else if (command === 'revise') {
+                        output.textContent += '\n\nRevising brings new ideas! Will you "share" or "discard"?';
+                        stage++;
+                    } else if (command === 'move ahead') {
+                        output.textContent += '\n\nMoving ahead can be risky! Will you "charge" or "sneak"?';
+                        stage++;
+                    } else if (command === 'claim') {
+                        output.textContent += '\n\nClaiming new territory boosts morale! Will you "defend" or "expand" again?';
+                        stage++;
+                    } else if (command === 'explore') {
+                        output.textContent += '\n\nExploration reveals hidden treasures! Will you "seize" them or "return"?';
+                        stage++;
+                    } else if (command === 'strengthen') {
+                        output.textContent += '\n\nStrengthening defenses creates a solid base! Will you "wait" or "patrol"?';
+                        stage++;
+                    } else if (command === 'risk') {
+                        output.textContent += '\n\nRisking it could yield great rewards! Will you "launch" or "defend"?';
+                        stage++;
+                    } else {
+                        output.textContent += '\nUnknown command. Choose carefully.';
+                    }
+                    break;
+
+                case 18:
+                    // And more new stages
+                    if (command === 'attack') {
+                        output.textContent += '\n\nYour attack is successful! What will you do next? "Pursue" or "celebrate"?';
+                        stage++;
+                    } else if (command === 'defend') {
+                        output.textContent += '\n\nDefending is valiant! But can you hold? Will you "stand" or "withdraw"?';
+                        stage++;
+                    } else if (command === 'share') {
+                        output.textContent += '\n\nSharing information creates allies! Will you "trust" them or "keep distance"?';
+                        stage++;
+                    } else if (command === 'discard') {
+                        output.textContent += '\n\nDiscarding ideas leaves gaps. Will you "develop" new ones or "wait"?';
+                        stage++;
+                    } else if (command === 'charge') {
+                        output.textContent += '\n\nCharging takes bravery! Would you "lead" or "send scouts"?';
+                        stage++;
+                    } else if (command === 'sneak') {
+                        output.textContent += '\n\nSneaking has its advantages! Will you "surprise" or "retreat"?';
+                        stage++;
+                    } else {
+                        output.textContent += '\nUnknown command. Choose wisely.';
+                    }
+                    break;
+
+                case 19:
+                    if (command === 'pursue') {
+                        output.textContent += '\n\nYou pursue the enemy and succeed! You WIN! 🎉';
+                        stage++;
+                    } else if (command === 'celebrate') {
+                        output.textContent += '\n\nCelebration leaves guard down! Beware ambushes! You LOSE! 💔';
+                        stage++;
+                    } else if (command === 'stand') {
+                        output.textContent += '\n\nStanding tall strengthens morale! Will you "attack" or "wait"?';
+                        stage++;
+                    } else if (command === 'withdraw') {
+                        output.textContent += '\n\nWithdrawing lets the enemy gain. You LOSE! 💔';
+                        stage++;
+                    } else if (command === 'trust') {
+                        output.textContent += '\n\nTrust creates bonds! Do you "prepare" or "attack"?';
+                        stage++;
+                    } else if (command === 'keep distance') {
+                        output.textContent += '\n\nKeeping distance means limited intel. What will you do? "Gather" or "wait"?';
+                        stage++;
+                    } else if (command === 'develop') {
+                        output.textContent += '\n\nDeveloping new ideas pays off; will you "implement" or "research" more?';
+                        stage++;
+                    } else if (command === 'wait') {
+                        output.textContent += '\n\nWaiting can lead to uncertainty! Choose wisely!';
+                        stage++;
+                    } else {
+                        output.textContent += '\nUnknown command. Choose carefully.';
+                    }
+                    break;
+
+                case 20:
+                    output.textContent += '\n\nCongratulations! You survived another day in leadership challenges!';
+                    stage++;
+                    break;
+
+                case 21:
+                    output.textContent += '\n\nThank you for playing! May your kingdom always thrive! 👑';
+                    stage++;
+                    break;
+
+                case 22:
+                    output.textContent += '\n\nFeel free to replay the game or explore different choices!';
+                    stage++;
+                    break;
+
+                default:
+                    output.textContent += '\nUnknown case. Something went wrong.';
+                    stage = 0; // Wrap back to the beginning
+            }
+        }
+
+        inputField.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                const command = inputField.value.trim().toLowerCase();
+                inputField.value = ''; // Clear the input field
+                handleInput(command); // Handle the player's input
+            }
+        });
+    </script>
+</body>
+</html>
