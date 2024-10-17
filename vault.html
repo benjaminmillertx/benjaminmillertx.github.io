@@ -94,6 +94,7 @@
 </footer>
 
 <script>
+    // Function to generate a new AES key for encryption
     async function generateKey() {
         return await crypto.subtle.generateKey(
             { name: "AES-GCM", length: 256 },
@@ -102,6 +103,7 @@
         );
     }
 
+    // Function to encrypt data using AES-GCM
     async function encryptData(data, key) {
         const iv = crypto.getRandomValues(new Uint8Array(12)); // Generate a random IV
         const encodedData = new TextEncoder().encode(data);
@@ -115,6 +117,7 @@
         return { encryptedData, iv };
     }
 
+    // Function to decrypt data using AES-GCM
     async function decryptData(encryptedData, key, iv) {
         const decryptedData = await crypto.subtle.decrypt(
             { name: "AES-GCM", iv },
@@ -125,6 +128,7 @@
         return new TextDecoder().decode(decryptedData);
     }
 
+    // Function to trigger file download
     function downloadBlob(blob, filename) {
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
@@ -132,6 +136,7 @@
         link.click();
     }
 
+    // Function to save credentials to an encrypted file
     async function saveCredentials() {
         const website = document.getElementById('website').value;
         const username = document.getElementById('username').value;
@@ -155,6 +160,7 @@
         }
     }
 
+    // Function to load and decrypt credentials from a file
     async function loadCredentials(event) {
         const file = event.target.files[0];
         const reader = new FileReader();
@@ -162,10 +168,47 @@
         reader.onload = async function(event) {
             const data = new Uint8Array(event.target.result);
             
-            // Extract IV from the end of the file
+            // Extract IV (last 12 bytes) and encrypted data
             const iv = data.slice(data.byteLength - 12);
-            // Extract encrypted data
             const encryptedData = data.slice(0, data.byteLength - 12); 
 
             const keyData = JSON.parse(localStorage.getItem('encryptionKey'));
-           
+            if (!keyData) {
+                alert('No encryption key found! Please save a credential first.');
+                return;
+            }
+            const key = await crypto.subtle.importKey(
+                "raw",
+                new Uint8Array(keyData),
+                { name: "AES-GCM" },
+                true,
+                ["decrypt"]
+            );
+
+            try {
+                const decryptedData = await decryptData(encryptedData, key, iv);
+                const credentials = JSON.parse(decryptedData);
+                
+                // Display the loaded credentials in plain text
+                document.getElementById('storedCredentials').innerHTML = `
+                    <strong>Decrypted Data:</strong><br/>
+                    <strong>Website:</strong> ${credentials.website}<br/>
+                    <strong>Username:</strong> ${credentials.username}<br/>
+                    <strong>Password:</strong> ${credentials.password}
+                `;
+            } catch (error) {
+                document.getElementById('storedCredentials').innerHTML = 'File decryption failed: ' + error;
+            }
+        };
+
+        reader.readAsArrayBuffer(file);
+    }
+
+    // Add event listeners
+    document.getElementById('save').addEventListener('click', saveCredentials);
+    document.getElementById('loadFile').addEventListener('click', () => document.getElementById('fileInput').click());
+    document.getElementById('fileInput').addEventListener('change', loadCredentials);
+</script>
+
+</body>
+</html>
