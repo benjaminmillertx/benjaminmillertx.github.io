@@ -48,6 +48,10 @@
             text-align: center;
             margin-top: 30px;
         }
+        .suggestions {
+            margin-top: 20px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -55,23 +59,26 @@
         <h1>Protein Calculator</h1>
 
         <label for="weight">Weight (in lbs):</label>
-        <input type="number" id="weight" placeholder="Enter your weight">
+        <input type="number" id="weight" placeholder="Enter your weight" required>
 
         <label for="age">Age (in years):</label>
-        <input type="number" id="age" placeholder="Enter your age">
+        <input type="number" id="age" placeholder="Enter your age" required>
 
         <label for="heightFeet">Height (in feet):</label>
-        <input type="number" id="heightFeet" placeholder="Enter your height in feet">
+        <input type="number" id="heightFeet" placeholder="Enter your height in feet" required>
 
         <label for="activity">Activity Level:</label>
         <select id="activity">
-            <option value="1.6">Low to Moderate (1.6 g/kg)</option>
-            <option value="2.2">High (2.2 g/kg)</option>
+            <option value="1.2">Sedentary (1.2 g/kg)</option>
+            <option value="1.6">Moderate (1.6 g/kg)</option>
+            <option value="2.0">Active (2.0 g/kg)</option>
+            <option value="2.2">Very Active (2.2 g/kg)</option>
         </select>
 
         <button onclick="calculateProtein()">Calculate Protein Intake</button>
 
         <p class="result" id="proteinResult"></p>
+        <div class="suggestions" id="proteinSuggestions"></div>
     </div>
 
     <script>
@@ -87,7 +94,7 @@
             if (weightLbs && age) {
                 var proteinNeed = weightKg * activityLevel;
 
-                // Adjust protein for older adults
+                // Adjust protein for older adults (above 60)
                 if (age >= 60) {
                     proteinNeed = weightKg * 1.2;
                 }
@@ -100,8 +107,33 @@
                 }
 
                 document.getElementById("proteinResult").innerText = resultText;
+
+                // Suggest ways to get protein
+                var suggestions = "";
+                if (proteinNeed <= 100) {
+                    suggestions = "For a moderate intake, consider foods like:\n" +
+                        "- Chicken breast (31g per 100g)\n" +
+                        "- Greek yogurt (10g per 100g)\n" +
+                        "- Tofu (8g per 100g)\n" +
+                        "- Lentils (9g per 100g)";
+                } else if (proteinNeed <= 150) {
+                    suggestions = "To meet higher protein needs, try including:\n" +
+                        "- Eggs (6g per egg)\n" +
+                        "- Salmon (25g per 100g)\n" +
+                        "- Cottage cheese (11g per 100g)\n" +
+                        "- Quinoa (8g per cup cooked)";
+                } else {
+                    suggestions = "For very high protein needs, consider:\n" +
+                        "- Protein shakes (20-30g per serving)\n" +
+                        "- Lean beef (26g per 100g)\n" +
+                        "- Tuna (30g per 100g)\n" +
+                        "- Chickpeas (19g per cup cooked)";
+                }
+
+                document.getElementById("proteinSuggestions").innerText = suggestions;
             } else {
                 document.getElementById("proteinResult").innerText = "Please enter valid values for weight and age.";
+                document.getElementById("proteinSuggestions").innerText = "";
             }
         }
     </script>
