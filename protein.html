@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protein Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #4cae4c;
+        }
+        p.result {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Protein Calculator</h1>
+        <label for="weight">Weight (in kg):</label>
+        <input type="number" id="weight" placeholder="Enter your weight">
+
+        <label for="age">Age (in years):</label>
+        <input type="number" id="age" placeholder="Enter your age">
+
+        <label for="height">Height (optional, in cm):</label>
+        <input type="number" id="height" placeholder="Enter your height (optional)">
+
+        <label for="activity">Activity Level:</label>
+        <select id="activity">
+            <option value="1.6">Low to Moderate (1.6 g/kg)</option>
+            <option value="2.2">High (2.2 g/kg)</option>
+        </select>
+
+        <button onclick="calculateProtein()">Calculate Protein Intake</button>
+
+        <p class="result" id="proteinResult"></p>
+    </div>
+
+    <script>
+        function calculateProtein() {
+            var weight = document.getElementById("weight").value;
+            var age = document.getElementById("age").value;
+            var activityLevel = document.getElementById("activity").value;
+
+            if (weight && age) {
+                var proteinNeed = weight * activityLevel;
+                
+                // Adjust protein for older adults
+                if (age >= 60) {
+                    proteinNeed = weight * 1.2;
+                }
+
+                document.getElementById("proteinResult").innerText = 
+                    "You need approximately " + proteinNeed.toFixed(2) + " grams of protein per day.";
+            } else {
+                document.getElementById("proteinResult").innerText = 
+                    "Please enter valid values for weight and age.";
+            }
+        }
+    </script>
+
+    <footer>
+        <p>Created by Benjamin Miller</p>
+        <p>GNU Project</p>
+    </footer>
+</body>
+</html>
