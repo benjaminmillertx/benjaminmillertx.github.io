@@ -44,19 +44,24 @@
             font-weight: bold;
             margin-top: 20px;
         }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Protein Calculator</h1>
-        <label for="weight">Weight (in kg):</label>
+
+        <label for="weight">Weight (in lbs):</label>
         <input type="number" id="weight" placeholder="Enter your weight">
 
         <label for="age">Age (in years):</label>
         <input type="number" id="age" placeholder="Enter your age">
 
-        <label for="height">Height (optional, in cm):</label>
-        <input type="number" id="height" placeholder="Enter your height (optional)">
+        <label for="heightFeet">Height (in feet):</label>
+        <input type="number" id="heightFeet" placeholder="Enter your height in feet">
 
         <label for="activity">Activity Level:</label>
         <select id="activity">
@@ -71,23 +76,32 @@
 
     <script>
         function calculateProtein() {
-            var weight = document.getElementById("weight").value;
+            var weightLbs = document.getElementById("weight").value;
             var age = document.getElementById("age").value;
+            var heightFeet = document.getElementById("heightFeet").value;
             var activityLevel = document.getElementById("activity").value;
 
-            if (weight && age) {
-                var proteinNeed = weight * activityLevel;
-                
+            // Convert pounds to kilograms
+            var weightKg = weightLbs * 0.453592;
+
+            if (weightLbs && age) {
+                var proteinNeed = weightKg * activityLevel;
+
                 // Adjust protein for older adults
                 if (age >= 60) {
-                    proteinNeed = weight * 1.2;
+                    proteinNeed = weightKg * 1.2;
                 }
 
-                document.getElementById("proteinResult").innerText = 
-                    "You need approximately " + proteinNeed.toFixed(2) + " grams of protein per day.";
+                var resultText = "You need approximately " + proteinNeed.toFixed(2) + " grams of protein per day.";
+
+                // Display height in feet if provided
+                if (heightFeet) {
+                    resultText += " Your height is " + heightFeet + " feet.";
+                }
+
+                document.getElementById("proteinResult").innerText = resultText;
             } else {
-                document.getElementById("proteinResult").innerText = 
-                    "Please enter valid values for weight and age.";
+                document.getElementById("proteinResult").innerText = "Please enter valid values for weight and age.";
             }
         }
     </script>
