@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testosterone Level Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Testosterone Level Calculator</h1>
+        <form id="testosteroneForm">
+            <div class="mb-3">
+                <label for="age" class="form-label">Age:</label>
+                <input type="number" class="form-control" id="age" min="1" required>
+            </div>
+            <div class="mb-3">
+                <label for="gender" class="form-label">Gender:</label>
+                <select class="form-select" id="gender">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="testosteroneLevel" class="form-label">Your Testosterone Level (ng/dL):</label>
+                <input type="number" class="form-control" id="testosteroneLevel" required>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="calculateTestosterone()">Check Level</button>
+        </form>
+        <div id="results" class="mt-4">
+            <h4>Results</h4>
+            <p>Normal Range: <span id="normalRange">0</span> ng/dL</p>
+            <p>Status: <span id="status">N/A</span></p>
+        </div>
+    </div>
+    <footer>
+        Made by Benjamin Hunter Miller | GNU Project
+    </footer>
+
+    <script>
+        function calculateTestosterone() {
+            const age = parseInt(document.getElementById('age').value);
+            const gender = document.getElementById('gender').value;
+            const testosteroneLevel = parseFloat(document.getElementById('testosteroneLevel').value);
+
+            let normalRange = getNormalRange(age, gender);
+            document.getElementById('normalRange').innerText = normalRange;
+
+            if (testosteroneLevel >= normalRange[0] && testosteroneLevel <= normalRange[1]) {
+                document.getElementById('status').innerText = 'Within Normal Range';
+            } else {
+                document.getElementById('status').innerText = 'Outside Normal Range';
+            }
+        }
+
+        function getNormalRange(age, gender) {
+            // Sample ranges; you can adjust these values based on medical data
+            if (gender === 'male') {
+                if (age >= 18 && age <= 39) return [300, 1000];
+                if (age >= 40 && age <= 59) return [250, 850];
+                if (age >= 60) return [200, 700];
+            } else {
+                // For females, testosterone levels are significantly lower
+                if (age >= 18) return [15, 70];
+            }
+            return [0, 0]; // Default if out of expected age range
+        }
+    </script>
+</body>
+</html>
