@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obesity Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #4cae4c;
+        }
+        p.result {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Obesity Calculator</h1>
+
+        <label for="weight">Weight (in lbs):</label>
+        <input type="number" id="weight" placeholder="Enter your weight" required>
+
+        <label for="heightFeet">Height (in feet):</label>
+        <input type="number" id="heightFeet" placeholder="Enter feet" required>
+
+        <label for="heightInches">Additional Height (in inches):</label>
+        <input type="number" id="heightInches" placeholder="Enter inches (0 if none)" required>
+
+        <button onclick="calculateObesity()">Calculate Obesity Status</button>
+
+        <p class="result" id="obesityResult"></p>
+    </div>
+
+    <script>
+        function calculateObesity() {
+            var weightLbs = document.getElementById("weight").value;
+            var heightFeet = document.getElementById("heightFeet").value;
+            var heightInches = document.getElementById("heightInches").value;
+
+            // Convert height to inches
+            var totalHeightInches = (parseInt(heightFeet) * 12) + parseInt(heightInches);
+
+            // Calculate BMI
+            var bmi = (weightLbs * 703) / (totalHeightInches * totalHeightInches);
+
+            // Calculate max healthy weight for BMI of 24.9
+            var maxHealthyWeight = 24.9 * (totalHeightInches * totalHeightInches) / 703;
+
+            // Calculate the excess weight if BMI is over 30 (obese)
+            if (bmi >= 30) {
+                var excessWeight = weightLbs - maxHealthyWeight;
+                document.getElementById("obesityResult").innerText = "You are obese by " + excessWeight.toFixed(2) + " lbs.";
+            } else {
+                document.getElementById("obesityResult").innerText = "You are not considered obese based on your BMI.";
+            }
+        }
+    </script>
+
+    <footer>
+        <p>Created by Benjamin Hunter Miller</p>
+        <p>GNU Project</p>
+    </footer>
+</body>
+</html>
