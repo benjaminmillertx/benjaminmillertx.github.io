@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Benjamin Hunter Miller's Guide to Bash Scripting</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+    header {
+      background-color: #282c34;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2.5em;
+    }
+    .content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .mascot {
+      text-align: center;
+      margin: 30px 0;
+    }
+    img {
+      width: 200px;
+    }
+    section {
+      margin-bottom: 40px;
+    }
+    code {
+      background-color: #e8e8e8;
+      padding: 3px 5px;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Benjamin Hunter Miller's Guide to Bash Scripting</h1>
+</header>
+
+<div class="content">
+
+  <div class="mascot">
+    <img src="penguin-mascot.png" alt="Penguin Mascot">
+    <p>Welcome to the official guide on mastering Bash scripting with your friendly penguin tutor!</p>
+  </div>
+
+  <section>
+    <h2>1. Introduction to Bash</h2>
+    <p>Bash, or Bourne Again Shell, is one of the most widely used shells in the Linux and Unix operating environments. Not only does it allow you to issue commands interactively, but it also provides a robust scripting language to automate tasks.</p>
+    <p>This guide is designed for both beginners and intermediate users, helping you write efficient Bash scripts for system administration, automation, and various other purposes.</p>
+  </section>
+
+  <section>
+    <h2>2. Bash Basics</h2>
+    <p>Before diving into scripts, it’s crucial to get comfortable with some basic Bash commands. These are the core utilities that you’ll use regularly:</p>
+    <ul>
+      <li><code>ls</code> – Lists files and directories in the current directory.</li>
+      <li><code>cd</code> – Changes your current directory.</li>
+      <li><code>pwd</code> – Displays the full path of your current directory.</li>
+      <li><code>mkdir</code> – Creates a new directory.</li>
+      <li><code>touch</code> – Creates an empty file.</li>
+      <li><code>rm</code> – Removes files or directories.</li>
+      <li><code>cp</code> – Copies files or directories.</li>
+      <li><code>mv</code> – Moves or renames files or directories.</li>
+      <li><code>cat</code> – Displays the content of a file.</li>
+      <li><code>echo</code> – Prints text or variables to the terminal.</li>
+    </ul>
+    <p>Let’s go a step further and look at how these commands fit into basic scripts:</p>
+    <p>Here’s a quick example script that creates a directory, moves into it, creates a file, and displays its path:</p>
+    <pre><code>#!/bin/bash
+mkdir my_directory
+cd my_directory
+touch new_file.txt
+echo "File created at: $(pwd)/new_file.txt"</code></pre>
+  </section>
+
+  <section>
+    <h2>3. Understanding Shell Variables</h2>
+    <p>In Bash, variables allow you to store data and reuse it throughout your script. Unlike other programming languages, you don’t need to declare the type of the variable. Here’s a simple example:</p>
+    <pre><code>#!/bin/bash
+name="Benjamin"
+echo "Hello, $name!"</code></pre>
+    <p>Notice the <code>$</code> before the variable name when we use it. This indicates that we’re referring to the value stored in the variable.</p>
+
+    <h3>3.1 Variable Scope</h3>
+    <p>There are two types of variables in Bash: local and global. Local variables are only accessible within the function where they’re defined, while global variables can be accessed throughout the script.</p>
+
+    <h3>3.2 Special Variables</h3>
+    <p>Bash provides several special variables that are useful for scripts:</p>
+    <ul>
+      <li><code>$0</code> – The name of the script.</li>
+      <li><code>$1, $2, $3, ...</code> – Positional parameters passed to the script.</li>
+      <li><code>$#</code> – The number of arguments passed to the script.</li>
+      <li><code>$@</code> – All the arguments passed to the script.</li>
+      <li><code>$?</code> – The exit status of the last command.</li>
+      <li><code>$$</code> – The process ID of the script.</li>
+    </ul>
+
+    <p>Here’s a script that uses these special variables:</p>
+    <pre><code>#!/bin/bash
+echo "Script name: $0"
+echo "First argument: $1"
+echo "Number of arguments: $#"
+echo "All arguments: $@"
+echo "Process ID: $$"
+echo "Exit status of the last command: $?"</code></pre>
+  </section>
+
+  <section>
+    <h2>4. Conditional Statements in Bash</h2>
+    <p>In Bash, you can control the flow of your script using conditional statements such as <code>if</code>, <code>else</code>, and <code>elif</code>. Here’s the syntax for a simple conditional:</p>
+    <pre><code>#!/bin/bash
+if [ condition ]
+then
+  # Commands to run if the condition is true
+else
+  # Commands to run if the condition is false
+fi</code></pre>
+
+    <h3>4.1 Examples of Conditionals</h3>
+    <p>Here’s a practical example where we check if a file exists:</p>
+    <pre><code>#!/bin/bash
+if [ -f "file.txt" ]
+then
+  echo "File exists."
+else
+  echo "File does not exist."
+fi</code></pre>
+
+    <h3>4.2 Comparison Operators</h3>
+    <p>To make decisions, you’ll often compare values. Bash supports several comparison operators:</p>
+    <ul>
+      <li><code>-eq</code> – Equal to.</li>
+      <li><code>-ne</code> – Not equal to.</li>
+      <li><code>-lt</code> – Less than.</li>
+      <li><code>-le</code> – Less than or equal to.</li>
+      <li><code>-gt</code> – Greater than.</li>
+      <li><code>-ge</code> – Greater than or equal to.</li>
+    </ul>
+    <p>Example of using these operators:</p>
+    <pre><code>#!/bin/bash
+num=10
+if [ $num -gt 5 ]
+then
+  echo "$num is greater than 5"
+else
+  echo "$num is less than or equal to 5"
+fi</code></pre>
+  </section>
+
+  <section>
+    <h2>5. Loops in Bash</h2>
+    <p>Loops are essential in Bash for performing repetitive tasks. Bash supports <code>for</code>, <code>while</code>, and <code>until</code> loops.</p>
+
+    <h3>5.1 For Loop</h3>
+    <p>A <code>for</code> loop iterates over a list of items. Here’s an example:</p>
+    <pre><code>#!/bin/bash
+for i in 1 2 3 4 5
+do
+  echo "Number: $i"
+done</code></pre>
+
+    <h3>5.2 While Loop</h3>
+    <p>A <code>while</code> loop continues as long as a condition is true. Example:</p>
+    <pre><code>#!/bin/bash
+count=1
+while [ $count -le 5 ]
+do
+  echo "Count is $count"
+  count=$((count + 1))
+done</code></pre>
+
+    <h3>5.3 Until Loop</h3>
+    <p>An <code>until</code> loop is the opposite of a <code>while</code> loop. It runs until the condition becomes true:</p>
+    <pre><code>#!/bin/bash
+count=1
+until [ $count -gt 5 ]
+do
+  echo "Count is $count"
+  count=$((count + 1))
+done</code></pre>
+  </section>
+
+  <section>
+    <h2>6. Functions in Bash</h2>
+    <p>Functions allow you to encapsulate a group of commands and reuse them throughout your script. Here’s the syntax for defining a function:</p>
+    <pre><code>function_name() {
+  # commands
+}</code></pre>
+
+    <h3>6.1 Example of Functions</h3>
+    <p>Here’s an example function that greets a user:</p>
+    <pre><code>#!/bin/bash
+greet() {
+  echo "Hello, $1!"
+}
+greet "Benjamin"</code></pre>
+
+    <h3>6.2 Functions with Return Values</h3>
+    <p>In Bash, functions don’t return values like in other programming languages. Instead, you can use <code>echo</code> to output a value or modify a global variable. Here’s an example of a function that returns a value:</p>
+    <pre><code>#!/bin/bash
+add() {
+  local result=$(( $1 + $2 ))
+  echo $result
+}
+sum=$(add 5 3)
+echo "Sum: $sum"</code></pre>
+  </section>
+
+  <section>
+    <h2>7. Working with Files</h2>
+    <p>Handling files is a key part of Bash scripting. You can create, read, and modify files with simple commands.</p>
+
+    <h3>7.1 Writing to a File</h3>
+    <p>To write to a file, you can use redirection:</p>
+    <pre><code>#!/bin/bash
+echo "This is a new line" > file.txt</code></pre>
+    <p>The <code>></code> operator overwrites the content of the file. To append to a file, use <code>>></code>:</p>
+    <pre><code>#!/bin/bash
+echo "This line will be added" >> file.txt</code></pre>
+
+    <h3>7.2 Reading from a File</h3>
+    <p>To read the contents of a file, you can use a loop:</p>
+    <pre><code>#!/bin/bash
+while IFS= read -r line
+do
+  echo $line
+done < file.txt</code></pre>
+  </section>
+
+  <section>
+    <h2>8. Script Debugging</h2>
+    <p>Debugging is an essential skill in scripting. You can enable debugging in Bash by using the <code>-x</code> option:</p>
+    <pre><code>bash -x script.sh</code></pre>
+    <p>This will print each command as it is executed, making it easier to find errors.</p>
+    <p>You can also add <code>set -x</code> within your script to enable debugging from a certain point:</p>
+    <pre><code>#!/bin/bash
+set -x
+echo "This is a debug message"
+set +x
+echo "Debugging off now"</code></pre>
+  </section>
+
+</div>
+
+</body>
+</html>
