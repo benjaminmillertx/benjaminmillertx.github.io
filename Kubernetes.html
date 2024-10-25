@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Benjamin Hunter Miller's Developer Guide to Kubernetes</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+    header {
+      background-color: #326ce5;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 3em;
+    }
+    .content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .mascot {
+      text-align: center;
+      margin: 50px 0;
+    }
+    img {
+      width: 250px;
+    }
+    section {
+      margin-bottom: 50px;
+    }
+    code {
+      background-color: #e8e8e8;
+      padding: 5px 10px;
+      font-family: monospace;
+    }
+    ul {
+      line-height: 2;
+    }
+    pre {
+      background-color: #e0e0e0;
+      padding: 15px;
+      font-size: 1.1em;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Benjamin Hunter Miller's Developer Guide to Kubernetes</h1>
+</header>
+
+<div class="content">
+
+  <div class="mascot">
+    <img src="penguin-mascot4.png" alt="Penguin Mascot">
+    <p>Meet KubePenguin, your friendly guide to mastering Kubernetes for developers!</p>
+  </div>
+
+  <section>
+    <h2>1. Introduction to Kubernetes</h2>
+    <p>Kubernetes (K8s) is a powerful open-source platform for orchestrating containerized applications, handling deployment, scaling, and operational processes seamlessly. Developed initially by Google and maintained by the Cloud Native Computing Foundation (CNCF), Kubernetes is now the cornerstone of modern cloud-native infrastructure.</p>
+
+    <p>This guide will walk you through setting up a Kubernetes environment, understanding its core principles, deploying and managing workloads, networking, security best practices, and advanced features, from StatefulSets to Horizontal Pod Autoscaling. By the end, you’ll have the confidence to manage complex applications in Kubernetes clusters across local and cloud environments.</p>
+  </section>
+
+  <section>
+    <h2>2. Kubernetes Architecture Deep Dive</h2>
+    <h3>2.1 The Kubernetes Control Plane</h3>
+    <p>The control plane is the brain of Kubernetes, making global decisions about clusters, handling scheduling, and managing API requests. The core components include:</p>
+    <ul>
+      <li><b>API Server</b>: Exposes the Kubernetes API, acting as the gateway for all requests to the Kubernetes cluster.</li>
+      <li><b>etcd</b>: A distributed key-value store used to store all cluster data. Ensuring etcd’s reliability is critical for a stable Kubernetes environment.</li>
+      <li><b>Scheduler</b>: Schedules containers and makes decisions based on resources, node availability, and constraints.</li>
+      <li><b>Controller Manager</b>: Manages controllers that continuously monitor and manage the state of different resources in the cluster.</li>
+    </ul>
+
+    <h3>2.2 Worker Nodes</h3>
+    <p>Worker nodes are where applications run. Each node includes essential components such as:</p>
+    <ul>
+      <li><b>kubelet</b>: Ensures containers are running in a Pod and communicates with the API server.</li>
+      <li><b>kube-proxy</b>: Handles networking and forwards requests to correct containers within the nodes.</li>
+      <li><b>Container Runtime</b>: The software that runs the containers, like Docker, containerd, or CRI-O.</li>
+    </ul>
+
+    <h3>2.3 Pods</h3>
+    <p>Pods are the smallest and simplest Kubernetes objects, representing a single instance of a running process in the cluster. Each Pod runs one or more containers that share networking and storage. In a multi-container Pod, containers can communicate easily and share resources, supporting shared tasks and services.</p>
+  </section>
+
+  <section>
+    <h2>3. Setting Up Kubernetes Locally and on the Cloud</h2>
+    <h3>3.1 Minikube for Local Development</h3>
+    <p>Minikube provides an easy way to run a single-node Kubernetes cluster on your local machine. Start by downloading and installing Minikube:</p>
+    <pre><code>curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+chmod +x minikube-linux-amd64
+sudo mv minikube-linux-amd64 /usr/local/bin/minikube</code></pre>
+
+    <h3>3.2 Starting Minikube</h3>
+    <p>After installing Minikube, start the cluster:</p>
+    <pre><code>minikube start</code></pre>
+    <p>This command launches a local Kubernetes cluster, where you can create and test applications. Minikube emulates cloud behavior and provides an excellent environment for developing and testing your applications before deploying to a full-scale cloud setup.</p>
+
+    <h3>3.3 Managed Kubernetes on Cloud Platforms</h3>
+    <p>Cloud providers offer managed Kubernetes solutions, such as Amazon EKS, Google GKE, and Azure AKS, which simplify cluster management and provide scaling, monitoring, and integration with cloud-native services.</p>
+  </section>
+
+  <section>
+    <h2>4. Deployments, Services, and Scaling</h2>
+    <h3>4.1 Creating Deployments for Manageable Scaling</h3>
+    <p>Deployments are the primary resource for managing Pod replicas, ensuring high availability, and rolling updates. Here’s an example Deployment YAML to create multiple replicas of an application:</p>
+    <pre><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: sample
+  template:
+    metadata:
+      labels:
+        app: sample
+    spec:
+      containers:
+      - name: sample-container
+        image: nginx</code></pre>
+    <p>Apply this configuration with:</p>
+    <pre><code>kubectl apply -f deployment.yaml</code></pre>
+
+    <h3>4.2 Services and Networking</h3>
+    <p>Kubernetes services expose applications to internal or external networks, depending on the type of service used:</p>
+    <ul>
+      <li><b>ClusterIP</b>: The default, exposing the service only within the cluster.</li>
+      <li><b>NodePort</b>: Exposes the service on each node’s IP at a static port.</li>
+      <li><b>LoadBalancer</b>: Provisions a load balancer for external access, commonly used in cloud environments.</li>
+    </ul>
+    <p>Create a Service YAML for an application:</p>
+    <pre><code>apiVersion: v1
+kind: Service
+metadata:
+  name: sample-service
+spec:
+  selector:
+    app: sample
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: NodePort</code></pre>
+  </section>
+
+  <section>
+    <h2>5. ConfigMaps, Secrets, and Environment Configuration</h2>
+    <h3>5.1 Using ConfigMaps</h3>
+    <p>ConfigMaps store configuration data, enabling the separation of configuration from code. To create a ConfigMap:</p>
+    <pre><code>kubectl create configmap app-config --from-literal=key=value</code></pre>
+
+    <h3>5.2 Using Secrets</h3>
+    <p>Secrets allow you to store sensitive information, like passwords. Here’s an example of creating a Secret:</p>
+    <pre><code>kubectl create secret generic app-secret --from-literal=username=user --from-literal=password=pass</code></pre>
+  </section>
+
+  <section>
+    <h2>6. Persistent Storage and Data Management</h2>
+    <h3>6.1 Persistent Volumes and Claims</h3>
+    <p>Kubernetes PersistentVolumes (PVs) are pieces of storage in the cluster that can be provisioned manually or dynamically. PersistentVolumeClaims (PVCs) allow Pods to request specific amounts of storage.</p>
+
+    <h3>6.2 StatefulSets for Stateful Applications</h3>
+    <p>StatefulSets are specialized deployments for stateful applications requiring stable network identities, such as databases. StatefulSets manage Pods with unique identities and persistent storage across restarts.</p>
+  </section>
+
+  <section>
+    <h2>7. Advanced Features and Autoscaling</h2>
+    <h3>7.1 Horizontal Pod Autoscaling</h3>
+    <p>The Horizontal Pod Autoscaler (HPA) scales the number of replicas based on resource metrics, like CPU and memory usage. To enable HPA:</p>
+    <pre><code>kubectl autoscale deployment sample-app --cpu-percent=50 --min=1 --max=10</code></pre>
+
+    <h3>7.2 DaemonSets</h3>
+    <p>DaemonSets ensure all nodes run a copy of a Pod, useful for cluster-wide services such as logging and monitoring agents.</p>
+  </section>
+
+  <section>
+    <h2>8. Logging, Monitoring, and Troubleshooting</h2>
+    <p>Monitoring and logging are vital for maintaining cluster health. Prometheus and Grafana offer a robust monitoring stack, while Fluentd and Elasticsearch can streamline log management.</p>
+
+    <h3>8.1 Common Troubleshooting Commands</h3>
+    <p>Use these commands to diagnose and troubleshoot issues:</p>
+    <ul>
+      <li><code>kubectl describe pod [pod-name]</code>: Provides detailed information about a Pod, including error messages and event logs.</li>
+      <li><code>kubectl logs [pod-name]</code>: Retrieves logs from containers within Pods.</li>
+      <li><code>kubectl get events</code>: Displays recent events that could indicate issues within the cluster.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>9. Security and Best Practices</h2>
+    <p>Security is integral to Kubernetes. Follow these best practices to enhance security:</p>
+    <ul>
+      <li><b>Use Role-Based Access Control (RBAC)</b>: Configure RBAC to control access and permissions.</li>
+      <li><b>Enable Network Policies</b>: Define network policies to control Pod communication.</li>
+      <li><b>Regularly Scan Container Images</b>: Use tools like Trivy or Clair to check for vulnerabilities in container images.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>10. Kubernetes for CI/CD and DevOps</h2>
+    <p>Integrating Kubernetes into your CI/CD pipeline can automate testing, deployment, and monitoring, leading to continuous delivery. Popular CI/CD tools for Kubernetes include Jenkins, GitLab CI/CD, and Tekton Pipelines.</p>
+
+    <h3>10.1 Blue-Green and Canary Deployments</h3>
+    <p>These strategies ensure smooth rollouts and testing of new application versions without disrupting the production environment.</p>
+  </section>
+
+</div>
+
+</body>
+</html>
