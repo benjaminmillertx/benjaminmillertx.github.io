@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kubernetes Security Essentials - Benjamin Hunter Miller's Guide</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+    header {
+      background-color: #326ce5;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 3em;
+    }
+    .content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .mascot {
+      text-align: center;
+      margin: 30px 0;
+    }
+    img {
+      width: 250px;
+    }
+    section {
+      margin-bottom: 50px;
+    }
+    code {
+      background-color: #e8e8e8;
+      padding: 5px 10px;
+      font-family: monospace;
+    }
+    ul {
+      line-height: 2;
+    }
+    pre {
+      background-color: #e0e0e0;
+      padding: 15px;
+      font-size: 1.1em;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Benjamin Hunter Miller's Guide to Kubernetes Security Essentials</h1>
+</header>
+
+<div class="content">
+
+  <div class="mascot">
+    <img src="kubernetes-security-mascot.png" alt="Penguin Mascot for Security">
+    <p>Meet SecurePenguin, your guide to mastering Kubernetes security!</p>
+  </div>
+
+  <section>
+    <h2>1. Introduction to Kubernetes Security</h2>
+    <p>Kubernetes security encompasses practices and tools aimed at safeguarding the cluster, applications, data, and communication between services. Kubernetes is a powerful platform for container orchestration, but with this power comes responsibility. Following best security practices will help mitigate the risks of misconfigurations, unauthorized access, and vulnerabilities.</p>
+  </section>
+
+  <section>
+    <h2>2. Securing the Kubernetes API Server</h2>
+    <h3>2.1 API Server Authentication</h3>
+    <p>Authentication ensures that only legitimate users and services can access the Kubernetes API. Kubernetes supports several authentication methods, including:</p>
+    <ul>
+      <li><b>Service Accounts</b>: Used by applications running inside the cluster to authenticate to the API.</li>
+      <li><b>Client Certificates</b>: Commonly used by administrators and external clients for secure access.</li>
+      <li><b>OIDC and LDAP</b>: Used to integrate with external identity providers.</li>
+    </ul>
+
+    <h3>2.2 API Server Authorization</h3>
+    <p>After authentication, authorization policies determine what actions a user can perform. Kubernetes supports:</p>
+    <ul>
+      <li><b>Role-Based Access Control (RBAC)</b>: Defines user roles and permissions across namespaces and resources. It's essential to follow the principle of least privilege to minimize risks.</li>
+      <li><b>Node Authorization</b>: Restricts node-level access for critical API requests.</li>
+      <li><b>ABAC (Attribute-Based Access Control)</b>: An advanced policy engine, often replaced by RBAC in most Kubernetes clusters.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>3. Network Security</h2>
+    <h3>3.1 Network Policies</h3>
+    <p>Network policies define how Pods can communicate with each other and with the outside world. Kubernetes uses these policies to control Pod-level network traffic, enhancing network isolation.</p>
+    <p>Here’s a sample NetworkPolicy YAML to restrict Pod communication:</p>
+    <pre><code>apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: restrict-traffic
+spec:
+  podSelector:
+    matchLabels:
+      role: app
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          role: frontend</code></pre>
+
+    <h3>3.2 Encryption in Transit</h3>
+    <p>To secure communications between cluster components, ensure encryption in transit by enabling HTTPS, using mutual TLS authentication, and implementing Transport Layer Security (TLS) for sensitive data.</p>
+  </section>
+
+  <section>
+    <h2>4. Pod Security</h2>
+    <h3>4.1 Pod Security Standards</h3>
+    <p>Pod Security Standards help control the security context of Pods. Kubernetes defines three security levels:</p>
+    <ul>
+      <li><b>Privileged</b>: No restrictions, generally discouraged for production.</li>
+      <li><b>Baseline</b>: Best for general-purpose workloads, balances security with ease of use.</li>
+      <li><b>Restricted</b>: Strongest level, recommended for highly secure environments.</li>
+    </ul>
+
+    <h3>4.2 Restricting Capabilities</h3>
+    <p>Containers should have minimal Linux capabilities. Use <code>securityContext</code> in your Pod specifications to restrict capabilities:</p>
+    <pre><code>apiVersion: v1
+kind: Pod
+metadata:
+  name: restricted-pod
+spec:
+  containers:
+  - name: my-container
+    image: nginx
+    securityContext:
+      runAsNonRoot: true
+      capabilities:
+        drop:
+        - ALL</code></pre>
+  </section>
+
+  <section>
+    <h2>5. Image Security</h2>
+    <h3>5.1 Image Scanning</h3>
+    <p>Regularly scan container images for vulnerabilities using tools like Trivy or Clair. Integrate image scanning into your CI/CD pipeline to prevent deploying vulnerable images.</p>
+
+    <h3>5.2 Using Trusted Registries</h3>
+    <p>Limit image sources to trusted registries. Kubernetes allows you to specify imagePullSecrets for authorized registries and to configure policies to only pull signed and verified images.</p>
+  </section>
+
+  <section>
+    <h2>6. Security in CI/CD Pipelines</h2>
+    <p>CI/CD pipelines can introduce vulnerabilities if not properly configured. Ensure your pipeline:</p>
+    <ul>
+      <li>Scans images for vulnerabilities.</li>
+      <li>Implements IaC (Infrastructure as Code) security checks.</li>
+      <li>Uses secure authentication methods to access Kubernetes clusters.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>7. Monitoring and Logging</h2>
+    <h3>7.1 Setting up Logging</h3>
+    <p>Logging helps trace issues and monitor application health. Use logging solutions like Fluentd and ELK (Elasticsearch, Logstash, and Kibana) for cluster-wide logging.</p>
+
+    <h3>7.2 Implementing Security Monitoring</h3>
+    <p>Security monitoring tools like Falco and Sysdig continuously scan runtime activities and detect anomalies. Configure alerts for unusual activities to quickly respond to threats.</p>
+  </section>
+
+  <section>
+    <h2>8. Auditing and Compliance</h2>
+    <p>Kubernetes auditing logs help you track and record changes, user access, and system calls. Enable audit logs to maintain visibility and meet regulatory compliance requirements.</p>
+  </section>
+
+</div>
+
+</body>
+</html>
