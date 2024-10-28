@@ -99,103 +99,102 @@
             const timeOfDay = document.getElementById("timeOfDay").value;
             let bait = "";
 
-            // Comprehensive bait recommendations for every lake and fish
-           const baitData = {
-    "Lake Fork": {
-        "Bass": {
-            "Spring": {"Day": "Jerkbaits, crankbaits", "Night": "Topwater frogs, jigs"},
-            "Summer": {"Day": "Soft plastic worms, spinnerbaits", "Night": "Topwater frogs"},
-            "Fall": {"Day": "Crankbaits, spinners", "Night": "Buzzbaits, jigs"},
-            "Winter": {"Day": "Jigs, drop-shot rigs", "Night": "Swimbaits"}
-        },
-        "Catfish": {"Any": {"Day": "Stink bait, cut shad", "Night": "Chicken liver, live worms"}},
-        "Crappie": {"Any": {"Day": "Minnows, small jigs", "Night": "Crappie tubes"}},
-        "Perch": {"Any": {"Day": "Worms, small grubs", "Night": "Insects, nightcrawlers"}},
-        "Striped Bass": {"Any": {"Day": "Slab spoons, shad", "Night": "Topwater lures"}},
-        "Trout": {"Any": {"Day": "PowerBait, spinners", "Night": "Nightcrawlers"}}
-    },
-    "Lake Conroe": {
-        "Bass": {
-            "Spring": {"Day": "Spinnerbaits, jigs", "Night": "Topwater frogs"},
-            "Summer": {"Day": "Plastic worms, crankbaits", "Night": "Topwater poppers"},
-            "Fall": {"Day": "Swimbaits, jigs", "Night": "Buzzbaits"},
-            "Winter": {"Day": "Drop-shot rigs, jigs", "Night": "Blade baits"}
-        },
-        "Catfish": {"Any": {"Day": "Chicken liver, punch bait", "Night": "Cut bait, live shad"}},
-        "Crappie": {"Any": {"Day": "Minnows, jigs", "Night": "Small spinners"}},
-        "Perch": {"Any": {"Day": "Worms, grubs", "Night": "Insects"}},
-        "Striped Bass": {"Any": {"Day": "Slab spoons", "Night": "Live bait"}},
-        "Trout": {"Any": {"Day": "PowerBait", "Night": "Spinners"}}
-    },
-    "Lake Texoma": {
-        "Bass": {
-            "Spring": {"Day": "Spinnerbaits", "Night": "Jigs"},
-            "Summer": {"Day": "Plastic worms", "Night": "Topwater frogs"},
-            "Fall": {"Day": "Swimbaits", "Night": "Buzzbaits"},
-            "Winter": {"Day": "Drop-shot", "Night": "Blade baits"}
-        },
-        "Catfish": {"Any": {"Day": "Chicken liver", "Night": "Cut bait"}},
-        "Crappie": {"Any": {"Day": "Minnows", "Night": "Small spinners"}},
-        "Perch": {"Any": {"Day": "Worms", "Night": "Insects"}},
-        "Striped Bass": {"Any": {"Day": "Slab spoons", "Night": "Live shad"}},
-        "Trout": {"Any": {"Day": "PowerBait", "Night": "Spinners"}}
-    },
-    "Lake Amistad": {
-        "Bass": {
-            "Spring": {"Day": "Crankbaits, spinnerbaits", "Night": "Topwater frogs, jigs"},
-            "Summer": {"Day": "Plastic worms, swimbaits", "Night": "Buzzbaits"},
-            "Fall": {"Day": "Crankbaits, jigs", "Night": "Topwater poppers"},
-            "Winter": {"Day": "Slow-rolling spinners", "Night": "Blade baits"}
-        },
-        "Catfish": {"Any": {"Day": "Shrimp, cut shad", "Night": "Live worms, chicken liver"}},
-        "Crappie": {"Any": {"Day": "Minnows, jigs", "Night": "Small crankbaits"}},
-        "Perch": {"Any": {"Day": "Worms, small insects", "Night": "Grubs, mealworms"}},
-        "Striped Bass": {"Any": {"Day": "Live shad, spoons", "Night": "Topwater lures"}},
-        "Trout": {"Any": {"Day": "PowerBait, spinners", "Night": "Nightcrawlers"}}
-    },
-    "Toledo Bend": {
-        "Bass": {
-            "Spring": {"Day": "Swimbaits, jerkbaits", "Night": "Topwater frogs, spinners"},
-            "Summer": {"Day": "Plastic worms, jigs", "Night": "Buzzbaits"},
-            "Fall": {"Day": "Crankbaits, spinnerbaits", "Night": "Jigs, poppers"},
-            "Winter": {"Day": "Drop-shot rigs", "Night": "Blade baits"}
-        },
-        "Catfish": {"Any": {"Day": "Chicken liver, punch bait", "Night": "Cut bait, nightcrawlers"}},
-        "Crappie": {"Any": {"Day": "Minnows, jigs", "Night": "Small spinners"}},
-        "Perch": {"Any": {"Day": "Worms, small grubs", "Night": "Insects"}},
-        "Striped Bass": {"Any": {"Day": "Slab spoons, shad", "Night": "Topwater lures"}},
-        "Trout": {"Any": {"Day": "PowerBait, corn", "Night": "Nightcrawlers"}}
-    },
-    "Lake Sam Rayburn": {
-        "Bass": {
-            "Spring": {"Day": "Spinnerbaits, crankbaits", "Night": "Topwater frogs, jigs"},
-            "Summer": {"Day": "Plastic worms, buzzbaits", "Night": "Topwater lures"},
-            "Fall": {"Day": "Crankbaits, spinners", "Night": "Swimbaits, jigs"},
-            "Winter": {"Day": "Jigs, slow-rolling spinners", "Night": "Blade baits"}
-        },
-        "Catfish": {"Any": {"Day": "Chicken liver, stink bait", "Night": "Cut bait, live shad"}},
-        "Crappie": {"Any": {"Day": "Minnows, jigs", "Night": "Small crankbaits"}},
-        "Perch": {"Any": {"Day": "Worms, small insects", "Night": "Mealworms, grubs"}},
-        "Striped Bass": {"Any": {"Day": "Live shad, slab spoons", "Night": "Topwater lures"}},
-        "Trout": {"Any": {"Day": "PowerBait, small spinners", "Night": "Nightcrawlers"}}
-    }
-};
-
-                // Add remaining lakes like this...
+            const baitData = {
+                "Lake Fork": {
+                    "Bass": {
+                        "Spring": {"Day": "Jerkbaits, crankbaits", "Night": "Topwater frogs, jigs"},
+                        "Summer": {"Day": "Soft plastic worms, spinnerbaits", "Night": "Topwater frogs"},
+                        "Fall": {"Day": "Crankbaits, spinners", "Night": "Buzzbaits, jigs"},
+                        "Winter": {"Day": "Jigs, drop-shot rigs", "Night": "Swimbaits"}
+                    },
+                    "Catfish": {"Any": {"Day": "Stink bait, cut shad", "Night": "Chicken liver, live worms"}},
+                    "Crappie": {"Any": {"Day": "Minnows, small jigs", "Night": "Crappie tubes"}},
+                    "Perch": {"Any": {"Day": "Worms, small grubs", "Night": "Insects, nightcrawlers"}},
+                    "Striped Bass": {"Any": {"Day": "Slab spoons, shad", "Night": "Topwater lures"}},
+                    "Trout": {"Any": {"Day": "PowerBait, spinners", "Night": "Nightcrawlers"}}
+                },
+                "Lake Conroe": {
+                    "Bass": {
+                        "Spring": {"Day": "Spinnerbaits, jigs", "Night": "Topwater frogs"},
+                        "Summer": {"Day": "Plastic worms, crankbaits", "Night": "Topwater poppers"},
+                        "Fall": {"Day": "Swimbaits, jigs", "Night": "Buzzbaits"},
+                        "Winter": {"Day": "Drop-shot rigs, jigs", "Night": "Blade baits"}
+                    },
+                    "Catfish": {"Any": {"Day": "Chicken liver, punch bait", "Night": "Cut bait, live shad"}},
+                    "Crappie": {"Any": {"Day": "Minnows, jigs", "Night": "Small spinners"}},
+                    "Perch": {"Any": {"Day": "Worms, grubs", "Night": "Insects"}},
+                    "Striped Bass": {"Any": {"Day": "Slab spoons", "Night": "Live bait"}},
+                    "Trout": {"Any": {"Day": "PowerBait", "Night": "Spinners"}}
+                },
+                "Lake Texoma": {
+                    "Bass": {
+                        "Spring": {"Day": "Spinnerbaits", "Night": "Jigs"},
+                        "Summer": {"Day": "Plastic worms", "Night": "Topwater frogs"},
+                        "Fall": {"Day": "Swimbaits", "Night": "Buzzbaits"},
+                        "Winter": {"Day": "Drop-shot", "Night": "Blade baits"}
+                    },
+                    "Catfish": {"Any": {"Day": "Chicken liver", "Night": "Cut bait"}},
+                    "Crappie": {"Any": {"Day": "Minnows", "Night": "Small spinners"}},
+                    "Perch": {"Any": {"Day": "Worms", "Night": "Insects"}},
+                    "Striped Bass": {"Any": {"Day": "Slab spoons", "Night": "Live shad"}},
+                    "Trout": {"Any": {"Day": "PowerBait", "Night": "Spinners"}}
+                },
+                "Lake Amistad": {
+                    "Bass": {
+                        "Spring": {"Day": "Crankbaits, spinnerbaits", "Night": "Topwater frogs, jigs"},
+                        "Summer": {"Day": "Plastic worms, swimbaits", "Night": "Buzzbaits"},
+                        "Fall": {"Day": "Crankbaits, jigs", "Night": "Topwater poppers"},
+                        "Winter": {"Day": "Slow-rolling spinners", "Night": "Blade baits"}
+                    },
+                    "Catfish": {"Any": {"Day": "Shrimp, cut shad", "Night": "Live worms, chicken liver"}},
+                    "Crappie": {"Any": {"Day": "Minnows, jigs", "Night": "Small crankbaits"}},
+                    "Perch": {"Any": {"Day": "Worms, small insects", "Night": "Grubs, mealworms"}},
+                    "Striped Bass": {"Any": {"Day": "Live shad, spoons", "Night": "Topwater lures"}},
+                    "Trout": {"Any": {"Day": "PowerBait, spinners", "Night": "Nightcrawlers"}}
+                },
+                "Toledo Bend": {
+                    "Bass": {
+                        "Spring": {"Day": "Swimbaits, jerkbaits", "Night": "Topwater frogs, spinners"},
+                        "Summer": {"Day": "Plastic worms, jigs", "Night": "Buzzbaits"},
+                        "Fall": {"Day": "Crankbaits, spinnerbaits", "Night": "Jigs, poppers"},
+                        "Winter": {"Day": "Drop-shot rigs", "Night": "Blade baits"}
+                    },
+                    "Catfish": {"Any": {"Day": "Chicken liver, punch bait", "Night": "Cut bait, nightcrawlers"}},
+                    "Crappie": {"Any": {"Day": "Minnows, jigs", "Night": "Small spinners"}},
+                    "Perch": {"Any": {"Day": "Worms, small grubs", "Night": "Insects"}},
+                    "Striped Bass": {"Any": {"Day": "Slab spoons, shad", "Night": "Topwater lures"}},
+                    "Trout": {"Any": {"Day": "PowerBait, corn", "Night": "Nightcrawlers"}}
+                },
+                "Lake Sam Rayburn": {
+                    "Bass": {
+                        "Spring": {"Day": "Spinnerbaits, crankbaits", "Night": "Topwater frogs, jigs"},
+                        "Summer": {"Day": "Plastic worms, buzzbaits", "Night": "Topwater lures"},
+                        "Fall": {"Day": "Crankbaits, spinners", "Night": "Swimbaits, jigs"},
+                        "Winter": {"Day": "Jigs, slow-rolling spinners", "Night": "Blade baits"}
+                    },
+                    "Catfish": {"Any": {"Day": "Chicken liver, stink bait", "Night": "Cut bait, live shad"}},
+                    "Crappie": {"Any": {"Day": "Minnows, jigs", "Night": "Small crankbaits"}},
+                    "Perch": {"Any": {"Day": "Worms, small insects", "Night": "Mealworms, grubs"}},
+                    "Striped Bass": {"Any": {"Day": "Live shad, slab spoons", "Night": "Topwater lures"}},
+                    "Trout": {"Any": {"Day": "PowerBait, small spinners", "Night": "Nightcrawlers"}}
+                }
             };
 
-            // Fetch bait from data, default to general advice if specific entry not found
-            bait = (baitData[lake] && baitData[lake][fish] && baitData[lake][fish][season] && baitData[lake][fish][season][timeOfDay]) 
-                    || baitData[lake][fish]["Any"][timeOfDay] 
-                    || "Try live bait, worms, or small spinners.";
+            // Retrieve the appropriate bait recommendation
+            if (baitData[lake][fish][season] && baitData[lake][fish][season][timeOfDay]) {
+                bait = baitData[lake][fish][season][timeOfDay];
+            } else if (baitData[lake][fish]["Any"]) {
+                bait = baitData[lake][fish]["Any"][timeOfDay];
+            } else {
+                bait = "No data available for this selection.";
+            }
 
-            document.getElementById("baitResult").innerText = bait;
+            document.getElementById("baitResult").textContent = `Recommended Bait: ${bait}`;
         }
     </script>
 
     <footer>
-        <p>Created by Benjamin Hunter Miller</p>
-        <p>GNU Project</p>
+        <p>GNU Project by Benjamin Hunter Miller</p>
     </footer>
 </body>
 </html>
