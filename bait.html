@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Texas Lakes Fishing Bait Advisor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        label {
+            font-weight: bold;
+        }
+        select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #4cae4c;
+        }
+        p.result {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Texas Lakes Fishing Bait Advisor</h1>
+
+        <label for="lake">Select Lake:</label>
+        <select id="lake">
+            <option value="Lake Fork">Lake Fork</option>
+            <option value="Lake Conroe">Lake Conroe</option>
+            <option value="Lake Texoma">Lake Texoma</option>
+            <option value="Lake Amistad">Lake Amistad</option>
+            <option value="Toledo Bend">Toledo Bend</option>
+            <option value="Lake Sam Rayburn">Lake Sam Rayburn</option>
+        </select>
+
+        <label for="fish">Fish Species:</label>
+        <select id="fish">
+            <option value="Bass">Bass</option>
+            <option value="Catfish">Catfish</option>
+            <option value="Crappie">Crappie</option>
+            <option value="Perch">Perch</option>
+            <option value="Striped Bass">Striped Bass</option>
+            <option value="Trout">Trout</option>
+            <option value="Other">Other</option>
+        </select>
+
+        <label for="season">Season:</label>
+        <select id="season">
+            <option value="Spring">Spring</option>
+            <option value="Summer">Summer</option>
+            <option value="Fall">Fall</option>
+            <option value="Winter">Winter</option>
+        </select>
+
+        <label for="timeOfDay">Time of Day:</label>
+        <select id="timeOfDay">
+            <option value="Day">Day</option>
+            <option value="Night">Night</option>
+        </select>
+
+        <button onclick="suggestBait()">Get Bait Recommendation</button>
+
+        <p class="result" id="baitResult"></p>
+    </div>
+
+    <script>
+        function suggestBait() {
+            var lake = document.getElementById("lake").value;
+            var fish = document.getElementById("fish").value;
+            var season = document.getElementById("season").value;
+            var timeOfDay = document.getElementById("timeOfDay").value;
+            var bait = "";
+
+            // Bait recommendations based on lake, fish, season, and time of day
+            if (lake === "Lake Sam Rayburn") {
+                if (fish === "Bass") {
+                    if (season === "Spring") bait = (timeOfDay === "Day") ? "Spinnerbaits, crankbaits" : "Topwater frogs, jigs";
+                    else if (season === "Summer") bait = (timeOfDay === "Day") ? "Soft plastic worms, buzzbaits" : "Topwater lures, deep-diving crankbaits";
+                    else if (season === "Fall") bait = (timeOfDay === "Day") ? "Crankbaits, spinners" : "Swimbaits, jigs";
+                    else if (season === "Winter") bait = (timeOfDay === "Day") ? "Jigs, suspending jerkbaits" : "Blade baits, slow-rolling spinners";
+                } else if (fish === "Catfish") {
+                    bait = (timeOfDay === "Day") ? "Chicken liver, stink bait" : "Cut bait, live shad";
+                } else if (fish === "Crappie") {
+                    bait = (season === "Winter") ? "Minnows, jigs" : "Minnows, small jigs";
+                } else if (fish === "Perch") {
+                    bait = (timeOfDay === "Day") ? "Worms, small insects" : "Nightcrawlers, grubs";
+                } else if (fish === "Striped Bass") {
+                    bait = (season === "Summer") ? "Live shad, slab spoons" : "Swimbaits, topwater lures";
+                } else if (fish === "Trout") {
+                    bait = (season === "Spring") ? "PowerBait, small spinners" : "Nightcrawlers, small jigs";
+                } else {
+                    bait = "Try live bait, worms, or small spinners.";
+                }
+            } else if (lake === "Lake Fork" && fish === "Bass") {
+                // Existing logic for Lake Fork
+                if (season === "Spring") bait = (timeOfDay === "Day") ? "Jerkbait, crankbait" : "Topwater lures, jigs";
+                else if (season === "Summer") bait = (timeOfDay === "Day") ? "Soft plastic worms, spinnerbaits" : "Topwater frogs, plastic worms";
+                else if (season === "Fall") bait = (timeOfDay === "Day") ? "Crankbaits, spinnerbaits" : "Buzzbaits, jigs";
+                else if (season === "Winter") bait = (timeOfDay === "Day") ? "Jigs, drop-shot rigs" : "Jigs, swimbaits";
+            }
+            // Add more lakes and fish types as desired for each lake option here...
+
+            document.getElementById("baitResult").innerText = bait;
+        }
+    </script>
+
+    <footer>
+        <p>Created by Benjamin Hunter Miller</p>
+        <p>GNU Project</p>
+    </footer>
+</body>
+</html>
