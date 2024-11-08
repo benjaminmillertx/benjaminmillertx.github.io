@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stick Soldiers Team Deathmatch</title>
+<style>
+canvas {
+border: 1px solid black;
+}
+</style>
+</head>
+<body>
+<canvas id="gameCanvas" width="800" height="600"></canvas>
+<script>
+// Get canvas element
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+
+// Set canvas dimensions
+canvas.width = 800;
+canvas.height = 600;
+
+// Define player properties
+class Player {
+constructor(x, y, team) {
+this.x = x;
+this.y = y;
+this.team = team;
+this.health = 100;
+this.ammo = 10;
+this.speed = 5;
+this.shield = false;
+this.width = 50;
+this.height = 100;
+}
+
+draw() {
+ctx.beginPath();
+ctx.rect(this.x, this.y, this.width, this.height);
+ctx.fillStyle = this.team === 'red' ? 'red' : 'blue';
+ctx.fill();
+ctx.closePath();
+}
+
+shoot() {
+if (this.ammo > 0) {
+this.ammo--;
+return true;
+}
+return false;
+}
+
+move(direction) {
+if (direction === 'up' && this.y > 0) {
+this.y -= this.speed;
+}
+if (direction === 'down' && this.y < canvas.height - this.height) {
+this.y += this.speed;
+}
+if (direction === 'left' && this.x > 0) {
+this.x -= this.speed;
+}
+if (direction === 'right' && this.x < canvas.width - this.width) {
+this.x += this.speed;
+}
+}
+}
+
+// Define power-up properties
+class PowerUp {
+constructor(x, y, type) {
+this.x = x;
+this.y = y;
+this.type = type;
+this.width = 20;
+this.height = 20;
+}
+
+draw() {
+ctx.beginPath();
+ctx.rect(this.x, this.y, this.width, this.height);
+ctx.fillStyle = 'green';
+ctx.fill();
+ctx.closePath();
+}
+
+applyEffect(player) {
+switch (this.type) {
+case 'health':
+player.health += 20;
+break;
+case 'ammo':
+player.ammo += 5;
+break;
+case 'speed':
+player.speed += 2;
+break;
+case 'shield':
+player.shield = true;
+break;
+}
+}
+}
+
+// Initialize players
+const player1 = new Player(100, 100, 'red');
+const player2 = new Player(700, 100, 'blue');
+
+// Initialize power-ups
+const powerUps = [
+new PowerUp(200, 200, 'health'),
+new PowerUp(400, 300, 'ammo'),
+new PowerUp(600, 200, 'speed'),
+new PowerUp(300, 400, 'shield'),
+];
+
+// Initialize game properties
+let score = { red: 0, blue: 0 };
+let gameOver = false;
+let bullets = [];
+
+// Draw everything
+function draw() {
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+player1.draw();
+player2.draw();
+powerUps.forEach((powerUp) => powerUp.draw());
+bullets.forEach((bullet) => {
+ctx.beginPath();
+ctx.rect(bullet.x, bullet.y, 10, 10);
+ctx.fillStyle = 'black';
+ctx.fill();
+ctx.closePath();
+});
+ctx.font = '24px Arial';
+ctx.fillStyle = 'black';
+ctx.textAlign = 'left';
+ctx.textBaseline = 'top';
+ctx.fillText(`Red Score: ${score.red}`, 10, 10);
+ctx.textAlign = 'right';
+ctx.fillText(`Blue Score: ${score.blue}`, canvas.width - 10, 10);
+}
+
+// Update game state
+function update() {
+if (!gameOver) {
+// Move bullets
+bullets.forEach((bullet, index) => {
+bullet.x += bullet.speed;
+if (bullet.x < 0 || bullet.x > canvas.width) {
+bullets.splice(index, 1);
+}
+});
+
+// Check collisions
+powerUps.forEach((powerUp) => {
+if (
+player1.x + player1.width > powerUp.x &&
+player1.x < powerUp.x + powerUp.width &&
+player1.y + player1.height > powerUp.y &&
+player1.y < powerUp.y + powerUp.height
+) {
+powerUp.applyEffect(player1);
+powerUps.splice(powerUps.indexOf(powerUp), 1);
+}
+
+if (
+player2.x + player2.width > powerUp.x &&
+player2.x < powerUp.x + powerUp.width &&
+player2.y + player2.height > powerUp.y &&
+player2.y < powerUp.y + powerUp.height
+) {
+powerUp.applyEffect(player2);
+powerUps.splice(powerUps.indexOf(powerUp), 1);
+}
+});
+
+// Check bullet collisions
+bullets.forEach((bullet, index) => {
+if (
+bullet.x + 10 > player1.x &&
+bullet.x < player1.x + player1.width &&
+bullet.y + 10 > player1.y &&
+bullet.y < player1.y + player1.height
+) {
+player1.health -= 10;
+bullets.splice(index, 1);
+score.blue++;
+}
+
+if (
+bullet.x + 10 > player2.x &&
+bullet.x < player2.x + player2.width &&
+bullet.y + 10 > player2.y &&
+bullet.y < player2.y + player2.height
+) {
+player2.health -= 10;
+bullets.splice(index, 1);
+score.red++;
+}
+});
+
+// Game over check
+if (player1.health <= 0 || player2.health <= 0) {
+gameOver = true;
+}
+}
+
+draw();
+requestAnimationFrame(update);
+}
+
+// Handle user input
+document.addEventListener('keydown', (e) => {
+if (e.key === 'w') {
+player1.move('up');
+}
+if (e.key === 's') {
+player1.move('down');
+}
+if (e.key === 'a') {
+player1.move('left');
+}
+if (e.key === 'd') {
+player1.move('right');
+}
+if (e.key === ' ') {
+if (player1.shoot()) {
+bullets.push({ x: player1.x, y: player1.y, speed: 5 });
+}
+}
+
+if (e.key === 'ArrowUp') {
+player2.move('up');
+}
+if (e.key === 'ArrowDown') {
+player2.move('down');
+}
+if (e.key === 'ArrowLeft') {
+player2.move('left');
+}
+if (e.key === 'ArrowRight') {
+player2.move('right');
+}
+if (e.key === 'Enter') {
+if (player2.shoot()) {
+bullets.push({ x: player2.x, y: player2.y, speed: -5 });
+}
+}
+});
+
+update();
+</script>
+</body>
+</html>
