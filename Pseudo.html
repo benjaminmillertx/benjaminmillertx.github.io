@@ -6,19 +6,21 @@
     <title>Pseudo Identity Maker</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <style>
+        /* Set black background and green text */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
+            background-color: #000;
+            color: #00ff00;
             margin: 0;
             padding: 20px;
         }
 
         .identity-container {
             margin-top: 20px;
-            border: 1px solid #ddd;
+            border: 1px solid #00ff00;
             padding: 15px;
             border-radius: 5px;
-            background-color: #fff;
+            background-color: #222;
         }
 
         img {
@@ -27,19 +29,20 @@
             border-radius: 50%;
             object-fit: cover;
             margin-bottom: 10px;
+            border: 2px solid #00ff00;
         }
 
         .btn-generate {
             margin-bottom: 20px;
-            background-color: #007bff;
-            color: white;
+            background-color: #00ff00;
+            color: black;
             border: none;
             padding: 10px;
             cursor: pointer;
         }
 
         .btn-generate:hover {
-            background-color: #0056b3;
+            background-color: #00cc00;
         }
 
         .identity-details p {
@@ -75,21 +78,28 @@
 
         // Function to generate a random identity
         function generateIdentity() {
-            // Get random data from arrays
             const name = names[getRandomInt(0, names.length - 1)];
             const age = getRandomInt(18, 60);
             const occupation = occupations[getRandomInt(0, occupations.length - 1)];
             const location = locations[getRandomInt(0, locations.length - 1)];
             
-            // Set image URL with a timestamp to force load a new image
-            const imageUrl = `https://thispersondoesnotexist.com/image?${new Date().getTime()}`;
+            // Use fetch to confirm image loads, then set it as the src
+            fetch("https://thispersondoesnotexist.com/image?" + new Date().getTime())
+                .then(response => {
+                    if (response.ok) {
+                        document.getElementById('personImage').src = response.url;
+                    } else {
+                        document.getElementById('personImage').alt = "Image not available";
+                    }
+                })
+                .catch(() => {
+                    document.getElementById('personImage').alt = "Image not available";
+                });
 
-            // Set the data in the HTML
             document.getElementById('personName').textContent = name;
             document.getElementById('personAge').textContent = age;
             document.getElementById('personOccupation').textContent = occupation;
             document.getElementById('personLocation').textContent = location;
-            document.getElementById('personImage').src = imageUrl;
         }
 
         // Initial load
