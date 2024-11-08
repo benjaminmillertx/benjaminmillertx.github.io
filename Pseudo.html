@@ -55,7 +55,7 @@
         <h1>Pseudo Identity Maker</h1>
         <button class="btn btn-generate" onclick="generateIdentity()">Generate Identity</button>
         <div class="identity-container" id="identityContainer">
-            <img id="personImage" src="" alt="Identity Image">
+            <img id="personImage" src="https://via.placeholder.com/200?text=No+Image" alt="Identity Image">
             <div class="identity-details">
                 <p><strong>Name:</strong> <span id="personName">---</span></p>
                 <p><strong>Age:</strong> <span id="personAge">---</span></p>
@@ -82,20 +82,21 @@
             const age = getRandomInt(18, 60);
             const occupation = occupations[getRandomInt(0, occupations.length - 1)];
             const location = locations[getRandomInt(0, locations.length - 1)];
-            
-            // Use fetch to confirm image loads, then set it as the src
-            fetch("https://thispersondoesnotexist.com/image?" + new Date().getTime())
-                .then(response => {
-                    if (response.ok) {
-                        document.getElementById('personImage').src = response.url;
-                    } else {
-                        document.getElementById('personImage').alt = "Image not available";
-                    }
-                })
-                .catch(() => {
-                    document.getElementById('personImage').alt = "Image not available";
-                });
 
+            // Set the fallback image URL
+            const placeholderImage = "https://via.placeholder.com/200?text=No+Image";
+            const imageUrl = "https://thispersondoesnotexist.com/image?" + new Date().getTime();
+
+            // Try to load the real image
+            const personImage = document.getElementById('personImage');
+            personImage.src = imageUrl;
+
+            // Add an error event to fallback to the placeholder if the image doesn't load
+            personImage.onerror = () => {
+                personImage.src = placeholderImage;
+            };
+
+            // Set the data in the HTML
             document.getElementById('personName').textContent = name;
             document.getElementById('personAge').textContent = age;
             document.getElementById('personOccupation').textContent = occupation;
