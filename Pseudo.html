@@ -22,21 +22,6 @@
             background-color: #222;
         }
 
-        .image-container {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            overflow: hidden;
-            margin-bottom: 10px;
-            border: 2px solid #00ff00;
-        }
-
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
         .btn-generate {
             margin-bottom: 20px;
             background-color: #00ff00;
@@ -53,6 +38,11 @@
         .identity-details p {
             margin: 5px 0;
         }
+
+        .identity-link {
+            color: #00ff00;
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -60,42 +50,43 @@
         <h1>Pseudo Identity Maker</h1>
         <button class="btn btn-generate" onclick="generateIdentity()">Generate Identity</button>
         <div class="identity-container" id="identityContainer">
-            <div class="image-container">
-                <iframe id="personImage" src="https://thispersondoesnotexist.com/image"></iframe>
-            </div>
             <div class="identity-details">
                 <p><strong>Name:</strong> <span id="personName">---</span></p>
                 <p><strong>Age:</strong> <span id="personAge">---</span></p>
                 <p><strong>Occupation:</strong> <span id="personOccupation">---</span></p>
                 <p><strong>Location:</strong> <span id="personLocation">---</span></p>
+                <p><a id="personLink" href="https://thispersondoesnotexist.com" target="_blank" class="identity-link">View Generated Face</a></p>
             </div>
         </div>
     </div>
 
     <script>
-        const names = ["John Doe", "Jane Smith", "Robert Johnson", "Emily Davis", "Michael Brown", "Jessica Williams", "Daniel Martinez", "Laura Wilson", "Sarah Lee", "David Harris", "Alice Walker", "Henry Carter", "Olivia White", "James Anderson", "Emma Thompson", "Samuel Robinson", "Mia Clark", "Liam Young", "Chloe Lewis", "Benjamin Scott"];
-        const occupations = ["Software Engineer", "Doctor", "Teacher", "Lawyer", "Artist", "Chef", "Writer", "Journalist", "Photographer", "Mechanic", "Architect", "Musician", "Scientist", "Sales Manager", "Pilot", "Pharmacist", "Accountant", "Nurse", "Firefighter", "Biologist"];
-        const locations = ["New York, USA", "London, UK", "Paris, France", "Berlin, Germany", "Tokyo, Japan", "Sydney, Australia", "Toronto, Canada", "San Francisco, USA", "Dubai, UAE", "Mumbai, India", "Hong Kong, China", "Singapore", "Rome, Italy", "Madrid, Spain", "Buenos Aires, Argentina", "Cape Town, South Africa", "Moscow, Russia", "Seoul, South Korea", "Mexico City, Mexico", "Bangkok, Thailand"];
-
+        // Arrays with sample data for pseudo identities
+        const names = ["John Doe", "Jane Smith", "Robert Johnson", "Emily Davis", "Michael Brown", "Jessica Williams", "Daniel Martinez", "Laura Wilson", "Sarah Lee", "David Harris"];
+        const occupations = ["Software Engineer", "Doctor", "Teacher", "Lawyer", "Artist", "Chef", "Writer", "Journalist", "Photographer", "Mechanic"];
+        const locations = ["New York, USA", "London, UK", "Paris, France", "Berlin, Germany", "Tokyo, Japan", "Sydney, Australia", "Toronto, Canada", "San Francisco, USA", "Dubai, UAE", "Mumbai, India"];
+        
+        // Function to generate a random integer between min and max (inclusive)
         function getRandomInt(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
 
+        // Function to generate a random identity
         function generateIdentity() {
+            // Get random data from arrays
             const name = names[getRandomInt(0, names.length - 1)];
             const age = getRandomInt(18, 60);
             const occupation = occupations[getRandomInt(0, occupations.length - 1)];
             const location = locations[getRandomInt(0, locations.length - 1)];
 
-            // Reload the iframe to fetch a new image
-            document.getElementById('personImage').src = "https://thispersondoesnotexist.com/image?" + new Date().getTime();
-
+            // Set the data in the HTML
             document.getElementById('personName').textContent = name;
             document.getElementById('personAge').textContent = age;
             document.getElementById('personOccupation').textContent = occupation;
             document.getElementById('personLocation').textContent = location;
         }
 
+        // Initial load
         document.addEventListener('DOMContentLoaded', generateIdentity);
     </script>
 </body>
