@@ -63,11 +63,11 @@
     </div>
 
     <script>
-        // Arrays with sample data for pseudo identities
-        const names = ["John Doe", "Jane Smith", "Robert Johnson", "Emily Davis", "Michael Brown", "Jessica Williams", "Daniel Martinez", "Laura Wilson", "Sarah Lee", "David Harris"];
-        const occupations = ["Software Engineer", "Doctor", "Teacher", "Lawyer", "Artist", "Chef", "Writer", "Journalist", "Photographer", "Mechanic"];
-        const locations = ["New York, USA", "London, UK", "Paris, France", "Berlin, Germany", "Tokyo, Japan", "Sydney, Australia", "Toronto, Canada", "San Francisco, USA", "Dubai, UAE", "Mumbai, India"];
-        
+        // Expanded arrays with more sample data for pseudo identities
+        const names = ["John Doe", "Jane Smith", "Robert Johnson", "Emily Davis", "Michael Brown", "Jessica Williams", "Daniel Martinez", "Laura Wilson", "Sarah Lee", "David Harris", "Alice Walker", "Henry Carter", "Olivia White", "James Anderson", "Emma Thompson", "Samuel Robinson", "Mia Clark", "Liam Young", "Chloe Lewis", "Benjamin Scott"];
+        const occupations = ["Software Engineer", "Doctor", "Teacher", "Lawyer", "Artist", "Chef", "Writer", "Journalist", "Photographer", "Mechanic", "Architect", "Musician", "Scientist", "Sales Manager", "Pilot", "Pharmacist", "Accountant", "Nurse", "Firefighter", "Biologist"];
+        const locations = ["New York, USA", "London, UK", "Paris, France", "Berlin, Germany", "Tokyo, Japan", "Sydney, Australia", "Toronto, Canada", "San Francisco, USA", "Dubai, UAE", "Mumbai, India", "Hong Kong, China", "Singapore", "Rome, Italy", "Madrid, Spain", "Buenos Aires, Argentina", "Cape Town, South Africa", "Moscow, Russia", "Seoul, South Korea", "Mexico City, Mexico", "Bangkok, Thailand"];
+
         // Function to generate a random integer between min and max (inclusive)
         function getRandomInt(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -80,7 +80,9 @@
             const age = getRandomInt(18, 60);
             const occupation = occupations[getRandomInt(0, occupations.length - 1)];
             const location = locations[getRandomInt(0, locations.length - 1)];
-            const imageUrl = "https://thispersondoesnotexist.com/image";
+            
+            // Set image URL with a timestamp to force load a new image
+            const imageUrl = `https://thispersondoesnotexist.com/image?${new Date().getTime()}`;
 
             // Set the data in the HTML
             document.getElementById('personName').textContent = name;
