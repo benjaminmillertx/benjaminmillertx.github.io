@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,15 +6,8 @@
     <title>Coconut 🥥 Screenplay Writing</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: white;
-        }
-
-        .container {
-            margin-top: 50px;
-        }
-
+        body { font-family: Arial, sans-serif; background-color: white; }
+        .container { margin-top: 50px; }
         .header {
             text-align: center;
             color: white;
@@ -23,7 +16,6 @@
             margin-bottom: 20px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
         }
-
         textarea {
             width: 100%;
             height: 300px;
@@ -33,34 +25,23 @@
             font-family: Courier, monospace;
             font-size: 14px;
         }
-
-        button {
-            margin-top: 20px;
-            display: block;
-        }
-
+        button { margin-top: 20px; display: block; }
         .quick-keys {
             display: flex;
             justify-content: space-between;
             margin-bottom: 20px;
         }
-
         .quick-key-btn {
             flex-grow: 1;
             margin-right: 10px;
         }
-
-        .quick-key-btn:last-child {
-            margin-right: 0;
-        }
-
+        .quick-key-btn:last-child { margin-right: 0; }
         .screenplay-bible, .generator-section, .license {
             margin-top: 40px;
             padding: 20px;
             border: 1px solid #0277bd;
             background-color: #f5f5f5;
         }
-
         .name-list, .place-list {
             margin-top: 20px;
             padding: 10px;
@@ -98,14 +79,17 @@
         <textarea id="screenplayEditor" spellcheck="true" placeholder="Start typing your screenplay..."></textarea>
 
         <button class="btn btn-primary" onclick="exportScreenplay()">Export as Text File</button>
-        <button class="btn btn-primary" onclick="loadScreenplay()">Load a Screenplay File</button>
-        <input type="file" id="fileInput" style="display:none" accept=".txt">
+        <button class="btn btn-primary" onclick="document.getElementById('screenplayFileInput').click()">Load a Screenplay File</button>
+        <input type="file" id="screenplayFileInput" style="display:none" accept=".txt" onchange="loadScreenplay(event)">
 
         <!-- Screenplay Bible Section -->
         <div class="screenplay-bible">
             <h4>Screenplay Bible</h4>
             <textarea id="bibleEditor" spellcheck="true" placeholder="Use this section for characters, places, attributes, backstory, and chapters..."></textarea>
         </div>
+        <button class="btn btn-primary" onclick="exportBible()">Export Bible as Text File</button>
+        <button class="btn btn-primary" onclick="document.getElementById('bibleFileInput').click()">Load Bible File</button>
+        <input type="file" id="bibleFileInput" style="display:none" accept=".txt" onchange="loadBible(event)">
 
         <!-- Character and Place Generator -->
         <div class="generator-section">
@@ -113,14 +97,10 @@
             <button class="btn btn-secondary" onclick="generateCharacter()">Generate Character Name</button>
             <button class="btn btn-secondary" onclick="generatePlace()">Generate Place</button>
             <p id="generatedOutput" style="margin-top: 20px; font-weight: bold;"></p>
-
-            <!-- Name List -->
             <div class="name-list">
                 <h5>Character Names:</h5>
                 <ul id="nameList"></ul>
             </div>
-
-            <!-- Place List -->
             <div class="place-list">
                 <h5>Places:</h5>
                 <ul id="placeList"></ul>
@@ -131,116 +111,155 @@
         <div class="license">
             <h4>License</h4>
             <p>Coconut is licensed under the GNU General Public License (GPL).</p>
-            <pre>
-                <code>
-GNU GENERAL PUBLIC LICENSE
+            <pre><code>GNU GENERAL PUBLIC LICENSE
 Version 3, 29 June 2007
-
 Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
 Everyone is permitted to copy and distribute verbatim copies
-of this license document, but changing it is not allowed.
-
-[Full license text here...]
-                </code>
-            </pre>
+of this license document, but changing it is not allowed.</code></pre>
         </div>
     </div>
 
     <script>
-        const editor = document.getElementById('screenplayEditor');
-        const formatSelect = document.getElementById('formatSelect');
+        const screenplayEditor = document.getElementById('screenplayEditor');
+        const bibleEditor = document.getElementById('bibleEditor');
+        const nameList = document.getElementById('nameList');
+        const placeList = document.getElementById('placeList');
+        const generatedOutput = document.getElementById('generatedOutput');
 
-        // Character and Place Data
         const characterNames = [
-            "Liam", "Olivia", "Noah", "Emma", "Oliver", "Ava", "Elijah", "Sophia", "James", "Isabella",
-            // ... Add up to 100 names here ...
+    "Liam", "Olivia", "Noah", "Emma", "Oliver", "Ava", "Elijah", "Sophia", "James", "Isabella", "Elon", "Jeff", "Mark", "Josh", "Augustana", "Logan", "Jake", "Bobby", "Blake", "Bob", "Shelby", "Asa", "Cambria", "Nikki", "Fred", "Tosh", "Linus", "Bill", "Patricia", "Jewell", "Blake", "Caleigh", "Fluke", "Miranda", 
+    "Jen", "Sasha", "Lance", "Joey", "Ryder", "Landon", "Paris", "Mike", "Lilly", "Eric", "Taylor", "Tammy", "Paul", "Kim", "Cardigan", "Laken", "Naurdis", "Linda", "Dia", "Lucy", "Ranger", "Nikka", "Nico", "Enoch", "Malak", "Ishim", "Ariel", "Eligos", "Marax", "Volac", "Zepar",
+    "Jophiel", "Leliel", "Parker", "Raziel", "Samyaza", "Archie", "Theo", "Finley", "Arlo", "Amelia", "Florence", "Poppy", "Violet", "Delilah", "Chloe", "Bella", "Nevaeh", "Francesca", "Harlow", "Piper", "Zoya", "Callum", "Cameron", "Casper", "James", "Arthur", "Eden", "Harley", "Evan", "Clara", "Zane", "Maya",
+    "Paige", "Xander", "Riley", "Sam", "Lola", "Carter", "Madeline", "Luke", "Leah", "Ivy", "Chad", "Dexter", "Nathan", "Aiden", "Maddox", "Eliana", "Sophie", "Kaden", "Nova", "Dylan", "Chase", "Grace", "Isla", "Willow", "Sierra", "Jasper", "Mason", "Adeline", "Emma", "Logan", "Roxanne", "Zara", "Toby",
+    "Sadie", "Jade", "Zoe", "Nina", "Caleb", "Leo", "Tessa", "Graham", "Harriet", "Rory", "Gage", "Julian", "Kira", "Bryn", "Mabel", "Aubrey", "Bridget", "Asher", "Marley", "Edgar", "Nash", "Archer", "Jonah", "Morgan", "Willa", "Roman", "Maggie", "Eli", "Luna", "Vanessa", "Jack", "Ruby", "Lennox", "Dexter",
+    "Scarlett", "Ellis", "Tess", "Solomon", "Owen", "Raegan", "Maya", "Levi", "Audrey", "Finn", "Troy", "Olivia", "Iris", "Everett", "Raven", "Harrison", "Sienna", "Paxton", "Emilia", "Melanie", "Sandy", "Fiona", "Quinn", "Ellie", "Blair", "Tanner", "Hazel", "Sebastian", "Brennan", "Ava", "Clifton", "Kaitlyn",
+    "Nadia", "Beatrix", "Daphne", "Gwen", "Theo", "Caden", "Bailey", "Sage", "Vincent", "Diana", "Silas", "Roman", "Melody", "Isaiah", "Elliott", "Briar", "Xena", "Jordan", "Flora", "Tyler", "Charlie", "Shannon", "Grayson", "Lydia", "Aidan", "Harper", "Augustus", "Ravenna", "Mabel", "Olive", "Veronica", "Lyle",
+    "Vance", "Jaxon", "Talia", "Xander", "Avery", "Sonya", "Bodie", "Holly", "Roman", "Ben", "Dorian", "Dante", "Celeste", "Ember", "Chloe", "Carla", "Jonas", "Tiffany", "Luther", "Phoenix", "Rhea", "Xander", "Eden", "Harper", "Silas", "Wren", "Parker", "Riley", "Aurora", "Harold", "Tyson", "Daniela", "Josephine",
+    "Rosalie", "Astrid", "Brielle", "Sylas", "Edith", "Brent", "Maddox", "Emerson", "Zane", "Sierra", "Brynne", "Jasper", "Tessa", "Clara", "Zayden", "Brady", "Chloe", "Victor", "Aurora", "Leandro", "Lorelei", "Miles", "Everett", "Daphne", "Samantha", "Matthew", "Kane", "Rachel", "Emerson", "Stella", "Tobias",
+    "Ariana", "Logan", "Vivian", "Juliet", "Maeve", "Liam", "Nina", "Lucian", "Riley", "Hope", "Aidan", "Edwin", "Gail", "Celia", "Maggie", "Lance", "Allison", "Cole", "Violet", "Joseph", "Tate", "Jonah", "Briar", "Adaline", "Zoe", "Gavin", "Faith", "Evan", "Lena", "Dakota", "Julian", "Yara", "Kai", "Angus",
+    "Reed", "Hollis", "Remy", "Miles", "Seth", "Nora", "Arthur", "Miriam", "Lilly", "Rosalind", "Weston", "Finley", "Griffin", "Juno", "Lance", "Kiera", "Casey", "Jack", "Sophie", "Alec", "Nathaniel", "Rose", "Myles", "Miriam", "Miles", "Felix", "Blaise", "Celia", "Miranda", "Greta", "Maya", "Piper", "Everett",
+    "Kendra", "Jonas", "Ivy", "Zara", "Leopold", "Tara", "Lia", "Phoenix", "Xander", "Will", "Morgan", "Jude", "Wade", "Annabelle", "Cecilia", "Nina", "Harriet", "Oliver", "Elliot", "Nessa", "Jordan", "Oscar", "Clara", "Seth", "Quinn", "Willow", "Maxwell", "Violet", "Alice", "Benjamin", "Leo", "Maddox", "Sydney",
+    "Eloise", "Juliette", "Rhys", "Ivy", "Katherine", "Dax", "Iris", "Seth", "Diana", "Luca", "Riley", "Freya", "Remy", "Anderson", "Beatrice", "Xander", "Kellen", "Ava", "Emery", "Finn", "Callie", "Vera", "Jared", "Celeste", "Sadie", "Evelyn", "Wade", "Bliss", "Solomon", "Bryce", "Molly", "Ethan", "Trey",
+    "Frances", "Olivia", "Cora", "Jasper", "Jace", "Tessa", "Grayson", "Julian", "Lyle", "Cassidy", "Jade", "Lara", "Eliza", "Teagan", "Victor", "Serenity", "Lance", "Paige", "Holly", "Luke", "Samantha", "Isaac", "Toby", "Vivian", "Theo", "Kayla", "Kendall", "Sawyer", "Felicity", "Brooklyn", "Amos", "Aurora",
+    "Blair", "Ray", "Maddie", "Beau", "Nathan", "Lola", "Sterling", "Wyatt", "Arden", "Audra", "Clifton", "Keira", "Shane", "Hendrix", "Madeline", "Avery", "Maddox", "Toby", "Kai", "Vera", "Ronan", "Wyatt", "Violet", "Lacey", "Caden", "Sienna", "Felix", "Sydney", "Jovian", "Phoebe", "Felix", "Lauren", "Paige"];
+            // (Add more places up to 1,000)
+                const places = [
+    "Tokyo, Japan", "Paris, France", "New York, USA", "London, UK", "Rome, Italy", "Deweyville, Texas", "Orange, Texas", "Houston, Texas",
+    "Boston, Massachusetts", "Sommerville, Massachusetts", "Los Angeles, USA", "Miami, Florida", "Chicago, Illinois", "San Francisco, California", 
+    "Dallas, Texas", "Austin, Texas", "Seattle, Washington", "Portland, Oregon", "Vancouver, Canada", "Montreal, Canada", "Toronto, Canada",
+    "Moscow, Russia", "Beijing, China", "Cairo, Egypt", "Dubai, UAE", "Istanbul, Turkey", "Berlin, Germany", "Vienna, Austria", "Madrid, Spain",
+    "Barcelona, Spain", "Amsterdam, Netherlands", "Prague, Czech Republic", "Stockholm, Sweden", "Oslo, Norway", "Helsinki, Finland", "Warsaw, Poland", 
+    "Lisbon, Portugal", "Budapest, Hungary", "Athens, Greece", "Dublin, Ireland", "Edinburgh, Scotland", "Glasgow, Scotland", "Brussels, Belgium",
+    "Zurich, Switzerland", "Geneva, Switzerland", "Luxembourg City, Luxembourg", "Reykjavik, Iceland", "Copenhagen, Denmark", "Bucharest, Romania",
+    "Chisinau, Moldova", "Tbilisi, Georgia", "Yerevan, Armenia", "Astana, Kazakhstan", "Baku, Azerbaijan", "Bishkek, Kyrgyzstan", "Almaty, Kazakhstan",
+    "Bangalore, India", "Delhi, India", "Mumbai, India", "Chennai, India", "Kolkata, India", "Hyderabad, India", "Kathmandu, Nepal", "Lahore, Pakistan",
+    "Karachi, Pakistan", "Islamabad, Pakistan", "Dhaka, Bangladesh", "Manila, Philippines", "Jakarta, Indonesia", "Kuala Lumpur, Malaysia", 
+    "Singapore", "Bangkok, Thailand", "Ho Chi Minh City, Vietnam", "Hanoi, Vietnam", "Yangon, Myanmar", "Seoul, South Korea", "Busan, South Korea", 
+    "Taipei, Taiwan", "Sydney, Australia", "Melbourne, Australia", "Brisbane, Australia", "Perth, Australia", "Auckland, New Zealand", 
+    "Wellington, New Zealand", "Helsinki, Finland", "Lagos, Nigeria", "Abuja, Nigeria", "Cape Town, South Africa", "Johannesburg, South Africa", 
+    "Nairobi, Kenya", "Cairo, Egypt", "Lima, Peru", "Rio de Janeiro, Brazil", "Sao Paulo, Brazil", "Buenos Aires, Argentina", "Montevideo, Uruguay", 
+    "Santiago, Chile", "Lima, Peru", "Bogota, Colombia", "Quito, Ecuador", "Caracas, Venezuela", "La Paz, Bolivia", "Moscow, Russia", "St. Petersburg, Russia", 
+    "Kiev, Ukraine", "Tashkent, Uzbekistan", "Samarkand, Uzbekistan", "Astana, Kazakhstan", "Baku, Azerbaijan", "Bishkek, Kyrgyzstan", "Yerevan, Armenia", 
+    "New Delhi, India", "Chandigarh, India", "Bhopal, India", "Jaipur, India", "Chennai, India", "Ahmedabad, India", "Surat, India", "Kanpur, India", 
+    "Lucknow, India", "Patna, India", "Visakhapatnam, India", "Agra, India", "Bhubaneswar, India", "Indore, India", "Nagpur, India", "Faridabad, India", 
+    "Vadodara, India", "Kolkata, India", "Mumbai, India", "Hyderabad, India", "Chandigarh, India", "Pune, India", "Jaipur, India", "Nagpur, India", 
+    "New Delhi, India", "Bengaluru, India", "Bhopal, India", "Ranchi, India", "Patna, India", "Surat, India", "Kolkata, India", "Ahmedabad, India", 
+    "San Salvador, El Salvador", "Managua, Nicaragua", "Guatemala City, Guatemala", "Havana, Cuba", "Kingston, Jamaica", "Port-au-Prince, Haiti", 
+    "Tegucigalpa, Honduras", "Caracas, Venezuela", "Georgetown, Guyana", "Belmopan, Belize", "Santiago, Chile", "Rio de Janeiro, Brazil", "Sao Paulo, Brazil", 
+    "Buenos Aires, Argentina", "Montevideo, Uruguay", "Lima, Peru", "La Paz, Bolivia", "Asuncion, Paraguay", "Quito, Ecuador", "Bogota, Colombia", 
+    "Caracas, Venezuela", "Lagos, Nigeria", "Cape Town, South Africa", "Johannesburg, South Africa", "Lusaka, Zambia", "Harare, Zimbabwe", 
+    "Addis Ababa, Ethiopia", "Nairobi, Kenya", "Kampala, Uganda", "Kinshasa, DR Congo", "Luanda, Angola", "Accra, Ghana", "Abidjan, Ivory Coast", 
+    "Port Moresby, Papua New Guinea", "Baku, Azerbaijan", "Cairo, Egypt", "Mexico City, Mexico", "Guatemala City, Guatemala", "Quito, Ecuador", 
+    "Lima, Peru", "Santiago, Chile", "La Paz, Bolivia", "Asuncion, Paraguay", "Monterrey, Mexico", "Port-au-Prince, Haiti", "San Salvador, El Salvador", 
+    "Tegucigalpa, Honduras", "Caracas, Venezuela", "Bogota, Colombia", "Panama City, Panama", "São Paulo, Brazil", "Rio de Janeiro, Brazil", 
+    "Buenos Aires, Argentina", "Montevideo, Uruguay", "Lima, Peru", "Quito, Ecuador", "La Paz, Bolivia", "Caracas, Venezuela", "Bogotá, Colombia", 
+    "Santiago, Chile", "Brasília, Brazil", "San Salvador, El Salvador", "Managua, Nicaragua", "San José, Costa Rica", "Havana, Cuba", "Kingston, Jamaica", 
+    "Port-au-Prince, Haiti", "Asunción, Paraguay", "Rosario, Argentina", "San Miguel, El Salvador", "Puebla, Mexico", "Puno, Peru", "Port of Spain, Trinidad", 
+    "Port Moresby, Papua New Guinea", "Belize City, Belize", "Cartagena, Colombia", "Nassau, Bahamas", "San Juan, Puerto Rico", "Rio de Janeiro, Brazil", 
+    "Montevideo, Uruguay", "Santiago, Chile", "Lima, Peru", "Bogota, Colombia", "Quito, Ecuador", "Caracas, Venezuela", "Sao Paulo, Brazil", 
+    "London, UK", "Paris, France", "Berlin, Germany", "Rome, Italy", "Madrid, Spain", "Vienna, Austria", "Brussels, Belgium", "Amsterdam, Netherlands", 
+    "Lisbon, Portugal", "Athens, Greece", "Copenhagen, Denmark", "Zurich, Switzerland", "Geneva, Switzerland", "Stockholm, Sweden", "Warsaw, Poland", 
+    "Helsinki, Finland", "Oslo, Norway", "Reykjavik, Iceland", "Luxembourg City, Luxembourg", "Chisinau, Moldova", "Kiev, Ukraine", "Minsk, Belarus",
+    "Riga, Latvia", "Tallinn, Estonia", "Vilnius, Lithuania", "Sarajevo, Bosnia and Herzegovina", "Zagreb, Croatia", "Belgrade, Serbia", "Skopje, Macedonia", 
+    "Podgorica, Montenegro", "Tirana, Albania", "Pristina, Kosovo", "Ljubljana, Slovenia", "Monaco, Monaco", "Andorra la Vella, Andorra", "San Marino, San Marino",
+    "Vaduz, Liechtenstein", "Vienna, Austria", "Bern, Switzerland", "Oslo, Norway", "Copenhagen, Denmark", "Stockholm, Sweden", "Helsinki, Finland", "Dublin, Ireland",
+    "Belfast, Northern Ireland", "Luxembourg City, Luxembourg", "Amsterdam, Netherlands", "Brussels, Belgium", "London, United Kingdom", "Zurich, Switzerland", 
+    "Geneva, Switzerland", "Luxembourg City, Luxembourg", "Liechtenstein, Vaduz", "San Marino, San Marino", "Monaco, Monaco", "Vatican City, Vatican", 
+    "Brussels, Belgium", "Rotterdam, Netherlands", "Helsinki, Finland", "Stockholm, Sweden", "Vienna, Austria", "Berlin, Germany", "Copenhagen, Denmark", 
+    "Dublin, Ireland", "Paris, France", "Rome, Italy", "Madrid, Spain"
+            // (Add more places up to 1,000)
         ];
 
-        const places = [
-            "Tokyo, Japan", "Paris, France", "New York, USA", "London, UK", "Rome, Italy", 
-            // ... Add up to 100 places here ...
-        ];
-
-        // Generating Character Names
-        function generateCharacter() {
-            const randomIndex = Math.floor(Math.random() * characterNames.length);
-            const name = characterNames[randomIndex];
-            document.getElementById('generatedOutput').innerText = `Character Name: ${name}`;
-            addNameToList(name);
-        }
-
-        // Generating Places
-        function generatePlace() {
-            const randomIndex = Math.floor(Math.random() * places.length);
-            const place = places[randomIndex];
-            document.getElementById('generatedOutput').innerText = `Place: ${place}`;
-            addPlaceToList(place);
-        }
-
-        // Add Name to List
-        function addNameToList(name) {
-            const nameList = document.getElementById('nameList');
-            const listItem = document.createElement('li');
-            listItem.innerText = name;
-            nameList.appendChild(listItem);
-        }
-
-        // Add Place to List
-        function addPlaceToList(place) {
-            const placeList = document.getElementById('placeList');
-            const listItem = document.createElement('li');
-            listItem.innerText = place;
-            placeList.appendChild(listItem);
-        }
-
-        // Insert screenplay elements
         function insertSceneHeading() {
-            const text = "INT. SCENE NAME - DAY/NIGHT\n\n";
-            editor.value += text;
+            screenplayEditor.value += "\nINT. LOCATION - DAY\n";
         }
 
         function insertCharacter() {
-            const text = "CHARACTER NAME\n";
-            editor.value += text;
+            screenplayEditor.value += "\nCHARACTER NAME\n";
         }
 
         function insertAction() {
-            const text = "Action description here...\n";
-            editor.value += text;
+            screenplayEditor.value += "\nAction description goes here.\n";
         }
 
         function insertDialog() {
-            const text = "CHARACTER NAME\n    Dialog goes here...\n";
-            editor.value += text;
+            screenplayEditor.value += "\nCHARACTER NAME\nDialog goes here.\n";
         }
 
         function insertTransition() {
-            const text = "CUT TO:\n";
-            editor.value += text;
+            screenplayEditor.value += "\nCUT TO:\n";
         }
 
-        // Export functionality
         function exportScreenplay() {
-            const screenplay = editor.value;
-            const blob = new Blob([screenplay], { type: 'text/plain' });
+            const blob = new Blob([screenplayEditor.value], { type: 'text/plain' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
             link.download = 'screenplay.txt';
             link.click();
         }
 
-        // Load screenplay from file
-        function loadScreenplay() {
-            document.getElementById('fileInput').click();
-            document.getElementById('fileInput').onchange = function(event) {
-                const file = event.target.files[0];
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    editor.value = e.target.result;
-                };
-                reader.readAsText(file);
-            };
+        function loadScreenplay(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = e => screenplayEditor.value = e.target.result;
+            reader.readAsText(file);
+        }
+
+        function exportBible() {
+            const blob = new Blob([bibleEditor.value], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'screenplay_bible.txt';
+            link.click();
+        }
+
+        function loadBible(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = e => bibleEditor.value = e.target.result;
+            reader.readAsText(file);
+        }
+
+        function generateCharacter() {
+            const name = characterNames[Math.floor(Math.random() * characterNames.length)];
+            generatedOutput.innerText = "Character: " + name;
+            const li = document.createElement('li');
+            li.innerText = name;
+            nameList.appendChild(li);
+        }
+
+        function generatePlace() {
+            const place = places[Math.floor(Math.random() * places.length)];
+            generatedOutput.innerText = "Place: " + place;
+            const li = document.createElement('li');
+            li.innerText = place;
+            placeList.appendChild(li);
         }
     </script>
 </body>
 </html>
+          
+
+    
