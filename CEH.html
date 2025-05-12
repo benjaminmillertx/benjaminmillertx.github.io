@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hacker CEH Practice Flashcards</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 20px;
+    }
+    h1, h2 {
+      text-align: center;
+      color: #333;
+    }
+    h2 {
+      font-size: 24px;
+      color: #555;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .card {
+      background-color: #fff;
+      width: 300px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: scale(1.05);
+    }
+    .question {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .answer {
+      display: none;
+      margin-top: 10px;
+      color: green;
+    }
+    button.download {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button.download:hover {
+      background-color: #45a049;
+    }
+    .banner {
+      text-align: center;
+      font-size: 36px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="banner">🌐 Hacker CEH Practice Flashcards</div>
+  <h2>GNU Project made by Benjamin Miller</h2>
+  <button class="download" onclick="downloadCSV()">Download All Questions (CSV)</button>
+  <div class="container" id="cardContainer"></div>
+
+  <script>
+    const container = document.getElementById('cardContainer');
+    const cehData = [
+      { question: "What is the primary purpose of footprinting in ethical hacking?", answer: "To gather information about a target system or organization before launching an attack." },
+      { question: "Which port does HTTPS typically use?", answer: "Port 443 is used for secure HTTP traffic using SSL/TLS." },
+      { question: "What is a common tool used for network scanning?", answer: "Nmap is widely used for discovering hosts and services on a network." },
+      { question: "What is the difference between symmetric and asymmetric encryption?", answer: "Symmetric uses one key for encryption/decryption; asymmetric uses a public/private key pair." },
+      { question: "Which layer of the OSI model does a packet filter firewall operate on?", answer: "Packet filtering firewalls operate primarily at the Network layer (Layer 3)." },
+      { question: "What is the purpose of a honeypot?", answer: "To attract and deceive attackers, while monitoring their activities in a controlled environment." },
+      { question: "What is SQL injection?", answer: "An attack method that allows attackers to execute arbitrary SQL code on a database by manipulating input fields." },
+      { question: "Which protocol is used for secure email communication?", answer: "SMTPS (Secure SMTP) is used for encrypted email communication." },
+      { question: "What is a man-in-the-middle (MITM) attack?", answer: "An attack where the attacker intercepts and potentially alters communication between two parties." },
+      { question: "What is a common tool for password cracking?", answer: "John the Ripper is a popular password cracking tool used by ethical hackers." },
+      { question: "What is a buffer overflow?", answer: "An error where a program writes more data to a buffer than it can hold, leading to potential vulnerabilities." },
+      { question: "What is the purpose of a firewall?", answer: "A firewall is designed to monitor and control incoming and outgoing network traffic based on predetermined security rules." },
+      { question: "Which port is used for FTP?", answer: "FTP uses port 21 for control and port 20 for data transfer." },
+      { question: "What does the acronym VPN stand for?", answer: "VPN stands for Virtual Private Network, used to create a secure, encrypted connection over the internet." },
+      { question: "What is the difference between a virus and a worm?", answer: "A virus requires a host to spread, while a worm can spread autonomously across networks." },
+      { question: "What is reconnaissance in ethical hacking?", answer: "Reconnaissance is the initial phase of gathering information about a target system or network." },
+      { question: "What does SSL stand for?", answer: "SSL stands for Secure Sockets Layer, a protocol for establishing secure connections over a network." },
+      { question: "What is a Trojan horse?", answer: "A Trojan horse is a malicious program that disguises itself as a legitimate file or software." },
+      { question: "What is social engineering?", answer: "Social engineering is the manipulation of people into divulging confidential information for malicious purposes." },
+      { question: "What is the purpose of encryption?", answer: "Encryption is used to convert data into a secure format to prevent unauthorized access." },
+      { question: "What is a vulnerability scanner?", answer: "A vulnerability scanner is a tool used to identify potential security weaknesses in a system or network." },
+      { question: "What is a DDoS attack?", answer: "A Distributed Denial-of-Service (DDoS) attack attempts to overload a system or network with traffic to make it unavailable." },
+      { question: "What is the purpose of penetration testing?", answer: "Penetration testing involves simulating an attack on a system to identify and fix vulnerabilities." },
+      { question: "What is the OSI model?", answer: "The OSI model is a conceptual framework used to understand network interactions in seven layers." },
+      { question: "What is phishing?", answer: "Phishing is a technique used to deceive users into revealing personal information by pretending to be a trusted entity." },
+      { question: "What is a brute-force attack?", answer: "A brute-force attack involves trying every possible combination to crack a password or encryption." },
+      { question: "What is an IDS?", answer: "An IDS (Intrusion Detection System) is a tool used to monitor network traffic for suspicious activity." },
+      { question: "What is a botnet?", answer: "A botnet is a network of infected computers used for malicious purposes, often for DDoS attacks." },
+      { question: "What is data exfiltration?", answer: "Data exfiltration is the unauthorized transfer of data from a system to an external location." },
+      { question: "What is two-factor authentication?", answer: "Two-factor authentication requires two forms of identification before granting access, enhancing security." },
+      { question: "What is a zero-day vulnerability?", answer: "A zero-day vulnerability is a flaw in software that is unknown to the vendor and has no available patch." },
+      { question: "What is port scanning?", answer: "Port scanning is the process of identifying open ports and services on a system to assess vulnerabilities." },
+      { question: "What is the difference between a black hat hacker and a white hat hacker?", answer: "Black hat hackers engage in illegal activities, while white hat hackers work to improve security by identifying vulnerabilities." },
+      { question: "What is the goal of ethical hacking?", answer: "The goal is to identify and fix security vulnerabilities before they can be exploited by malicious attackers." }
+    ];
+
+    cehData.forEach((item, index) => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="question">${item.question}</div>
+        <div class="answer">${item.answer}</div>
+      `;
+      card.onclick = function () {
+        const ans = this.querySelector('.answer');
+        ans.style.display = ans.style.display === 'block' ? 'none' : 'block';
+      };
+      container.appendChild(card);
+    });
+
+    function downloadCSV() {
+      const rows = [['Question', 'Answer']];
+      cehData.forEach(q => {
+        rows.push([q.question, q.answer]);
+      });
+      let csvContent = "data:text/csv;charset=utf-8," + rows.map(e => e.join(",")).join("\n");
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "ceh_flashcards.csv");
+      document.body.appendChild(link);
+      link.click();
+    }
+  </script>
+</body>
+</html>
