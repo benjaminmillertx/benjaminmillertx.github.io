@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Predator Hunter Flashcards</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #1a202c;
+      color: #e2e8f0;
+      margin: 0;
+      padding: 20px;
+    }
+    h1, h2 {
+      text-align: center;
+      color: #fbbf24;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .card {
+      background-color: #2d3748;
+      width: 300px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: scale(1.05);
+    }
+    .question {
+      font-weight: bold;
+      color: #fbbf24;
+    }
+    .answer {
+      margin-top: 10px;
+      color: #9ae3a0;
+      display: none;
+    }
+    .banner {
+      text-align: center;
+      font-size: 36px;
+      color: #e53e3e;
+      margin-bottom: 10px;
+    }
+    button.download {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4a5568;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button.download:hover {
+      background-color: #2d3748;
+    }
+  </style>
+</head>
+<body>
+  <div class="banner">⚡ Predator Hunter Flashcards</div>
+  <h2>By Benjamin Miller</h2>
+  <button class="download" onclick="downloadCSV()">Download CSV</button>
+  <div class="container" id="cardContainer"></div>
+
+  <script>
+    const data = [
+      { question: "What is the best way to track a predator in the wild?", answer: "Look for signs like footprints, scat, and disturbed vegetation." },
+      { question: "What are common predators in the wild?", answer: "Wolves, bears, big cats, and large birds of prey." },
+      { question: "How do you defend yourself from a predator?", answer: "Make yourself appear larger, make noise, and back away slowly." },
+      { question: "What are the most effective hunting tools for predator hunting?", answer: "High-powered rifles, traps, and specialized calls." },
+      { question: "What is the role of scent in predator hunting?", answer: "Predators rely on scent to track prey; hunters use scent control to avoid detection." },
+      { question: "How do predators generally hunt?", answer: "Predators may hunt in packs or alone, using ambush tactics or chasing down prey." },
+      { question: "What is the main danger when hunting predators?", answer: "The biggest danger is the predator turning the hunt around and attacking the hunter." },
+      { question: "How can you tell if a predator is nearby?", answer: "Listen for sudden movements, growls, or the sounds of prey in distress." },
+      { question: "What is the role of camouflage in predator hunting?", answer: "Camouflage helps the hunter blend into the environment and avoid detection." },
+      { question: "What should you do if you encounter a predator face-to-face?", answer: "Stay calm, do not run, and make yourself appear bigger by raising your arms or using objects." },
+      { question: "What are the most dangerous predators in the wild?", answer: "Big cats (lions, tigers), crocodiles, and large bears are some of the most dangerous." },
+      { question: "What is predator-prey dynamics?", answer: "It refers to the relationship between predators and their prey, influencing population control." },
+      { question: "How can predators be lured into traps?", answer: "Using bait that attracts their senses of smell or sight is the most common method." },
+      { question: "What are signs of a predator stalking its prey?", answer: "Slow, stealthy movements, focus on a target, and sudden pauses in movement." },
+      { question: "What should you never do when confronted by a bear?", answer: "Never run; it triggers a chase instinct." },
+      { question: "What is the best time of day to hunt predators?", answer: "Predators are most active during dawn and dusk when prey is also more active." },
+      { question: "What type of camouflage works best for predator hunting?", answer: "Natural camouflage that matches the environment like forest or desert camo." },
+      { question: "What is the role of scent-masking in predator hunting?", answer: "It helps hunters avoid being detected by a predator's acute sense of smell." },
+      { question: "What is a predator's biggest advantage?", answer: "Their sharp senses (sight, smell, hearing) and hunting strategies that make them effective hunters." },
+      { question: "How do you know if a predator is territorial?", answer: "They often mark their territory with scents or physical markings like claw marks or feces." },
+      { question: "What is the difference between an apex predator and a regular predator?", answer: "An apex predator has no natural predators and sits at the top of the food chain." },
+      { question: "How do you determine if a predator is in mating season?", answer: "They may become more aggressive, territorial, or actively seek out mates." },
+      { question: "What is the primary function of a predator’s claws or teeth?", answer: "To catch, kill, and tear apart their prey." },
+      { question: "What is the best way to ensure a predator doesn't track you?", answer: "Use scent-control sprays, avoid leaving tracks, and stay upwind of the predator." },
+      { question: "How do predators communicate with each other?", answer: "Through vocalizations, scent marking, and body language." },
+      { question: "What is the 'killing blow' technique?", answer: "A method predators use to quickly incapacitate or kill prey, usually targeting vital areas." },
+      { question: "What role does a predator’s vision play in hunting?", answer: "Many predators rely on keen eyesight to track and capture prey." },
+      { question: "What is the difference between a predator and a scavenger?", answer: "A predator actively hunts for food, while a scavenger feeds on already-dead animals." },
+      { question: "Why do predators often hunt in packs?", answer: "Hunting in packs increases their chances of catching large or more difficult prey." },
+      { question: "What is the role of predators in ecosystems?", answer: "They control prey populations, which helps maintain balance in ecosystems." },
+      { question: "What is the most effective weapon for hunting large predators?", answer: "Firearms, including rifles with high velocity, are commonly used." },
+      { question: "How do predators adapt to different environments?", answer: "Through specialized hunting strategies, physical features, and behaviors suited to their habitats." },
+      { question: "What is a predator’s hunting strategy in the wild?", answer: "Predators use various techniques such as ambush, pursuit, or stalking to catch their prey." },
+      { question: "How does a predator's territory affect its survival?", answer: "Having a clearly defined territory helps predators control resources and reduce conflict with others." },
+      { question: "How do predators use their sense of hearing?", answer: "Predators use acute hearing to detect prey movements, especially in low-light conditions." },
+      { question: "How can you tell if a predator is injured?", answer: "Injured predators may exhibit limping, reluctance to move, or defensive behaviors." },
+      { question: "What is a predator’s role in controlling disease in wildlife?", answer: "By hunting sick or weak animals, predators help control the spread of disease." },
+      { question: "What should you do if you encounter a venomous predator?", answer: "Slowly back away and avoid sudden movements to reduce the risk of an attack." },
+      { question: "How do predators prepare for a hunt?", answer: "They assess the environment, stalk prey, and wait for the right moment to strike." },
+      { question: "What is a predator’s favorite hunting ground?", answer: "Predators tend to hunt in areas where prey is abundant, such as near water or dense vegetation." }
+    ];
+
+    const container = document.getElementById("cardContainer");
+
+    data.forEach(item => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <div class="question">${item.question}</div>
+        <div class="answer">${item.answer}</div>
+      `;
+      card.addEventListener("click", function () {
+        const ans = this.querySelector(".answer");
+        ans.style.display = ans.style.display === "block" ? "none" : "block";
+      });
+      container.appendChild(card);
+    });
+
+    function downloadCSV() {
+      const rows = [["Question", "Answer"]];
+      data.forEach(item => rows.push([item.question, item.answer]));
+      const csvContent = "data:text/csv;charset=utf-8," + rows.map(e => e.join(",")).join("\n");
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "predator_hunter_flashcards.csv");
+      link.click();
+    }
+  </script>
+</body>
+</html>
