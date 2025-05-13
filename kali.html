@@ -103,4 +103,45 @@
       { question: "Tool for phishing attacks?", answer: "Gophish or SET." },
       { question: "How to install a .deb file?", answer: "`sudo dpkg -i filename.deb`" },
       { question: "How to search exploits in Metasploit?", answer: "`search <keyword>`" },
-      { question: "What does
+      { question: "What does `ls -la` show?", answer: "All files with permissions, including hidden ones." },
+      { question: "Which tool captures screenshots remotely?", answer: "Metasploit with meterpreter." },
+      { question: "Tool used for ARP spoofing?", answer: "Ettercap or Arpspoof." },
+      { question: "Command to find a file?", answer: "`find` or `locate`" },
+      { question: "Kali tool for SSL/TLS analysis?", answer: "sslyze or testssl.sh." },
+      { question: "What is Veil Framework?", answer: "Used to bypass antivirus during payload delivery." },
+      { question: "Command to show disk space?", answer: "`df -h`" },
+      { question: "Default username in older Kali versions?", answer: "`root`" (now it's a regular user account) },
+      { question: "Tool to scan for live hosts?", answer: "Nmap or fping." },
+      { question: "How to open Metasploit console?", answer: "`msfconsole`" }
+    ];
+
+    const container = document.getElementById("cardContainer");
+
+    data.forEach(item => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <div class="question">${item.question}</div>
+        <div class="answer">${item.answer}</div>
+      `;
+      card.onclick = function () {
+        const ans = this.querySelector(".answer");
+        ans.style.display = ans.style.display === "block" ? "none" : "block";
+      };
+      container.appendChild(card);
+    });
+
+    function downloadCSV() {
+      const rows = [["Question", "Answer"]];
+      data.forEach(item => rows.push([item.question, item.answer]));
+      const csvContent = "data:text/csv;charset=utf-8," + rows.map(e => e.join(",")).join("\n");
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "kali_linux_flashcards.csv");
+      document.body.appendChild(link);
+      link.click();
+    }
+  </script>
+</body>
+</html>
