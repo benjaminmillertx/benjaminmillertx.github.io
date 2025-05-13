@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Anonymity & Privacy Flashcards</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0f172a;
+      color: #f8fafc;
+      padding: 20px;
+    }
+    h1, h2 {
+      text-align: center;
+      color: #38bdf8;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .card {
+      background-color: #1e293b;
+      width: 300px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: scale(1.05);
+    }
+    .question {
+      font-weight: bold;
+      color: #38bdf8;
+    }
+    .answer {
+      margin-top: 10px;
+      color: #a3e635;
+      display: none;
+    }
+    .banner {
+      text-align: center;
+      font-size: 36px;
+      color: #facc15;
+      margin-bottom: 10px;
+    }
+    button.download {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #334155;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button.download:hover {
+      background-color: #1e293b;
+    }
+  </style>
+</head>
+<body>
+  <div class="banner">🔐 Internet Privacy & Anonymity</div>
+  <h2>Essential Flashcards for Digital Privacy</h2>
+  <button class="download" onclick="downloadCSV()">Download CSV</button>
+  <div class="container" id="cardContainer"></div>
+
+  <script>
+    const data = [
+      { question: "What is online anonymity?", answer: "Online anonymity means using the internet without revealing your true identity." },
+      { question: "What is the difference between anonymity and privacy?", answer: "Anonymity hides who you are, while privacy protects what you do." },
+      { question: "What is a VPN?", answer: "A VPN (Virtual Private Network) encrypts your internet connection and hides your IP address." },
+      { question: "How does Tor ensure anonymity?", answer: "Tor routes your traffic through multiple volunteer relays, masking your location and identity." },
+      { question: "What is metadata?", answer: "Metadata is data about data, such as timestamps, sender info, and IP addresses." },
+      { question: "What is a burner phone?", answer: "A burner phone is a disposable phone used to maintain anonymity." },
+      { question: "How do cookies affect privacy?", answer: "Cookies track your browsing behavior and can be used for profiling." },
+      { question: "What is a zero-knowledge service?", answer: "A service that doesn't store or know your data; only you hold the keys." },
+      { question: "Why is HTTPS important?", answer: "HTTPS encrypts data between your browser and the website, protecting it from interception." },
+      { question: "What is a browser fingerprint?", answer: "A unique identifier created from your browser's configuration and behavior." },
+      { question: "What is a secure browser?", answer: "A browser like Brave or Tor that limits tracking and enhances user privacy." },
+      { question: "What is a pseudonym?", answer: "A fake or alternate name used to protect identity online." },
+      { question: "Why use decentralized services?", answer: "Decentralized services reduce the risk of surveillance and single-point failures." },
+      { question: "What is end-to-end encryption?", answer: "Encryption where only the sender and recipient can read the message, not even the service provider." },
+      { question: "What are onion sites?", answer: "Websites accessible only through the Tor network with .onion addresses." },
+      { question: "How can public Wi-Fi threaten your privacy?", answer: "Unsecured Wi-Fi can expose your data to eavesdropping and man-in-the-middle attacks." },
+      { question: "What is a privacy-focused search engine?", answer: "Search engines like DuckDuckGo or Startpage that don’t track users or store queries." },
+      { question: "What is the purpose of incognito mode?", answer: "It prevents the browser from saving browsing history, cookies, and form data." },
+      { question: "How can DNS leaks affect anonymity?", answer: "DNS leaks reveal your ISP and visited domains, compromising your privacy." },
+      { question: "What is digital surveillance?", answer: "Monitoring of digital communications by governments, corporations, or hackers." },
+      { question: "Why should you disable location services?", answer: "To prevent apps and websites from tracking your physical location." },
+      { question: "What is two-factor authentication (2FA)?", answer: "A security measure requiring two forms of identification to log in." },
+      { question: "What is a no-log policy in VPNs?", answer: "A guarantee that the VPN provider doesn’t store user activity or connection data." },
+      { question: "Why avoid using real names online?", answer: "Using real names increases the risk of doxxing and targeted surveillance." },
+      { question: "What is the principle of least privilege?", answer: "Only give apps or users the minimum access needed to do their job." },
+      { question: "What are privacy coins?", answer: "Cryptocurrencies like Monero or Zcash that focus on anonymous transactions." },
+      { question: "What is browser isolation?", answer: "Running different activities in separate browser profiles to prevent cross-tracking." },
+      { question: "What is OPSEC?", answer: "Operational Security — strategies to protect information from being leaked." },
+      { question: "What is a digital footprint?", answer: "All the traces of information you leave online, intentionally or unintentionally." },
+      { question: "What is data minimization?", answer: "Limiting data collection to only what's strictly necessary." },
+      { question: "What is the danger of social media oversharing?", answer: "It reveals personal data that can be used for profiling or attacks." },
+      { question: "What are disposable email services?", answer: "Temporary email addresses used to sign up without revealing your real email." },
+      { question: "Why is password reuse dangerous?", answer: "If one site is breached, attackers can access all accounts using the same password." },
+      { question: "What is device fingerprinting?", answer: "Identifying a device based on unique hardware or software characteristics." },
+      { question: "What is an air-gapped system?", answer: "A computer that is completely isolated from the internet for security." },
+      { question: "Why use anonymous payment methods?", answer: "To avoid linking purchases to your real identity." },
+      { question: "What is the GDPR?", answer: "The General Data Protection Regulation — EU law that protects data and privacy." },
+      { question: "What is a kill switch in VPNs?", answer: "A feature that cuts internet access if the VPN disconnects, preventing leaks." },
+      { question: "What is an alias email?", answer: "An email that forwards messages to your real address, keeping it private." },
+      { question: "What is Tails OS?", answer: "A privacy-focused operating system that runs from USB and leaves no trace." }
+    ];
+
+    const container = document.getElementById("cardContainer");
+
+    data.forEach(item => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <div class="question">${item.question}</div>
+        <div class="answer">${item.answer}</div>
+      `;
+      card.addEventListener("click", function () {
+        const ans = this.querySelector(".answer");
+        ans.style.display = ans.style.display === "block" ? "none" : "block";
+      });
+      container.appendChild(card);
+    });
+
+    function downloadCSV() {
+      const rows = [["Question", "Answer"]];
+      data.forEach(item => rows.push([item.question, item.answer]));
+      const csvContent = "data:text/csv;charset=utf-8," + rows.map(e => e.join(",")).join("\n");
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "anonymity_privacy_flashcards.csv");
+      link.click();
+    }
+  </script>
+</body>
+</html>
