@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BlackArch Linux Flashcards</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #1a202c;
+      color: #e2e8f0;
+      margin: 0;
+      padding: 20px;
+    }
+    h1, h2 {
+      text-align: center;
+      color: #fbbf24;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .card {
+      background-color: #2d3748;
+      width: 300px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: scale(1.05);
+    }
+    .question {
+      font-weight: bold;
+      color: #fbbf24;
+    }
+    .answer {
+      margin-top: 10px;
+      color: #9ae3a0;
+      display: none;
+    }
+    .banner {
+      text-align: center;
+      font-size: 36px;
+      color: #e53e3e;
+      margin-bottom: 10px;
+    }
+    button.download {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4a5568;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button.download:hover {
+      background-color: #2d3748;
+    }
+  </style>
+</head>
+<body>
+  <div class="banner">⚡ BlackArch Linux Flashcards</div>
+  <h2>By Benjamin Miller</h2>
+  <button class="download" onclick="downloadCSV()">Download CSV</button>
+  <div class="container" id="cardContainer"></div>
+
+  <script>
+    const data = [
+      { question: "What is BlackArch Linux?", answer: "A penetration testing and security auditing Linux distribution based on Arch Linux." },
+      { question: "What is the default package manager in BlackArch?", answer: "Pacman, inherited from Arch Linux." },
+      { question: "What is the main purpose of BlackArch Linux?", answer: "To provide a vast collection of tools for security professionals and penetration testers." },
+      { question: "What command do you use to install a package in BlackArch?", answer: "`sudo pacman -S <package>`" },
+      { question: "What is the BlackArch repository?", answer: "A repository that contains over 2500 tools for penetration testing and security research." },
+      { question: "Which tool in BlackArch is used for password cracking?", answer: "John the Ripper or Hashcat." },
+      { question: "What is the tool 'Nmap' used for in BlackArch?", answer: "Network exploration and security auditing." },
+      { question: "Which BlackArch tool is used for web vulnerability scanning?", answer: "Nikto." },
+      { question: "What is the BlackArch tool 'Aircrack-ng' used for?", answer: "Wi-Fi network security testing and WEP/WPA cracking." },
+      { question: "How can you update your BlackArch system?", answer: "`sudo pacman -Syu`" },
+      { question: "Which BlackArch tool is used for network sniffing?", answer: "Wireshark." },
+      { question: "What does the BlackArch tool 'Metasploit' do?", answer: "It is a framework used for exploiting vulnerabilities in systems." },
+      { question: "What is the purpose of BlackArch's 'Burp Suite'?", answer: "Web application security testing, including scanning for vulnerabilities." },
+      { question: "What does the command `ls` do in BlackArch?", answer: "Lists directory contents." },
+      { question: "How can you check available disk space in BlackArch?", answer: "`df -h`" },
+      { question: "What is the tool 'Hydra' used for?", answer: "Password cracking, supporting multiple protocols." },
+      { question: "What is BlackArch's tool 'Metasploit' used for?", answer: "Exploiting vulnerabilities on remote systems." },
+      { question: "What command is used to search for installed packages in BlackArch?", answer: "`pacman -Qs <package>`" },
+      { question: "What is 'Maltego' used for in BlackArch?", answer: "OSINT gathering and link analysis." },
+      { question: "What is 'Ettercap' used for?", answer: "Man-in-the-middle attacks and network sniffing." },
+      { question: "What does 'hashcat' do?", answer: "Cracking hashes using GPU power." },
+      { question: "What is 'Burp Suite' used for?", answer: "Web vulnerability scanning and testing." },
+      { question: "Which tool in BlackArch is used for SQL injection attacks?", answer: "sqlmap." },
+      { question: "How can you display network interfaces in BlackArch?", answer: "`ip a`" },
+      { question: "What is the function of 'Kismet'?", answer: "Wireless network detector, sniffer, and intrusion detection system." },
+      { question: "What is the tool 'Netcat' used for?", answer: "Networking utility used for port scanning, remote access, and file transfer." },
+      { question: "What is 'Wireshark' used for in BlackArch?", answer: "Packet capture and analysis." },
+      { question: "What tool in BlackArch is used for brute-force SSH attacks?", answer: "Hydra." },
+      { question: "What is 'Social Engineering Toolkit'?", answer: "A tool used for social engineering attacks." },
+      { question: "What does 'sslyze' do?", answer: "SSL/TLS scanning and vulnerability detection." },
+      { question: "What is the default shell in BlackArch?", answer: "Bash." },
+      { question: "Which tool is used for password spraying attacks?", answer: "Hydra." },
+      { question: "How can you change file permissions in BlackArch?", answer: "`chmod`" },
+      { question: "What is 'Netdiscover' used for?", answer: "Network discovery and scanning." },
+      { question: "What is 'Recon-ng' used for?", answer: "Web reconnaissance and OSINT." },
+      { question: "What does 'CrackMapExec' do?", answer: "Post-exploitation tool for pentesters to automate common exploitation tasks." },
+      { question: "Which BlackArch tool is used for fuzz testing?", answer: "Afl-fuzz." },
+      { question: "What is the command to show system uptime?", answer: "`uptime`" },
+      { question: "What is the function of 'Gobuster'?", answer: "Directory brute-forcing tool." },
+      { question: "Which BlackArch tool can be used to perform a reverse shell?", answer: "Netcat or Metasploit." },
+      { question: "How can you get system information in BlackArch?", answer: "`uname -a` or `cat /etc/os-release`" },
+      { question: "Which tool is used for wireless network analysis?", answer: "Aircrack-ng or Kismet." },
+      { question: "What does 'tcpdump' do?", answer: "Packet capturing and analysis for network traffic." }
+    ];
+
+    const container = document.getElementById("cardContainer");
+
+    data.forEach(item => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <div class="question">${item.question}</div>
+        <div class="answer">${item.answer}</div>
+      `;
+      card.onclick = function () {
+        const ans = this.querySelector(".answer");
+        ans.style.display = ans.style.display === "block" ? "none" : "block";
+      };
+      container.appendChild(card);
+    });
+
+    function downloadCSV() {
+      const rows = [["Question", "Answer"]];
+      data.forEach(item => rows.push([item.question, item.answer]));
+      const csvContent = "data:text/csv;charset=utf-8," + rows.map(e => e.join(",")).join("\n");
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "blackarch_linux_flashcards.csv");
+      document.body.appendChild(link);
+      link.click();
+    }
+  </script>
+</body>
+</html>
