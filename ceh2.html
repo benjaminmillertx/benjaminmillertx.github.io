@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hacker CEH Practice Flashcards</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 20px;
+    }
+    h1, h2 {
+      text-align: center;
+      color: #333;
+    }
+    h2 {
+      font-size: 24px;
+      color: #555;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .card {
+      background-color: #fff;
+      width: 300px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: scale(1.05);
+    }
+    .question {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .answer {
+      display: none;
+      margin-top: 10px;
+      color: green;
+    }
+    button.download {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button.download:hover {
+      background-color: #45a049;
+    }
+    .banner {
+      text-align: center;
+      font-size: 36px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="banner">🌐 Hacker CEH Practice Flashcards</div>
+  <h2>GNU Project made by Benjamin Miller</h2>
+  <button class="download" onclick="downloadCSV()">Download All Questions (CSV)</button>
+  <div class="container" id="cardContainer"></div>
+
+  <script>
+    const container = document.getElementById('cardContainer');
+    const cehData = [
+      { question: "What is the main function of Wireshark?", answer: "To capture and analyze network traffic in real time." },
+      { question: "What is ARP spoofing?", answer: "A technique used to associate the attacker’s MAC address with the IP address of another host, intercepting traffic." },
+      { question: "What is the purpose of the Netcat tool?", answer: "Netcat is used for reading from and writing to network connections using TCP or UDP." },
+      { question: "What does XSS stand for?", answer: "Cross-Site Scripting, a vulnerability that allows attackers to inject malicious scripts into webpages." },
+      { question: "What is enumeration in ethical hacking?", answer: "The process of extracting usernames, machine names, network resources, and other services from a system." },
+      { question: "What does CVE stand for?", answer: "Common Vulnerabilities and Exposures – a reference system for publicly known security flaws." },
+      { question: "What is the difference between TCP and UDP?", answer: "TCP is connection-oriented and reliable; UDP is connectionless and faster but less reliable." },
+      { question: "What is a logic bomb?", answer: "A malicious code that triggers when specific conditions are met." },
+      { question: "What is the function of an Intrusion Prevention System (IPS)?", answer: "To detect and prevent identified threats in real-time." },
+      { question: "What is the purpose of a DMZ in networking?", answer: "A demilitarized zone (DMZ) adds an additional security layer between internal and external networks." },
+      { question: "What does MAC filtering do?", answer: "Controls access to a network based on device MAC addresses." },
+      { question: "What tool is commonly used to brute-force SSH credentials?", answer: "Hydra is a fast and flexible brute-force tool." },
+      { question: "What is a rainbow table?", answer: "A precomputed table for reversing cryptographic hash functions." },
+      { question: "What is DNS poisoning?", answer: "A technique to corrupt DNS data and redirect traffic to malicious sites." },
+      { question: "What is a digital signature?", answer: "A cryptographic value that proves the authenticity and integrity of a message or document." },
+      { question: "What does OWASP stand for?", answer: "Open Web Application Security Project – a foundation improving software security." },
+      { question: "What is a security patch?", answer: "A software update that fixes vulnerabilities or bugs." },
+      { question: "What is steganography?", answer: "Hiding data within other non-secret text or data, like images or audio files." },
+      { question: "What does 'least privilege' mean in security?", answer: "Giving users only the permissions they need to perform their tasks." },
+      { question: "What is shoulder surfing?", answer: "Looking over someone's shoulder to steal personal or confidential information." },
+      { question: "What is a security token?", answer: "A physical or software-based device used to gain access to secure systems." },
+      { question: "What is a threat actor?", answer: "An individual or group that conducts or intends to conduct malicious activities." },
+      { question: "What is malware obfuscation?", answer: "The process of disguising code to avoid detection." },
+      { question: "What is the difference between IDS and IPS?", answer: "IDS detects intrusions, IPS detects and prevents them." },
+      { question: "What is a pivoting attack?", answer: "Using a compromised system to move laterally and access other systems." },
+      { question: "What is command injection?", answer: "A security flaw where an attacker executes arbitrary commands on a host." },
+      { question: "What is DNS enumeration?", answer: "The process of locating all the DNS records of a domain." },
+      { question: "What is a vulnerability assessment?", answer: "A process to identify, classify, and prioritize security vulnerabilities." },
+      { question: "What is an evil twin attack?", answer: "Setting up a rogue Wi-Fi access point to mimic a legitimate one." },
+      { question: "What is CAPTCHA used for?", answer: "To distinguish human users from automated bots." },
+      { question: "What is fileless malware?", answer: "Malware that resides in memory and does not write to disk, making detection harder." },
+      { question: "What is the function of SSL/TLS?", answer: "To secure communications over a network using encryption." },
+      { question: "What is a whaling attack?", answer: "A phishing attack targeting high-profile individuals such as executives." },
+      { question: "What is a rogue DHCP server?", answer: "An unauthorized DHCP server that assigns incorrect IP settings to clients." },
+      { question: "What is the use of a keylogger?", answer: "To record keystrokes to capture sensitive information like passwords." },
+      { question: "What is a watering hole attack?", answer: "Infecting websites commonly visited by the target group." },
+      { question: "What is bluejacking?", answer: "Sending unsolicited messages to Bluetooth-enabled devices." },
+      { question: "What is tailgating in physical security?", answer: "An unauthorized person gaining access by following an authorized person into a secure area." },
+      { question: "What is the main goal of cyber threat intelligence?", answer: "To understand potential threats and take preventive measures in advance." }
+    ];
+
+    cehData.forEach((item) => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="question">${item.question}</div>
+        <div class="answer">${item.answer}</div>
+      `;
+      card.onclick = function () {
+        const ans = this.querySelector('.answer');
+        ans.style.display = ans.style.display === 'block' ? 'none' : 'block';
+      };
+      container.appendChild(card);
+    });
+
+    function downloadCSV() {
+      const rows = [['Question', 'Answer']];
+      cehData.forEach(q => {
+        rows.push([q.question, q.answer]);
+      });
+      let csvContent = "data:text/csv;charset=utf-8," + rows.map(e => e.join(",")).join("\n");
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "ceh_flashcards.csv");
+      document.body.appendChild(link);
+      link.click();
+    }
+  </script>
+</body>
+</html>
