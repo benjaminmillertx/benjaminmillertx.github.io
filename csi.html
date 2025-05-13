@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CSI Linux Practice Flashcards</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 20px;
+    }
+    h1, h2 {
+      text-align: center;
+      color: #333;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .card {
+      background-color: #fff;
+      width: 300px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: scale(1.05);
+    }
+    .question {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .answer {
+      display: none;
+      margin-top: 10px;
+      color: green;
+    }
+    .banner {
+      text-align: center;
+      font-size: 36px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    button.download {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button.download:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="banner">🔍 CSI Linux Practice Flashcards</div>
+  <h2>Created by Benjamin Miller</h2>
+  <button class="download" onclick="downloadCSV()">Download All Questions (CSV)</button>
+  <div class="container" id="cardContainer"></div>
+
+  <script>
+    const container = document.getElementById('cardContainer');
+    const cehData = [
+      { question: "What is CSI Linux?", answer: "A Linux distro tailored for cyber investigations and digital forensics." },
+      { question: "Which tool in CSI Linux is used for memory analysis?", answer: "Volatility Framework." },
+      { question: "Which CSI Linux tool allows OSINT investigations?", answer: "Recon-ng and Maltego." },
+      { question: "What is the role of Autopsy in CSI Linux?", answer: "GUI-based digital forensic platform for analyzing hard drives and smartphones." },
+      { question: "What is CyberChef?", answer: "A web-based tool used for encoding, decoding, and analyzing data." },
+      { question: "What module in CSI Linux helps track cryptocurrency?", answer: "Crypto Investigations module with tools like WalletExplorer." },
+      { question: "What is the function of Wireshark in CSI Linux?", answer: "Network protocol analyzer used to capture and inspect traffic." },
+      { question: "What is TheHarvester used for?", answer: "Email, subdomain, and host discovery using public sources." },
+      { question: "What is DFIR in the context of CSI Linux?", answer: "Digital Forensics and Incident Response." },
+      { question: "Which CSI Linux tool is used for timeline analysis?", answer: "Plaso (log2timeline)." },
+      { question: "What does Sleuth Kit provide in CSI Linux?", answer: "Command-line tools for analyzing disk images." },
+      { question: "What is included in the CSI Linux OSINT VM?", answer: "Browser plugins, Recon-ng, SpiderFoot, Maltego, and other OSINT tools." },
+      { question: "How is Kali different from CSI Linux?", answer: "Kali focuses on penetration testing; CSI Linux focuses on investigation and forensics." },
+      { question: "Which browser plugins help with OSINT in CSI Linux?", answer: "Shodan, Whois, and Hunter.io extensions." },
+      { question: "Which CSI Linux tool helps automate social media investigations?", answer: "Social Analyzer and Sherlock." },
+      { question: "What is the purpose of Hashcat in CSI Linux?", answer: "To perform password cracking using GPU acceleration." },
+      { question: "What format does Plaso output timeline data in?", answer: "SQLite or ElasticSearch format." },
+      { question: "How does CSI Linux support live forensics?", answer: "It provides tools to investigate running systems without shutting them down." },
+      { question: "Which tool helps analyze Windows registry files?", answer: "RegRipper." },
+      { question: "Which scripting languages are widely used in CSI Linux tools?", answer: "Python and Bash." },
+      { question: "What tool can analyze malware behavior in CSI Linux?", answer: "Cuckoo Sandbox (when integrated)." },
+      { question: "How do you examine browser artifacts in CSI Linux?", answer: "Using tools like Browser History Examiner and SQLite browser." },
+      { question: "What is FTK Imager used for?", answer: "Disk imaging and data acquisition." },
+      { question: "What is Timeline Explorer used for in CSI Linux?", answer: "To visualize and filter forensic timeline data." },
+      { question: "What is a disk image file in forensics?", answer: "A bit-by-bit copy of a digital storage device for analysis." },
+      { question: "Which tool helps recover deleted files in CSI Linux?", answer: "TestDisk or PhotoRec." },
+      { question: "What type of analysis does Wireshark help with?", answer: "Network traffic analysis." },
+      { question: "What is Ghidra used for in CSI Linux?", answer: "Reverse engineering and static binary analysis." },
+      { question: "What is the main use of SpiderFoot?", answer: "Automated reconnaissance and threat intelligence." },
+      { question: "How is a hash used in digital forensics?", answer: "To verify integrity and authenticity of evidence files." },
+      { question: "What is a key feature of CSI Linux updates?", answer: "Modular tools and regular forensic-specific enhancements." },
+      { question: "Which database tool is used to examine mobile apps?", answer: "DB Browser for SQLite." },
+      { question: "What is X-Ways Forensics?", answer: "A commercial forensic analysis tool sometimes used with CSI Linux." },
+      { question: "Which CSI Linux tool is used to identify steganography?", answer: "Steghide and Stegseek." },
+      { question: "What is the purpose of TSK?", answer: "Toolkit for examining file systems, metadata, and deleted files." },
+      { question: "How does CSI Linux support chain of custody?", answer: "By documenting processes and hashing evidence files." },
+      { question: "What are IOC files?", answer: "Indicators of Compromise—used to detect threats during investigations." },
+      { question: "How can CSI Linux help with ransomware analysis?", answer: "Through YARA rules, decryption tools, and malware analysis." },
+      { question: "What is Bulk Extractor?", answer: "Tool that scans disk images for useful data like emails and URLs." },
+      { question: "What is an advantage of using virtual machines in CSI Linux?", answer: "Isolated, reproducible environments for specific investigative tasks." }
+    ];
+
+    cehData.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="question">${item.question}</div>
+        <div class="answer">${item.answer}</div>
+      `;
+      card.onclick = function () {
+        const ans = this.querySelector('.answer');
+        ans.style.display = ans.style.display === 'block' ? 'none' : 'block';
+      };
+      container.appendChild(card);
+    });
+
+    function downloadCSV() {
+      const rows = [['Question', 'Answer']];
+      cehData.forEach(q => rows.push([q.question, q.answer]));
+      const csvContent = "data:text/csv;charset=utf-8," + rows.map(e => e.join(",")).join("\n");
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "csi_linux_flashcards.csv");
+      document.body.appendChild(link);
+      link.click();
+    }
+  </script>
+</body>
+</html>
