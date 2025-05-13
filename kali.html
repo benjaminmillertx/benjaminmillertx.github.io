@@ -3,17 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Kali Linux Flashcards</title>
+  <title>BlackArch Linux Flashcards</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #e8f0f7;
+      background-color: #1a202c;
+      color: #e2e8f0;
       margin: 0;
       padding: 20px;
     }
     h1, h2 {
       text-align: center;
-      color: #1a202c;
+      color: #fbbf24;
     }
     .container {
       display: flex;
@@ -23,7 +24,7 @@
       margin-top: 20px;
     }
     .card {
-      background-color: #ffffff;
+      background-color: #2d3748;
       width: 300px;
       padding: 20px;
       border-radius: 10px;
@@ -36,17 +37,17 @@
     }
     .question {
       font-weight: bold;
-      color: #2d3748;
+      color: #fbbf24;
     }
     .answer {
       margin-top: 10px;
-      color: #2f855a;
+      color: #9ae3a0;
       display: none;
     }
     .banner {
       text-align: center;
       font-size: 36px;
-      color: #2c5282;
+      color: #e53e3e;
       margin-bottom: 10px;
     }
     button.download {
@@ -54,65 +55,68 @@
       margin: 20px auto;
       padding: 10px 20px;
       font-size: 16px;
-      background-color: #3182ce;
+      background-color: #4a5568;
       color: white;
       border: none;
       border-radius: 5px;
       cursor: pointer;
     }
     button.download:hover {
-      background-color: #2b6cb0;
+      background-color: #2d3748;
     }
   </style>
 </head>
 <body>
-  <div class="banner">🐉 Kali Linux Flashcards</div>
+  <div class="banner">⚡ BlackArch Linux Flashcards</div>
   <h2>By Benjamin Miller</h2>
   <button class="download" onclick="downloadCSV()">Download CSV</button>
   <div class="container" id="cardContainer"></div>
 
   <script>
     const data = [
-      { question: "What is Kali Linux used for?", answer: "Penetration testing, security research, and digital forensics." },
-      { question: "Which organization maintains Kali Linux?", answer: "Offensive Security." },
-      { question: "Default desktop environment in Kali Linux?", answer: "XFCE (as of recent versions)." },
-      { question: "What is Metasploit?", answer: "A penetration testing framework used for exploit development and delivery." },
-      { question: "What is Nmap?", answer: "A network scanning tool used to discover hosts and services." },
-      { question: "Tool to crack passwords using dictionary attacks?", answer: "John the Ripper or Hydra." },
-      { question: "Purpose of Aircrack-ng?", answer: "Cracking Wi-Fi (WEP/WPA) keys." },
-      { question: "How to update Kali Linux?", answer: "`sudo apt update && sudo apt upgrade`" },
-      { question: "Tool used for DNS enumeration?", answer: "dnsenum or dig." },
-      { question: "Command to list network interfaces?", answer: "`ip a` or `ifconfig`" },
-      { question: "What is Burp Suite?", answer: "A web vulnerability scanner and proxy tool." },
-      { question: "Kali Linux tool for social engineering?", answer: "Social Engineering Toolkit (SET)." },
-      { question: "What is the function of Wireshark?", answer: "Captures and analyzes network packets." },
-      { question: "Which tool brute forces SSH logins?", answer: "Hydra." },
-      { question: "Tool used to detect vulnerabilities in web apps?", answer: "Nikto or OWASP ZAP." },
-      { question: "How to search for a package?", answer: "`apt search <package>`" },
-      { question: "Default shell in Kali Linux?", answer: "Bash or Zsh depending on the version." },
-      { question: "Kali Linux's lightweight terminal text editor?", answer: "nano." },
-      { question: "Tool for web application fuzzing?", answer: "wfuzz." },
-      { question: "What is netcat used for?", answer: "Network communication and backdoors (Swiss Army knife of networking)." },
-      { question: "Purpose of Maltego?", answer: "Link analysis and OSINT." },
-      { question: "Which tool captures keystrokes in Kali?", answer: "Logkeys or custom keyloggers." },
-      { question: "What is `msfvenom` used for?", answer: "Payload generation for Metasploit." },
-      { question: "What does `whoami` command do?", answer: "Displays current logged-in username." },
-      { question: "Which tool can automate SQL injections?", answer: "sqlmap." },
-      { question: "Which tool is used for wireless reconnaissance?", answer: "Kismet." },
-      { question: "Command to change file permissions?", answer: "`chmod`" },
-      { question: "Tool for phishing attacks?", answer: "Gophish or SET." },
-      { question: "How to install a .deb file?", answer: "`sudo dpkg -i filename.deb`" },
-      { question: "How to search exploits in Metasploit?", answer: "`search <keyword>`" },
-      { question: "What does `ls -la` show?", answer: "All files with permissions, including hidden ones." },
-      { question: "Which tool captures screenshots remotely?", answer: "Metasploit with meterpreter." },
-      { question: "Tool used for ARP spoofing?", answer: "Ettercap or Arpspoof." },
-      { question: "Command to find a file?", answer: "`find` or `locate`" },
-      { question: "Kali tool for SSL/TLS analysis?", answer: "sslyze or testssl.sh." },
-      { question: "What is Veil Framework?", answer: "Used to bypass antivirus during payload delivery." },
-      { question: "Command to show disk space?", answer: "`df -h`" },
-      { question: "Default username in older Kali versions?", answer: "`root`" (now it's a regular user account) },
-      { question: "Tool to scan for live hosts?", answer: "Nmap or fping." },
-      { question: "How to open Metasploit console?", answer: "`msfconsole`" }
+      { question: "What is BlackArch Linux?", answer: "A penetration testing and security auditing Linux distribution based on Arch Linux." },
+      { question: "What is the default package manager in BlackArch?", answer: "Pacman, inherited from Arch Linux." },
+      { question: "What is the main purpose of BlackArch Linux?", answer: "To provide a vast collection of tools for security professionals and penetration testers." },
+      { question: "What command do you use to install a package in BlackArch?", answer: "`sudo pacman -S <package>`" },
+      { question: "What is the BlackArch repository?", answer: "A repository that contains over 2500 tools for penetration testing and security research." },
+      { question: "Which tool in BlackArch is used for password cracking?", answer: "John the Ripper or Hashcat." },
+      { question: "What is the tool 'Nmap' used for in BlackArch?", answer: "Network exploration and security auditing." },
+      { question: "Which BlackArch tool is used for web vulnerability scanning?", answer: "Nikto." },
+      { question: "What is the BlackArch tool 'Aircrack-ng' used for?", answer: "Wi-Fi network security testing and WEP/WPA cracking." },
+      { question: "How can you update your BlackArch system?", answer: "`sudo pacman -Syu`" },
+      { question: "Which BlackArch tool is used for network sniffing?", answer: "Wireshark." },
+      { question: "What does the BlackArch tool 'Metasploit' do?", answer: "It is a framework used for exploiting vulnerabilities in systems." },
+      { question: "What is the purpose of BlackArch's 'Burp Suite'?", answer: "Web application security testing, including scanning for vulnerabilities." },
+      { question: "What does the command `ls` do in BlackArch?", answer: "Lists directory contents." },
+      { question: "How can you check available disk space in BlackArch?", answer: "`df -h`" },
+      { question: "What is the tool 'Hydra' used for?", answer: "Password cracking, supporting multiple protocols." },
+      { question: "What is BlackArch's tool 'Metasploit' used for?", answer: "Exploiting vulnerabilities on remote systems." },
+      { question: "What command is used to search for installed packages in BlackArch?", answer: "`pacman -Qs <package>`" },
+      { question: "What is 'Maltego' used for in BlackArch?", answer: "OSINT gathering and link analysis." },
+      { question: "What is 'Ettercap' used for?", answer: "Man-in-the-middle attacks and network sniffing." },
+      { question: "What does 'hashcat' do?", answer: "Cracking hashes using GPU power." },
+      { question: "What is 'Burp Suite' used for?", answer: "Web vulnerability scanning and testing." },
+      { question: "Which tool in BlackArch is used for SQL injection attacks?", answer: "sqlmap." },
+      { question: "How can you display network interfaces in BlackArch?", answer: "`ip a`" },
+      { question: "What is the function of 'Kismet'?", answer: "Wireless network detector, sniffer, and intrusion detection system." },
+      { question: "What is the tool 'Netcat' used for?", answer: "Networking utility used for port scanning, remote access, and file transfer." },
+      { question: "What is 'Wireshark' used for in BlackArch?", answer: "Packet capture and analysis." },
+      { question: "What tool in BlackArch is used for brute-force SSH attacks?", answer: "Hydra." },
+      { question: "What is 'Social Engineering Toolkit'?", answer: "A tool used for social engineering attacks." },
+      { question: "What does 'sslyze' do?", answer: "SSL/TLS scanning and vulnerability detection." },
+      { question: "What is the default shell in BlackArch?", answer: "Bash." },
+      { question: "Which tool is used for password spraying attacks?", answer: "Hydra." },
+      { question: "How can you change file permissions in BlackArch?", answer: "`chmod`" },
+      { question: "What is 'Netdiscover' used for?", answer: "Network discovery and scanning." },
+      { question: "What is 'Recon-ng' used for?", answer: "Web reconnaissance and OSINT." },
+      { question: "What does 'CrackMapExec' do?", answer: "Post-exploitation tool for pentesters to automate common exploitation tasks." },
+      { question: "Which BlackArch tool is used for fuzz testing?", answer: "Afl-fuzz." },
+      { question: "What is the command to show system uptime?", answer: "`uptime`" },
+      { question: "What is the function of 'Gobuster'?", answer: "Directory brute-forcing tool." },
+      { question: "Which BlackArch tool can be used to perform a reverse shell?", answer: "Netcat or Metasploit." },
+      { question: "How can you get system information in BlackArch?", answer: "`uname -a` or `cat /etc/os-release`" },
+      { question: "Which tool is used for wireless network analysis?", answer: "Aircrack-ng or Kismet." },
+      { question: "What does 'tcpdump' do?", answer: "Packet capturing and analysis for network traffic." }
     ];
 
     const container = document.getElementById("cardContainer");
@@ -124,10 +128,10 @@
         <div class="question">${item.question}</div>
         <div class="answer">${item.answer}</div>
       `;
-      card.onclick = function () {
+      card.addEventListener("click", function () {
         const ans = this.querySelector(".answer");
         ans.style.display = ans.style.display === "block" ? "none" : "block";
-      };
+      });
       container.appendChild(card);
     });
 
@@ -138,7 +142,7 @@
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement("a");
       link.setAttribute("href", encodedUri);
-      link.setAttribute("download", "kali_linux_flashcards.csv");
+      link.setAttribute("download", "blackarch_linux_flashcards.csv");
       document.body.appendChild(link);
       link.click();
     }
