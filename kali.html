@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kali Linux Flashcards</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #e8f0f7;
+      margin: 0;
+      padding: 20px;
+    }
+    h1, h2 {
+      text-align: center;
+      color: #1a202c;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .card {
+      background-color: #ffffff;
+      width: 300px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: scale(1.05);
+    }
+    .question {
+      font-weight: bold;
+      color: #2d3748;
+    }
+    .answer {
+      margin-top: 10px;
+      color: #2f855a;
+      display: none;
+    }
+    .banner {
+      text-align: center;
+      font-size: 36px;
+      color: #2c5282;
+      margin-bottom: 10px;
+    }
+    button.download {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #3182ce;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button.download:hover {
+      background-color: #2b6cb0;
+    }
+  </style>
+</head>
+<body>
+  <div class="banner">🐉 Kali Linux Flashcards</div>
+  <h2>By Benjamin Miller</h2>
+  <button class="download" onclick="downloadCSV()">Download CSV</button>
+  <div class="container" id="cardContainer"></div>
+
+  <script>
+    const data = [
+      { question: "What is Kali Linux used for?", answer: "Penetration testing, security research, and digital forensics." },
+      { question: "Which organization maintains Kali Linux?", answer: "Offensive Security." },
+      { question: "Default desktop environment in Kali Linux?", answer: "XFCE (as of recent versions)." },
+      { question: "What is Metasploit?", answer: "A penetration testing framework used for exploit development and delivery." },
+      { question: "What is Nmap?", answer: "A network scanning tool used to discover hosts and services." },
+      { question: "Tool to crack passwords using dictionary attacks?", answer: "John the Ripper or Hydra." },
+      { question: "Purpose of Aircrack-ng?", answer: "Cracking Wi-Fi (WEP/WPA) keys." },
+      { question: "How to update Kali Linux?", answer: "`sudo apt update && sudo apt upgrade`" },
+      { question: "Tool used for DNS enumeration?", answer: "dnsenum or dig." },
+      { question: "Command to list network interfaces?", answer: "`ip a` or `ifconfig`" },
+      { question: "What is Burp Suite?", answer: "A web vulnerability scanner and proxy tool." },
+      { question: "Kali Linux tool for social engineering?", answer: "Social Engineering Toolkit (SET)." },
+      { question: "What is the function of Wireshark?", answer: "Captures and analyzes network packets." },
+      { question: "Which tool brute forces SSH logins?", answer: "Hydra." },
+      { question: "Tool used to detect vulnerabilities in web apps?", answer: "Nikto or OWASP ZAP." },
+      { question: "How to search for a package?", answer: "`apt search <package>`" },
+      { question: "Default shell in Kali Linux?", answer: "Bash or Zsh depending on the version." },
+      { question: "Kali Linux's lightweight terminal text editor?", answer: "nano." },
+      { question: "Tool for web application fuzzing?", answer: "wfuzz." },
+      { question: "What is netcat used for?", answer: "Network communication and backdoors (Swiss Army knife of networking)." },
+      { question: "Purpose of Maltego?", answer: "Link analysis and OSINT." },
+      { question: "Which tool captures keystrokes in Kali?", answer: "Logkeys or custom keyloggers." },
+      { question: "What is `msfvenom` used for?", answer: "Payload generation for Metasploit." },
+      { question: "What does `whoami` command do?", answer: "Displays current logged-in username." },
+      { question: "Which tool can automate SQL injections?", answer: "sqlmap." },
+      { question: "Which tool is used for wireless reconnaissance?", answer: "Kismet." },
+      { question: "Command to change file permissions?", answer: "`chmod`" },
+      { question: "Tool for phishing attacks?", answer: "Gophish or SET." },
+      { question: "How to install a .deb file?", answer: "`sudo dpkg -i filename.deb`" },
+      { question: "How to search exploits in Metasploit?", answer: "`search <keyword>`" },
+      { question: "What does
