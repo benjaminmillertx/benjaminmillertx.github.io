@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hacker CEH Practice Flashcards</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 20px;
+    }
+    h1, h2 {
+      text-align: center;
+      color: #333;
+    }
+    h2 {
+      font-size: 24px;
+      color: #555;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .card {
+      background-color: #fff;
+      width: 300px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: scale(1.05);
+    }
+    .question {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .answer {
+      display: none;
+      margin-top: 10px;
+      color: green;
+    }
+    button.download {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button.download:hover {
+      background-color: #45a049;
+    }
+    .banner {
+      text-align: center;
+      font-size: 36px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="banner">🌐 Hacker CEH Practice Flashcards</div>
+  <h2>GNU Project made by Benjamin Miller</h2>
+  <button class="download" onclick="downloadCSV()">Download All Questions (CSV)</button>
+  <div class="container" id="cardContainer"></div>
+
+  <script>
+    const container = document.getElementById('cardContainer');
+    const cehData = [
+      { question: "What is a polymorphic virus?", answer: "A virus that changes its code to evade signature-based detection." },
+      { question: "What does XSS stand for?", answer: "Cross-Site Scripting, an injection attack where malicious scripts are injected into trusted websites." },
+      { question: "What is an exploit kit?", answer: "A toolkit used to automatically scan and exploit vulnerabilities on a target system." },
+      { question: "What is steganography?", answer: "The practice of hiding data within other non-suspicious files like images or audio." },
+      { question: "What is ARP spoofing?", answer: "A technique used to send fake ARP messages to a network, linking an attacker's MAC with the IP of another host." },
+      { question: "What is the function of Wireshark?", answer: "It's a network protocol analyzer used for packet capturing and inspection." },
+      { question: "What is the purpose of SNMP?", answer: "Simple Network Management Protocol is used for managing devices on IP networks." },
+      { question: "What is a logic bomb?", answer: "Malicious code that triggers under specific conditions or events." },
+      { question: "What does the tool Nikto scan for?", answer: "Vulnerabilities in web servers such as outdated software and dangerous files." },
+      { question: "What is session hijacking?", answer: "Exploiting a valid computer session to gain unauthorized access to resources." },
+      { question: "What is a watering hole attack?", answer: "Infecting websites frequently visited by a targeted group to compromise their systems." },
+      { question: "What is fuzzing?", answer: "Automated input of random data to a program to discover vulnerabilities." },
+      { question: "What is the main goal of enumeration?", answer: "To extract user names, machine names, and network resources from a system." },
+      { question: "What does CVE stand for?", answer: "Common Vulnerabilities and Exposures, a list of publicly disclosed cybersecurity vulnerabilities." },
+      { question: "What does the tool 'John the Ripper' do?", answer: "Performs password cracking using dictionary and brute-force attacks." },
+      { question: "What is a buffer overflow?", answer: "Anomaly where a program writes data beyond buffer boundaries, often leading to code execution." },
+      { question: "What is directory traversal?", answer: "An attack that aims to access files and directories stored outside the web root folder." },
+      { question: "What is a SYN flood attack?", answer: "A denial-of-service attack that exploits the TCP handshake by sending repeated SYN requests." },
+      { question: "What port is used by NetBIOS?", answer: "TCP/UDP port 139 is used for NetBIOS sessions." },
+      { question: "What is a rootkit?", answer: "Malicious software designed to hide the existence of certain processes or programs." },
+      { question: "What is the purpose of a SIEM?", answer: "Security Information and Event Management systems collect and analyze security data." },
+      { question: "What is a reverse shell?", answer: "A connection from the victim’s machine back to the attacker’s machine." },
+      { question: "What is spear phishing?", answer: "A targeted phishing attack aimed at specific individuals or organizations." },
+      { question: "What does CVSS measure?", answer: "The severity of software vulnerabilities based on a standardized scoring system." },
+      { question: "What is a man-in-the-browser attack?", answer: "A proxy Trojan placed in a web browser to modify transactions invisibly." },
+      { question: "What is the function of the tool 'Burp Suite'?", answer: "Used for web application security testing, especially intercepting and modifying requests." },
+      { question: "What does MITRE ATT&CK framework provide?", answer: "A knowledge base of adversary tactics and techniques based on real-world observations." },
+      { question: "What is credential stuffing?", answer: "Using stolen credentials from one site to gain access to accounts on another." },
+      { question: "What is a security sandbox?", answer: "An isolated environment for testing or executing untrusted programs safely." },
+      { question: "What is a race condition?", answer: "A flaw when the outcome of operations depends on the sequence or timing of uncontrollable events." },
+      { question: "What does LDAP stand for?", answer: "Lightweight Directory Access Protocol, used for accessing and maintaining distributed directory information." },
+      { question: "What is the OWASP Top Ten?", answer: "A list of the ten most critical web application security risks." },
+      { question: "What is the purpose of netcat?", answer: "A versatile tool used for reading/writing to network connections, port scanning, and file transfers." },
+      { question: "What is the purpose of a VLAN?", answer: "A Virtual LAN separates broadcast domains for improved network segmentation and security." },
+      { question: "What is SSRF?", answer: "Server-Side Request Forgery, where the attacker forces a server to make requests on their behalf." },
+      { question: "What is a digital certificate?", answer: "An electronic credential used to prove the ownership of a public key." },
+      { question: "What is token impersonation?", answer: "Using a stolen authentication token to impersonate a legitimate user." },
+      { question: "What is a SID in Windows security?", answer: "A Security Identifier that uniquely identifies user, group, and computer accounts." },
+      { question: "What is whaling?", answer: "A phishing attack that targets high-profile individuals such as executives." },
+      { question: "What is the principle of least privilege?", answer: "Users should only have the minimum access needed to perform their tasks." }
+    ];
+
+    cehData.forEach((item, index) => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="question">${item.question}</div>
+        <div class="answer">${item.answer}</div>
+      `;
+      card.onclick = function () {
+        const ans = this.querySelector('.answer');
+        ans.style.display = ans.style.display === 'block' ? 'none' : 'block';
+      };
+      container.appendChild(card);
+    });
+
+    function downloadCSV() {
+      const rows = [['Question', 'Answer']];
+      cehData.forEach(q => {
+        rows.push([q.question, q.answer]);
+      });
+      let csvContent = "data:text/csv;charset=utf-8," + rows.map(e => e.join(",")).join("\n");
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "ceh_flashcards.csv");
+      document.body.appendChild(link);
+      link.click();
+    }
+  </script>
+</body>
+</html>
