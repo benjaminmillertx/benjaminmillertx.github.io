@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>BlackArch Linux Flashcards</title>
+  <title>Kali Linux Flashcards</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -67,56 +67,41 @@
   </style>
 </head>
 <body>
-  <div class="banner">⚡ BlackArch Linux Flashcards</div>
+  <div class="banner">⚡ Kali Linux Flashcards</div>
   <h2>By Benjamin Miller</h2>
   <button class="download" onclick="downloadCSV()">Download CSV</button>
   <div class="container" id="cardContainer"></div>
 
   <script>
     const data = [
-      { question: "What is BlackArch Linux?", answer: "A penetration testing and security auditing Linux distribution based on Arch Linux." },
-      { question: "What is the default package manager in BlackArch?", answer: "Pacman, inherited from Arch Linux." },
-      { question: "What is the main purpose of BlackArch Linux?", answer: "To provide a vast collection of tools for security professionals and penetration testers." },
-      { question: "What command do you use to install a package in BlackArch?", answer: "`sudo pacman -S <package>`" },
-      { question: "What is the BlackArch repository?", answer: "A repository that contains over 2500 tools for penetration testing and security research." },
-      { question: "Which tool in BlackArch is used for password cracking?", answer: "John the Ripper or Hashcat." },
-      { question: "What is the tool 'Nmap' used for in BlackArch?", answer: "Network exploration and security auditing." },
-      { question: "Which BlackArch tool is used for web vulnerability scanning?", answer: "Nikto." },
-      { question: "What is the BlackArch tool 'Aircrack-ng' used for?", answer: "Wi-Fi network security testing and WEP/WPA cracking." },
-      { question: "How can you update your BlackArch system?", answer: "`sudo pacman -Syu`" },
-      { question: "Which BlackArch tool is used for network sniffing?", answer: "Wireshark." },
-      { question: "What does the BlackArch tool 'Metasploit' do?", answer: "It is a framework used for exploiting vulnerabilities in systems." },
-      { question: "What is the purpose of BlackArch's 'Burp Suite'?", answer: "Web application security testing, including scanning for vulnerabilities." },
-      { question: "What does the command `ls` do in BlackArch?", answer: "Lists directory contents." },
-      { question: "How can you check available disk space in BlackArch?", answer: "`df -h`" },
-      { question: "What is the tool 'Hydra' used for?", answer: "Password cracking, supporting multiple protocols." },
-      { question: "What is BlackArch's tool 'Metasploit' used for?", answer: "Exploiting vulnerabilities on remote systems." },
-      { question: "What command is used to search for installed packages in BlackArch?", answer: "`pacman -Qs <package>`" },
-      { question: "What is 'Maltego' used for in BlackArch?", answer: "OSINT gathering and link analysis." },
-      { question: "What is 'Ettercap' used for?", answer: "Man-in-the-middle attacks and network sniffing." },
-      { question: "What does 'hashcat' do?", answer: "Cracking hashes using GPU power." },
-      { question: "What is 'Burp Suite' used for?", answer: "Web vulnerability scanning and testing." },
-      { question: "Which tool in BlackArch is used for SQL injection attacks?", answer: "sqlmap." },
-      { question: "How can you display network interfaces in BlackArch?", answer: "`ip a`" },
-      { question: "What is the function of 'Kismet'?", answer: "Wireless network detector, sniffer, and intrusion detection system." },
-      { question: "What is the tool 'Netcat' used for?", answer: "Networking utility used for port scanning, remote access, and file transfer." },
-      { question: "What is 'Wireshark' used for in BlackArch?", answer: "Packet capture and analysis." },
-      { question: "What tool in BlackArch is used for brute-force SSH attacks?", answer: "Hydra." },
-      { question: "What is 'Social Engineering Toolkit'?", answer: "A tool used for social engineering attacks." },
-      { question: "What does 'sslyze' do?", answer: "SSL/TLS scanning and vulnerability detection." },
-      { question: "What is the default shell in BlackArch?", answer: "Bash." },
-      { question: "Which tool is used for password spraying attacks?", answer: "Hydra." },
-      { question: "How can you change file permissions in BlackArch?", answer: "`chmod`" },
-      { question: "What is 'Netdiscover' used for?", answer: "Network discovery and scanning." },
-      { question: "What is 'Recon-ng' used for?", answer: "Web reconnaissance and OSINT." },
-      { question: "What does 'CrackMapExec' do?", answer: "Post-exploitation tool for pentesters to automate common exploitation tasks." },
-      { question: "Which BlackArch tool is used for fuzz testing?", answer: "Afl-fuzz." },
-      { question: "What is the command to show system uptime?", answer: "`uptime`" },
-      { question: "What is the function of 'Gobuster'?", answer: "Directory brute-forcing tool." },
-      { question: "Which BlackArch tool can be used to perform a reverse shell?", answer: "Netcat or Metasploit." },
-      { question: "How can you get system information in BlackArch?", answer: "`uname -a` or `cat /etc/os-release`" },
-      { question: "Which tool is used for wireless network analysis?", answer: "Aircrack-ng or Kismet." },
-      { question: "What does 'tcpdump' do?", answer: "Packet capturing and analysis for network traffic." }
+      { question: "What is Kali Linux?", answer: "A Debian-based Linux distribution designed for digital forensics and penetration testing." },
+      { question: "What is the default package manager in Kali Linux?", answer: "APT (Advanced Package Tool)." },
+      { question: "What is the primary use of Kali Linux?", answer: "Penetration testing, security auditing, and ethical hacking." },
+      { question: "Which tool in Kali is used for password cracking?", answer: "John the Ripper or Hashcat." },
+      { question: "What is the Kali Linux tool 'Metasploit' used for?", answer: "Exploitation framework for discovering and exploiting vulnerabilities." },
+      { question: "What is the Kali tool 'Nmap' used for?", answer: "Network scanning and vulnerability discovery." },
+      { question: "How can you update Kali Linux?", answer: "`sudo apt update && sudo apt upgrade`" },
+      { question: "What is the 'Aircrack-ng' tool used for?", answer: "Cracking WEP and WPA Wi-Fi encryption keys." },
+      { question: "What is the 'Burp Suite' tool in Kali used for?", answer: "Web vulnerability scanning and security testing." },
+      { question: "Which tool in Kali Linux is used for wireless network analysis?", answer: "Aircrack-ng or Wireshark." },
+      { question: "What is the function of 'Hydra' in Kali?", answer: "Password cracking tool supporting multiple protocols." },
+      { question: "What does the tool 'Wireshark' do?", answer: "Network protocol analyzer for capturing and analyzing packet data." },
+      { question: "Which Kali tool can be used to perform a reverse shell?", answer: "Netcat or Metasploit." },
+      { question: "What is the default shell in Kali Linux?", answer: "Bash." },
+      { question: "What is the Kali tool 'Sqlmap' used for?", answer: "SQL injection attacks and database exploitation." },
+      { question: "How do you check the network interfaces in Kali Linux?", answer: "`ifconfig` or `ip a`." },
+      { question: "What does the command 'ls' do in Kali Linux?", answer: "Lists the contents of a directory." },
+      { question: "What is the 'Netcat' tool used for?", answer: "Networking utility for port scanning and remote access." },
+      { question: "What is 'Recon-ng' in Kali Linux?", answer: "A web reconnaissance and OSINT gathering tool." },
+      { question: "What is 'Kismet' used for?", answer: "Wireless network detector and intrusion detection system." },
+      { question: "What is the 'Social Engineering Toolkit'?", answer: "A tool for social engineering attacks." },
+      { question: "What does 'Hashcat' do?", answer: "Cracks password hashes using GPU power." },
+      { question: "What does 'Tcpdump' do?", answer: "Network traffic capture and analysis." },
+      { question: "What is 'Burp Suite' used for?", answer: "Web vulnerability scanning and exploitation." },
+      { question: "How can you display system information in Kali Linux?", answer: "`uname -a` or `cat /etc/os-release`." },
+      { question: "What tool in Kali is used for network sniffing?", answer: "Wireshark." },
+      { question: "What is the tool 'Gobuster' used for?", answer: "Directory and DNS brute-forcing." },
+      { question: "What is 'Tcpdump' used for?", answer: "Capturing and analyzing network traffic." }
     ];
 
     const container = document.getElementById("cardContainer");
@@ -142,7 +127,7 @@
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement("a");
       link.setAttribute("href", encodedUri);
-      link.setAttribute("download", "blackarch_linux_flashcards.csv");
+      link.setAttribute("download", "kali_linux_flashcards.csv");
       document.body.appendChild(link);
       link.click();
     }
